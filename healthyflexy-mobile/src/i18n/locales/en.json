@@ -1,0 +1,1092 @@
+{
+  "common": {
+    "continue": "Continue",
+    "back": "Back",
+    "cancel": "Cancel",
+    "save": "Save",
+    "done": "Done",
+    "retry": "Try again",
+    "loading": "Loading…",
+    "delete": "Delete",
+    "yes": "Yes",
+    "no": "No",
+    "today": "Today",
+    "tomorrow": "Tomorrow",
+    "yesterday": "Yesterday",
+    "offline": "No internet. Check your connection.",
+    "errorTitle": "Something went wrong",
+    "backHome": "Go to home",
+    "days_one": "{{count}} day",
+    "days_other": "{{count}} days",
+    "close": "Close",
+    "showMore": "Show more",
+    "showAll": "Show all",
+    "next": "Next"
+  },
+  "errors": {
+    "VALIDATION_FAILED": "Please check the entered data.",
+    "UNAUTHORIZED": "Please sign in again.",
+    "TOKEN_EXPIRED": "Your session has expired. Please sign in again.",
+    "REFRESH_TOKEN_INVALID": "Your session has expired. Please sign in again.",
+    "FORBIDDEN_ROLE": "This action is not available for your role.",
+    "NOT_FOUND": "Not found.",
+    "TOO_MANY_REQUESTS": "Too many attempts. Please wait a bit.",
+    "INTERNAL_ERROR": "Server error. Please try again later.",
+    "OTP_INVALID": "Wrong code. Please try again.",
+    "OTP_EXPIRED": "The code has expired. Request a new one.",
+    "OTP_TOO_MANY_ATTEMPTS": "Too many wrong attempts. Request a new code.",
+    "OTP_COOLDOWN": "You can ask for a new code in a minute. Please wait.",
+    "OTP_SEND_FAILED": "Could not send the code. Please try again later.",
+    "ROLE_ALREADY_SET": "Your role is already set and cannot be changed.",
+    "ROLE_REQUIRED": "Please choose your role first.",
+    "CONSENT_REQUIRED": "Your consent is required.",
+    "INVITE_INVALID": "Invitation code not found. Please check it.",
+    "INVITE_EXPIRED": "This invitation has expired. Ask for a new code.",
+    "INVITE_USED": "This invitation has already been used.",
+    "ALREADY_IN_FAMILY": "You are already in a family.",
+    "FAMILY_NOT_FOUND": "Family not found.",
+    "NOT_FAMILY_MEMBER": "You do not have access to this family.",
+    "PLAN_INVALID": "Please check the plan settings.",
+    "REST_DAY": "Today is a rest day.",
+    "DAY_ALREADY_CLOSED": "This day is already closed.",
+    "EXERCISE_OUT_OF_ORDER": "This exercise can’t be done right now. Refresh the “Today” screen.",
+    "EXERCISE_ALREADY_DONE": "This exercise is already done.",
+    "SETTLEMENT_EXCEEDS_OWED": "The amount is more than what is owed.",
+    "SETTLEMENT_NOT_PENDING": "This transfer has already been resolved.",
+    "NOTHING_OWED": "There is nothing to transfer right now.",
+    "REMINDER_TOO_SOON": "You can remind once every 2 hours.",
+    "REMINDER_NOT_ALLOWED": "A reminder is not needed right now.",
+    "PARENT_HAS_NO_PUSH": "Notifications are off on their phone — give them a call.",
+    "NETWORK_ERROR": "No internet connection.",
+    "UNKNOWN": "Something went wrong. Please try again.",
+    "PHOTO_KEY_INVALID": "Couldn't check the exercise. Please try again.",
+    "PHOTO_TOO_LARGE": "Couldn't send the exercise. Please try again.",
+    "PHOTO_TYPE_NOT_ALLOWED": "Couldn't send the exercise. Please try again.",
+    "PHOTOS_DELETED": "Photos deleted (7 days have passed).",
+    "PHOTOS_NOT_AVAILABLE": "There are no photos for this exercise.",
+    "STORAGE_SIGNATURE_INVALID": "The link has expired. Please try again.",
+    "PHONE_COUNTRY_NOT_ALLOWED": "We cannot text this number yet. Please use a number from Poland or Ukraine.",
+    "PHONE_NOT_ALLOWED": "This number does not have test access yet.",
+    "PROGRAM_NOT_FOUND": "Program not found.",
+    "PROGRAM_NOT_OWNED": "This program cannot be edited.",
+    "PROGRAM_EXERCISES_EMPTY": "Add at least one exercise to the program.",
+    "NO_ACTIVE_PROGRAM": "The child hasn't chosen a training program yet.",
+    "AI_ANALYSIS_FAILED": "Couldn't check the exercise. Please try again.",
+    "PHOTOS_REQUIRED": "The camera couldn't follow the exercise. Please repeat it in front of the camera.",
+    "STEPS_NOT_REACHED": "The step counter hasn't reached the goal yet. Walk a little more.",
+    "PROGRAM_TOO_MANY_EXERCISES": "Too many exercises in the program — remove a few.",
+    "ACCOUNT_BLOCKED": "Account blocked. Please contact support.",
+    "GOOGLE_AUTH_FAILED": "Couldn't sign in with Google. Please try again.",
+    "GOOGLE_AUTH_DISABLED": "Sign-in with Google isn't available yet",
+    "SMS_NOT_CONFIGURED": "Phone sign-in is temporarily unavailable. Please sign in with email.",
+    "AI_ATTEMPTS_LIMIT": "No more checks left for this exercise today. Skip it (without pay) and move on to the other exercises.",
+    "PAYMENTS_DISABLED": "Payments aren’t connected yet.",
+    "PAYMENT_FAILED": "The payment failed. Try again or use another payment method.",
+    "PAYMENT_METHOD_REQUIRED": "Add a card first.",
+    "PAYOUTS_NOT_READY": "Set up payouts in Stripe first.",
+    "PAYOUT_EXCEEDS_AVAILABLE": "The amount is more than is available to withdraw.",
+    "IAP_DISABLED": "Subscription isn’t available yet.",
+    "IAP_INVALID": "Couldn’t verify the purchase."
+  },
+  "consent": {
+    "title": "Before we start",
+    "termsLabel": "I agree to the Terms of Use and Privacy Policy",
+    "disclaimerLabel": "I understand this app is not medical advice",
+    "doctorLabel": "The parent has consulted a doctor about the exercises",
+    "termsLink": "Terms of Use",
+    "privacyLink": "Privacy Policy",
+    "intro": "Care Journal helps adult children motivate their parents to do simple exercises every day.",
+    "notMedical": "The app is not a medical device and does not replace a doctor’s advice.",
+    "accept": "Accept and continue",
+    "footer": "Your data is protected in accordance with GDPR."
+  },
+  "onboarding": {
+    "slide1": {
+      "title": "Care Journal",
+      "body": "An app where children thank their parents for daily exercise"
+    },
+    "slide2": {
+      "title": "You do the exercises",
+      "body": "Every day — a short 10–25 minute exercise set. The camera follows the exercise, AI checks the technique and credits the reward."
+    },
+    "slide3": {
+      "title": "Care that pays off",
+      "body": "Your child pays for every completed day and you see what you have earned"
+    },
+    "start": "Get started",
+    "skip": "Skip",
+    "slide4": {
+      "title": "Health and money grow",
+      "body": "Regular activity strengthens the heart and muscles and improves sleep and mood — research proves it."
+    }
+  },
+  "auth": {
+    "phone": {
+      "title": "Your phone number",
+      "hint": "We will text you a code. It is free for you.",
+      "invalid": "Please check the number: enter it as it is saved on your phone.",
+      "send": "Send code",
+      "numberLabel": "Your number",
+      "confirmTitle": "Is this number correct?",
+      "confirmYes": "Yes, send the code",
+      "confirmFix": "Fix it",
+      "unavailable": "Phone sign-in isn’t available yet: the SMS service is being connected. Sign in with email — it’s just as quick."
+    },
+    "otp": {
+      "title": "Enter the code from the SMS",
+      "sentTo": "Code sent to {{phone}}",
+      "resend": "Send again",
+      "resendIn": "Resend in {{seconds}} s",
+      "verify": "Confirm",
+      "help": "The text arrives within a minute. If it does not, check the number or send the code again.",
+      "changeNumber": "Change number",
+      "titleEmail": "Enter the code from the email",
+      "sentToEmail": "Code sent to {{email}}",
+      "spamHint": "The email can take up to a minute. If it is missing, check your Spam folder.",
+      "changeEmail": "Change address",
+      "sentLabel": "Code sent to"
+    },
+    "role": {
+      "title": "Who are you?",
+      "parent": "I am a parent",
+      "parentHint": "I do the exercises",
+      "child": "I am a child",
+      "childHint": "I support and pay the reward",
+      "warning": "You can change the role with “Back” until you connect with your family."
+    },
+    "profile": {
+      "title": "Tell us about yourself",
+      "name": "What should we call you?",
+      "age": "Age (optional)"
+    },
+    "waiting": {
+      "title": "Waiting for an invitation",
+      "body": "Ask your child to send you an invitation code or link",
+      "enterCode": "Enter invitation code"
+    },
+    "join": {
+      "title": "Joining a family",
+      "codeLabel": "Invitation code",
+      "submit": "Join"
+    },
+    "step": "Step {{current}} of {{total}}",
+    "country": {
+      "PL": "Poland",
+      "UA": "Ukraine"
+    },
+    "help": {
+      "link": "Need help?"
+    },
+    "method": {
+      "phone": "Phone",
+      "email": "Email",
+      "useEmail": "Use email",
+      "usePhone": "Use phone number"
+    },
+    "email": {
+      "title": "Your email address",
+      "label": "Email address",
+      "hint": "We will email you a code. If it is missing, check your Spam folder.",
+      "invalid": "Check the address. Example: name@gmail.com",
+      "send": "Get the code",
+      "confirmTitle": "Is this address correct?",
+      "unavailable": "Email sign-in isn’t available right now. Sign in with your phone number."
+    },
+    "google": {
+      "button": "Sign in with Google",
+      "signingIn": "Signing in…",
+      "or": "or"
+    },
+    "back": {
+      "changeLoginTitle": "Change email or number?",
+      "changeLoginBody": "You'll be signed out and can enter a different email address or phone number.",
+      "changeLoginYes": "Yes, change"
+    }
+  },
+  "relationship": {
+    "mom": "Mom",
+    "dad": "Dad",
+    "grandma": "Grandma",
+    "grandpa": "Grandpa",
+    "other": "Other"
+  },
+  "push": {
+    "localReminder": {
+      "title": "Time to exercise",
+      "body": "A few minutes and the day is done"
+    }
+  },
+  "app": {
+    "name": "Care Journal"
+  },
+  "tabs": {
+    "today": "Today",
+    "progress": "Progress",
+    "profile": "Profile",
+    "dashboard": "Overview",
+    "plan": "Plan",
+    "programs": "Programs",
+    "activity": "Activity",
+    "exercises": "Exercises"
+  },
+  "today": {
+    "section": "Today",
+    "greeting": {
+      "morning": "Good morning, {{name}}",
+      "day": "Good afternoon, {{name}}",
+      "evening": "Good evening, {{name}}"
+    },
+    "owed": "To receive: {{amount}}",
+    "ringCaption": "exercises",
+    "ringLabel_one": "{{done}} of {{total}} exercise done",
+    "ringLabel_other": "{{done}} of {{total}} exercises done",
+    "earnBanner": "Complete all exercises and earn <b>{{amount}}</b> today",
+    "exercises": "Today's exercises",
+    "start": "Start",
+    "lockedToast": "The day is already closed — this exercise is not available",
+    "doneToast": "This exercise is already done today",
+    "rest": {
+      "title": "Today is a rest day",
+      "next": "Next session: {{day}}"
+    },
+    "allDone": "All done today! +{{amount}}",
+    "streak": "Day streak: {{count}}",
+    "noProgram": {
+      "title": "The child hasn't chosen a program yet",
+      "body": "Ask the child to assign you a training program in their app"
+    },
+    "programCalendar": "Training program",
+    "fundPill": "Earned this month: {{earned}} of a possible {{fund}}",
+    "skippedLabel": "Skipped — not paid",
+    "skippedToast": "This exercise was skipped today (not paid)"
+  },
+  "exercise": {
+    "reps_one": "{{count}} rep",
+    "reps_few": "{{count}} reps",
+    "reps_many": "{{count}} reps",
+    "reps_other": "{{count}} reps",
+    "seconds_one": "{{count}} second",
+    "seconds_few": "{{count}} seconds",
+    "seconds_many": "{{count}} seconds",
+    "seconds_other": "{{count}} seconds",
+    "benefit": "Benefit",
+    "demoCaption": "Watch the technique. Remember the movement",
+    "target": "Your target",
+    "startExercise": "Start exercise",
+    "secondsLeft_one": "second left",
+    "secondsLeft_other": "seconds left",
+    "hints": {
+      "0": "Stand so that you are fully visible",
+      "1": "Begin",
+      "2": "Repeat at a calm pace",
+      "3": "Breathe evenly",
+      "4": "Finish when you're ready"
+    },
+    "camera": {
+      "title": "Camera access needed",
+      "body": "The camera lets AI check that the exercise was really done. No video is recorded; a few moments of the exercise are seen only by your child and are deleted after 7 days. Without the camera the exercise can't be counted.",
+      "allow": "Allow camera",
+      "openSettings": "Open settings"
+    },
+    "uploading": "Sending the exercise for checking…",
+    "uploadFailed": "Couldn't send the exercise",
+    "done": {
+      "title": "Approved!",
+      "subtitle": "Technique is correct",
+      "dayCompleted": "Day complete! +{{amount}} earned",
+      "aiConfirmed": "AI confirmed correct technique",
+      "steps_one": "{{count}} step walked",
+      "steps_few": "{{count}} steps walked",
+      "steps_many": "{{count}} steps walked",
+      "steps_other": "{{count}} steps walked",
+      "aiResult": "Analysis result",
+      "claim": "Claim +{{amount}}"
+    },
+    "unavailable": {
+      "title": "Exercise unavailable",
+      "body": "This exercise isn’t available now: it’s already done or skipped, or the day is closed."
+    },
+    "finish": "Finish",
+    "stepOf": "Exercise {{current}} of {{total}}",
+    "safety": "Safety",
+    "aiChecking": "AI is checking the exercise…",
+    "aiRejected": {
+      "title": "Let's try again",
+      "body": "AI couldn't confirm the exercise was done correctly",
+      "score": "Score: {{score}} of 100",
+      "retry": "Try again",
+      "timeline": "What went wrong",
+      "atSecond": "sec {{sec}}",
+      "fromTo": "{{from}}–{{to}} s",
+      "howToFix": "How to fix"
+    },
+    "steps_one": "{{count}} step",
+    "steps_few": "{{count}} steps",
+    "steps_many": "{{count}} steps",
+    "steps_other": "{{count}} steps",
+    "watchAndRepeat": "Watch and repeat",
+    "soundOn": "Turn sound on",
+    "soundOff": "Turn sound off",
+    "medical": {
+      "title": "Important",
+      "body": "If during the exercise you feel chest pain, severe dizziness or sharp joint pain — stop and rest. This is not medical advice: consult a doctor before starting.",
+      "confirm": "Got it, continue"
+    },
+    "watchFirst": "Watch the technique… {{seconds}}",
+    "liveBadge": "Camera",
+    "aiSteps": {
+      "title": "Analysis",
+      "person": "Checking that you are visible",
+      "pose": "Detecting body position",
+      "movement": "Analysing movement during the exercise",
+      "technique": "Checking the exercise technique",
+      "score": "Scoring"
+    },
+    "getReady": "Get ready — step back so your whole body is visible",
+    "technique": "How to do it",
+    "voiceOn": "Turn on the voice coach",
+    "voiceOff": "Turn off the voice coach",
+    "skip": {
+      "button": "Skip without pay",
+      "hint": "No need to repeat: do the other exercises in any order. A skipped exercise earns nothing.",
+      "confirmTitle": "Skip this exercise?",
+      "confirmBody": "This exercise won't earn anything today. The other exercises stay available — do them in any order.",
+      "confirmYes": "Skip",
+      "done": "Exercise skipped. Go on with the others",
+      "doneDay": "Exercise skipped — the day is complete"
+    }
+  },
+  "reward": {
+    "credited": "added to your balance",
+    "total": "Total to receive: {{amount}}",
+    "changedTitle": "What changed after today",
+    "streakLine": "Day streak: {{count}}. Keep it up!",
+    "bodyTitle": "What happened to your body:",
+    "dayDone": "Day completed!"
+  },
+  "history": {
+    "legend": {
+      "completed": "Done",
+      "missed": "Missed",
+      "planned": "Upcoming"
+    },
+    "prevMonth": "Previous month",
+    "nextMonth": "Next month"
+  },
+  "progress": {
+    "mine": "My achievements",
+    "family": "Progress",
+    "calendar": "Calendar",
+    "ledger": "Payments",
+    "reminder": "Reminder",
+    "activityStats": "Workouts"
+  },
+  "stats": {
+    "owed": "To receive",
+    "daysCompleted": "Days completed",
+    "earnedTotal": "Total earned",
+    "streak": "Day streak",
+    "completion": "Completion",
+    "settledTotal": "Paid out",
+    "received": "Received"
+  },
+  "ledger": {
+    "title": "Payments",
+    "earn": "Day completed · {{date}}",
+    "settlement": {
+      "pending": "Transfer · awaiting confirmation",
+      "confirmed": "Transfer · received",
+      "rejected": "Transfer · not confirmed"
+    },
+    "empty": {
+      "title": "No entries yet",
+      "body": "Earnings for completed days and transfers will appear here"
+    },
+    "earnExercise": "Exercise done · {{name}}",
+    "dayCompleted": "Full set completed"
+  },
+  "settlement": {
+    "title": "Transfer made",
+    "amount": "Transfer amount, {{symbol}}",
+    "hint": "The transfer is made outside the app: bank transfer, BLIK, etc. This is only a record.",
+    "amountInvalid": "Enter an amount above 0 and no more than {{max}}",
+    "submit": "Report the transfer",
+    "created": "Transfer sent for confirmation",
+    "confirmed": "Transfer confirmed",
+    "rejected": "Transfer declined",
+    "pendingTitle": "{{name}} · transfer {{amount}}",
+    "accept": "Yes, received",
+    "reject": "No, not received",
+    "nothingOwed": "Nothing to transfer right now"
+  },
+  "dashboard": {
+    "section": "Status today",
+    "status": {
+      "completed": "Today's exercises are done",
+      "in_progress_one": "{{done}} of {{total}} exercise done",
+      "in_progress_other": "{{done}} of {{total}} exercises done",
+      "not_started": "Not started yet",
+      "rest_day": "Rest day today"
+    },
+    "badge": {
+      "completed": "Done",
+      "in_progress": "{{done}}/{{total}}",
+      "not_started": "Not started",
+      "rest_day": "Rest"
+    },
+    "stats": {
+      "owed": "To pay",
+      "earned": "Total earned"
+    },
+    "pending": "Awaiting confirmation: {{amount}}",
+    "settle": "Transfer made",
+    "remind": "Remind",
+    "remindIn": "Remind in {{time}}",
+    "reminderSent": "Reminder sent",
+    "editPlan": "Edit plan",
+    "progressToday": "Today's progress",
+    "doneToday": "Done today",
+    "exercisesOf_one": "{{done}} of {{total}} exercise",
+    "exercisesOf_other": "{{done}} of {{total}} exercises",
+    "ledger": "Payment history",
+    "photos": "Photos this week",
+    "photosEmpty": {
+      "title": "No photos yet",
+      "body": "They appear once exercises are done"
+    },
+    "noPhotos": "no photos",
+    "photosDeleted": "Photos deleted",
+    "photoCount_one": "{{count}} photo",
+    "photoCount_few": "{{count}} photos",
+    "photoCount_many": "{{count}} photos",
+    "photoCount_other": "{{count}} photos",
+    "noFamily": "Your parent has not joined yet. Create a code and send it: progress will appear here once they join.",
+    "banner": {
+      "notYet_f": "{{name}} hasn't exercised today",
+      "notYet_m": "{{name}} hasn't exercised today",
+      "notYet_n": "{{name}} hasn't exercised today",
+      "inProgress": "{{name}}: {{done}} of {{total}} done",
+      "last": "Last workout: {{when}}",
+      "never": "No workouts yet",
+      "left_one": "{{count}} exercise left",
+      "left_few": "{{count}} exercises left",
+      "left_many": "{{count}} exercises left",
+      "left_other": "{{count}} exercises left"
+    },
+    "sectionFor": "Status: {{name}}"
+  },
+  "plan": {
+    "daysSection": "Activity calendar",
+    "chooseDays": "Choose training days",
+    "dayHint": "Tap to add or remove the day",
+    "summary_one": "{{days}} · {{count}} day",
+    "summary_few": "{{days}} · {{count}} days",
+    "summary_many": "{{days}} · {{count}} days",
+    "summary_other": "{{days}} · {{count}} days",
+    "rateSection": "Rate",
+    "rate": "Rate per day",
+    "perDay": "per day",
+    "estimate": "Days per week: {{days}} · ≈ {{amount}} per month",
+    "reminderSection": "Reminder",
+    "reminderTime": "Reminder time",
+    "reminderHint": "At this time your parent gets a “Time to exercise” notification",
+    "save": "Save plan",
+    "saved": "Plan saved",
+    "appliesFromTomorrow": "Changes apply from the next day",
+    "minutes_one": "{{count}} min",
+    "minutes_few": "{{count}} min",
+    "minutes_many": "{{count}} min",
+    "minutes_other": "{{count}} min",
+    "typesSection": "Workout types",
+    "typesHint": "Choose workout types: only exercises of these types will be in the day (from tomorrow).",
+    "durationSection": "Workout duration",
+    "durationAverage": "Average duration",
+    "durationNoWalking": "excluding walking",
+    "recommendation": "Recommendation",
+    "durationTip": {
+      "a": "Good start! 10 minutes is enough for the first weeks. Regularity is key.",
+      "b": "Optimal for beginners: 10–25 min is the recommended range excluding walking.",
+      "c": "Good level. Make sure there is no strong fatigue after the session.",
+      "d": "40+ minutes may be too much for beginners. We suggest starting with 15–25 min."
+    },
+    "autoSection": "Auto-progression",
+    "autoLabel": "Automatic load increase",
+    "autoHint": "Requires confirmation",
+    "autoRate": "Growth rate: {{pct}}% per week",
+    "autoConfirmTitle": "Turn on auto-progression?",
+    "autoConfirmBody": "Every week reps, seconds and steps will grow by {{pct}}% (at most double). You can turn it off any time.",
+    "autoConfirmYes": "Yes, turn on",
+    "rateMin": "{{amount}} min.",
+    "rateStandard": "{{amount}} standard",
+    "rateMax": "{{amount}} max.",
+    "days": {
+      "every": "Every day",
+      "workdays": "Weekdays",
+      "weekends": "Weekends"
+    },
+    "typesAiNote": "AI is choosing exercises now: every session is mixed (strength, core, cardio). These types apply when AI selection is off in “Exercises”."
+  },
+  "reminder": {
+    "title": "Alarm",
+    "everyDay": "Every day at the chosen time",
+    "time": "Reminder time",
+    "setByChild": "{{name}} sets the time in the plan",
+    "test": "Test notification",
+    "on": "Reminder on",
+    "off": "Reminder off",
+    "testSent": "Test notification sent",
+    "testDenied": "Allow notifications in your phone settings",
+    "notificationTitle": "Time to exercise!",
+    "notificationBody": "{{name}} is waiting"
+  },
+  "invite": {
+    "section": "Invite your parent",
+    "description": "Send the code: your parent installs the app and you are connected automatically.",
+    "whoIs": "Who is this to you?",
+    "create": "Create code",
+    "regenerate": "Create a new code",
+    "code": "Invite code",
+    "expires": "Valid until {{date}}",
+    "share": "Share",
+    "copy": "Copy code",
+    "copied": "Code copied",
+    "message": "Join Care Journal! Code: {{code}}. Link: {{link}}"
+  },
+  "account": {
+    "section": "My profile",
+    "paysYou": "{{name}} pays you {{amount}} per day",
+    "rate": "Rate",
+    "perDay": "{{amount}} / day",
+    "days": "Training days",
+    "balance": "To receive",
+    "owedLabel": "waiting for a transfer from your child",
+    "owedHint": "Money is sent outside the app (bank, BLIK); this is only a record. Confirm receipt on the “Progress” tab.",
+    "age_one": "{{count}} year old",
+    "age_few": "{{count}} years old",
+    "age_many": "{{count}} years old",
+    "age_other": "{{count}} years old",
+    "level": "Level",
+    "levelName": {
+      "1": "Beginner level",
+      "2": "Level 2 — growing",
+      "3": "Level 3 — confident",
+      "4": "Level 4 — strong",
+      "5": "Level 5 — maximum"
+    }
+  },
+  "profile": {
+    "account": "My account",
+    "phone": "Phone",
+    "rate": "Rate",
+    "family": "Family",
+    "childRole": "Child",
+    "settings": "Settings",
+    "language": "Interface language",
+    "notifications": "Notifications",
+    "notificationsHint": "Reminders and transfer updates",
+    "security": "Security",
+    "privacy": "Your activity data is stored encrypted and is visible only to your family.",
+    "logout": "Log out",
+    "deleteAccount": "Delete account",
+    "deleteConfirm": {
+      "title": "Delete account?",
+      "body": "All your data and photos will be deleted permanently. The other person will see that you left.",
+      "confirm": "Yes, delete"
+    },
+    "version": "Version {{version}}",
+    "logoutEverywhere": "Log out on all devices",
+    "logoutEverywhereConfirm": {
+      "title": "Log out on all devices?",
+      "body": "Useful if you lost your phone. You will need a verification code to log in again.",
+      "confirm": "Yes, log out everywhere"
+    },
+    "email": "Email",
+    "changePhoto": "Change photo",
+    "voice": "Voice coach",
+    "voiceHint": "Talks you through technique, counts reps and time during exercises"
+  },
+  "disclaimer": {
+    "short": "This app is not medical advice. Consult a doctor if needed."
+  },
+  "category": {
+    "strength": "Strength",
+    "cardio": "Cardio",
+    "balance": "Balance",
+    "breathing": "Breathing",
+    "jointMobility": "Joint mobility",
+    "stretch": "Stretch"
+  },
+  "programs": {
+    "title": "Training programs",
+    "active": "Active program",
+    "noActive": "No program chosen yet",
+    "noActiveBody": "Choose a ready-made program or build your own from the safe exercise catalog",
+    "presets": "Ready-made programs",
+    "mine": "My programs",
+    "createNew": "Create your own program",
+    "noOwn": "You haven't created any programs yet",
+    "assign": "Assign",
+    "assignConfirm": {
+      "title": "Assign this program?",
+      "body": "The parent will see the new exercises in “Today” starting tomorrow.",
+      "confirm": "Yes, assign"
+    },
+    "assigned": "Program assigned",
+    "edit": "Edit",
+    "editTitle": "Edit program",
+    "createTitle": "New program",
+    "nameLabel": "Program name",
+    "namePlaceholder": "For example, “Morning routine”",
+    "descriptionLabel": "Description (optional)",
+    "durationLabel": "Duration",
+    "duration": {
+      "week": "Week",
+      "month": "Month"
+    },
+    "exercisesSection": "Program exercises",
+    "addExercise": "Add exercise",
+    "noExercises": "No exercises added yet",
+    "catalogTitle": "Exercise catalog",
+    "removeExercise": "Remove",
+    "moveUp": "Move up",
+    "moveDown": "Move down",
+    "daysLabel": "Days of the week",
+    "save": "Save program",
+    "saved": "Program saved",
+    "exercisesCount_one": "{{count}} exercise",
+    "exercisesCount_other": "{{count}} exercises",
+    "selectedOfMax": "{{count}} of {{max}} selected",
+    "rotates": "↻ Rotates with similar exercises"
+  },
+  "photos": {
+    "title": "Exercise photos",
+    "frame": "Photo {{index}} of {{total}}"
+  },
+  "firstPlan": {
+    "title": "Let’s set up the first plan",
+    "body": "Choose the exercise days and how much you pay per completed day. You can change it later.",
+    "next": "Next",
+    "skip": "Skip, I’ll set it up later"
+  },
+  "dev": {
+    "serverDown": "Server unreachable: {{url}}. Start the backend and check EXPO_PUBLIC_API_URL.",
+    "localhostHint": "On a phone “localhost” is the phone itself: use your computer’s Wi-Fi IP (http://192.168.x.x:3000/api/v1)."
+  },
+  "steps": {
+    "start": "Start walking",
+    "ofTarget_one": "of {{target}} steps",
+    "ofTarget_other": "of {{target}} steps",
+    "progressA11y_one": "{{count}} of {{target}} steps walked",
+    "progressA11y_other": "{{count}} of {{target}} steps walked",
+    "reached": "Goal reached! Counting it…",
+    "left_one": "{{count}} step to go",
+    "left_few": "{{count}} steps to go",
+    "left_many": "{{count}} steps to go",
+    "left_other": "{{count}} steps to go",
+    "hintBackground": "You can put the phone in your pocket — steps count even with the screen off.",
+    "hintKeepOpen": "Keep the app open while you walk: the screen won't turn off by itself.",
+    "sending": "Counting your steps…",
+    "sendFailed": "Couldn't count the steps",
+    "unavailable": {
+      "title": "Step counter unavailable",
+      "body": "This phone has no step sensor, so this exercise can't be counted. Ask your child to replace it in the program."
+    },
+    "permission": {
+      "title": "Step counter access needed",
+      "body": "Allow the app to count steps — it is needed to count the walk.",
+      "allow": "Allow step counter"
+    },
+    "today": {
+      "section": "Step counter",
+      "ofGoal_one": "step today of {{goal}}",
+      "ofGoal_other": "steps today of {{goal}}",
+      "ofGoalSession_one": "step while the app is open (goal {{goal}})",
+      "ofGoalSession_other": "steps while the app is open (goal {{goal}})",
+      "enable": "Turn on step counter",
+      "denied": "Step counter access is turned off in phone settings."
+    },
+    "motionMode": "Counting steps from the phone's motion — keep it with you, in your hand or pocket. For better accuracy, allow access to Physical activity."
+  },
+  "body": {
+    "section": "Body impact",
+    "muscles": "Muscles",
+    "heart": "Heart",
+    "brain": "Brain",
+    "bones": "Bones",
+    "energy": "Energy",
+    "level": {
+      "strong": "Strong",
+      "notable": "Notable",
+      "moderate": "Moderate"
+    }
+  },
+  "workoutType": {
+    "strength": "Strength",
+    "cardio": "Cardio",
+    "morning": "Morning exercise",
+    "stretch": "Stretching",
+    "warmup": "Warm-up",
+    "breathing": "Breathing",
+    "walking": "Walking",
+    "meditation": "Meditation",
+    "coordination": "Coordination"
+  },
+  "dayDetail": {
+    "quality": "Quality",
+    "muscles": "Muscles: {{list}}",
+    "nothingPlanned": "No workout planned for this day.",
+    "exercises": "Exercises",
+    "creditedAt": "Credited at: {{time}}"
+  },
+  "parents": {
+    "rename": "Rename",
+    "add": "Add a parent",
+    "addTitle": "Add a parent",
+    "createInvite": "Create invitation",
+    "inviteHint": "Send the code — as soon as they enter it in their app, they will appear in the switcher.",
+    "labelField": "What to call them",
+    "labelPlaceholder": "E.g.: Mom, Dad, Grandma",
+    "quick": {
+      "mom": "Mom",
+      "dad": "Dad",
+      "grandma": "Grandma",
+      "grandpa": "Grandpa"
+    },
+    "renameTitle": "Rename",
+    "renamed": "Renamed: {{name}}"
+  },
+  "activity": {
+    "section": "Activity",
+    "title": "Steps and workouts",
+    "steps": "Steps",
+    "workouts": "Workouts",
+    "period": {
+      "7": "7 days",
+      "30": "Month",
+      "90": "3 months",
+      "180": "6 months",
+      "365": "Year",
+      "all": "All time"
+    },
+    "periodPhrase": {
+      "7": "over the last week",
+      "30": "over the last month",
+      "90": "over the last 3 months",
+      "180": "over the last 6 months",
+      "365": "over the last year",
+      "all": "over all time"
+    }
+  },
+  "insights": {
+    "title": "Activity analysis",
+    "overall": {
+      "up": "Activity grew {{period}}",
+      "down": "Activity dropped {{period}}",
+      "upBody": "The load has grown — a great result. Keep the same rhythm.",
+      "downBody": "There is less movement. Try adding short walks between exercises.",
+      "same": "Activity is steady {{period}}",
+      "sameBody": "Keep the rhythm — consistency matters more than records."
+    },
+    "steps": {
+      "up": "More steps every day",
+      "down": "Fewer steps than before",
+      "upBody": "Average steps grew by {{pct}}%. Walking lowers the risk of heart disease.",
+      "downBody": "Average steps dropped by {{pct}}%. Try a short walk after meals.",
+      "none": "No steps yet",
+      "noneBody": "Steps will appear here once the parent turns on the step counter on their phone.",
+      "same": "Same number of steps",
+      "sameBody": "Step count hasn't changed. Try adding a short walk."
+    },
+    "workouts": {
+      "up": "More workouts on schedule",
+      "down": "More workouts missed",
+      "upBody": "The share of completed days grew by {{pct}}%. Muscles get stronger with regular load.",
+      "downBody": "More days are missed. It is better to lower the load than to skip entirely.",
+      "same": "Workouts are steady",
+      "sameBody": "The share of completed days hasn't changed. Every scheduled workout builds strength."
+    },
+    "flex": {
+      "up": "Flexibility and coordination improving",
+      "down": "We recommend adding stretching",
+      "upBody": "Regular exercise improves joint mobility and coordination — the risk of falls goes down.",
+      "downBody": "With less activity joints get stiffer. Add 5 minutes of stretching daily."
+    },
+    "sleep": {
+      "up": "Sleep and mood improving",
+      "down": "Activity affects mood",
+      "upBody": "Research shows regular exercise improves sleep quality in adults.",
+      "downBody": "Less movement is often linked to worse sleep and mood. Even 10 minutes of movement helps."
+    }
+  },
+  "accounts": {
+    "section": "Accounts",
+    "parent": "Parent",
+    "child": "Child",
+    "current": "Current",
+    "add": "Add account",
+    "expired": "This account’s session has expired — sign in again via “Add account”."
+  },
+  "voice": {
+    "getReady": "Get ready. Put the phone down and step back so your whole body is visible.",
+    "go": "Go!",
+    "targetDone": "Target reached!",
+    "phase": {
+      "squat": {
+        "a": "Down",
+        "b": "Up"
+      },
+      "lunge": {
+        "a": "Step and down",
+        "b": "Stand up"
+      },
+      "push": {
+        "a": "Lower",
+        "b": "Push up"
+      },
+      "bridge": {
+        "a": "Hips up",
+        "b": "Lower"
+      },
+      "raise": {
+        "a": "Lift",
+        "b": "Lower"
+      },
+      "reach": {
+        "a": "Reach",
+        "b": "Back"
+      },
+      "twist": {
+        "a": "Left",
+        "b": "Right"
+      },
+      "fold": {
+        "a": "Bend",
+        "b": "Straighten"
+      },
+      "breath": {
+        "a": "Breathe in",
+        "b": "Breathe out"
+      }
+    },
+    "hold": {
+      "start": "Hold the position",
+      "breathe": "Keep breathing steadily"
+    },
+    "left_one": "{{count}} second left",
+    "left_few": "{{count}} seconds left",
+    "left_many": "{{count}} seconds left",
+    "left_other": "{{count}} seconds left",
+    "hint": {
+      "march": "Knees higher!",
+      "jacks": "Arms all the way up!",
+      "circle": "Bigger circles!",
+      "steps": "Walk at a comfortable pace"
+    },
+    "circle": {
+      "switch": "Switch direction!"
+    },
+    "half": "Halfway! Keep the pace",
+    "lastSeconds": "Last few seconds, push!",
+    "finish": "Stop! Great job",
+    "accepted": "Exercise completed!",
+    "steps": {
+      "start_one": "Let's walk! Goal: {{count}} step",
+      "start_other": "Let's walk! Goal: {{count}} steps",
+      "left_one": "{{count}} step to go",
+      "left_few": "{{count}} steps to go",
+      "left_many": "{{count}} steps to go",
+      "left_other": "{{count}} steps to go",
+      "done": "Goal reached! Well done"
+    }
+  },
+  "money": {
+    "section": "Money",
+    "tapHint": "Tap a tile to see what the amount means",
+    "gotIt": "Got it",
+    "fund": {
+      "label": "Fund",
+      "explain": "Money the sponsor sets aside in advance for rewards — for a month, 5 months or years ahead. Each accepted exercise takes its share of the daily rate from the fund. How long it lasts depends on the balance, the daily rate and the number of workout days.",
+      "hintMonths": "lasts ~{{months}} mo.",
+      "hintLessThanMonth": "lasts less than a month",
+      "hintEmpty": "not topped up yet",
+      "hintEmptySponsor": "tap to top up",
+      "deposit": "Top up the fund",
+      "depositAmount": "Top up {{amount}}",
+      "depositHint": "Enter an amount or choose how many months of workouts to cover at the current plan.",
+      "amountLabel": "Top-up amount",
+      "forMonths_one": "for {{count}} month",
+      "forMonths_few": "for {{count}} months",
+      "forMonths_many": "for {{count}} months",
+      "forMonths_other": "for {{count}} months",
+      "depositNote": "Bookkeeping only: money is transferred outside the app (bank, BLIK).",
+      "deposited": "Fund topped up"
+    },
+    "earned": {
+      "label": "Earned for activity",
+      "hint": "this month: {{amount}}",
+      "explain": "The amount that builds up from completed workouts: every accepted exercise adds its share of the daily rate. Shown here for all time."
+    },
+    "settled": {
+      "label": "Paid out in total",
+      "hint": "net, without fees",
+      "explain": "The total paid to the parent — net, excluding bank or payment fees. Only confirmed transfers count."
+    },
+    "owed": {
+      "label": "To pay out",
+      "hint": "earned, not paid yet",
+      "pending": "awaiting confirmation: {{amount}}",
+      "explain": "Earned but not paid yet: “Earned for activity” minus “Paid out in total”. This is the amount the sponsor transfers to the parent."
+    },
+    "facts": {
+      "plannedDays": "Planned days this month",
+      "completedDays": "Completed days this month",
+      "monthEarned": "Earned this month",
+      "daysCompleted": "Days completed in total",
+      "pending": "Awaiting confirmation",
+      "fundDeposited": "Total put into the fund",
+      "fundMonthlyCost": "Monthly cost (all workouts)",
+      "fundEnoughFor": "Lasts about",
+      "fundUntil": "Covers workouts until",
+      "months": "{{months}} mo."
+    }
+  },
+  "guide": {
+    "title": "How to use the app",
+    "open": "How to use the app",
+    "openHint": "A short guide to the main features",
+    "skip": "Skip",
+    "next": "Next",
+    "back": "Back",
+    "done": "Got it",
+    "stepOf": "{{current}} of {{total}}",
+    "where": "Where: the “{{tab}}” tab",
+    "parent": {
+      "welcome": {
+        "title": "How it works",
+        "body": "A short set of exercises each day — and your child thanks you with a reward.",
+        "p1": "About 15 minutes, a few times a week",
+        "p2": "Each accepted exercise earns part of the daily rate"
+      },
+      "today": {
+        "title": "Today's exercises",
+        "body": "Do them in any order. Didn’t work out? Try again or skip without pay.",
+        "p1": "Place the phone so your whole body is visible",
+        "p2": "The voice sets the pace and counts reps"
+      },
+      "money": {
+        "title": "Your money",
+        "body": "Earnings and transfers are on the “{{progress}}” tab. Got a transfer? Confirm it there.",
+        "p1": "Transfers happen outside the app: bank, BLIK"
+      },
+      "safety": {
+        "title": "Safety and settings",
+        "body": "Pain or dizziness — stop right away and rest.",
+        "p1": "Language, voice and reminders are in “{{profile}}”",
+        "p2": "You can reopen this guide in “{{profile}}”"
+      }
+    },
+    "child": {
+      "welcome": {
+        "title": "How it works",
+        "body": "You motivate your parents to move and thank them with a reward for completed exercises.",
+        "p1": "You manage the plan, exercises and money",
+        "p2": "Your parents exercise in their own app"
+      },
+      "overview": {
+        "title": "Parents today",
+        "body": "How many exercises are done and the photo confirmations.",
+        "p1": "“Remind” sends your parent a notification",
+        "p2": "“+” at the top adds another parent"
+      },
+      "plan": {
+        "title": "Plan",
+        "body": "Workout days, daily rate and reminder time. Changes apply from tomorrow.",
+        "p1": "Auto-progression gradually increases the load"
+      },
+      "programs": {
+        "title": "Exercises",
+        "body": "Tick exercises yourself or let the AI choose.",
+        "p1": "Tap an exercise for a video and description"
+      },
+      "money": {
+        "title": "Money",
+        "body": "Fund, earned and “To pay out”. Transferred? Tap “Transfer made”.",
+        "p1": "You can reopen this guide in “{{profile}}”"
+      }
+    }
+  },
+  "catalog": {
+    "section": "Exercise catalog",
+    "intro": "Tap an exercise to see a video and description. The box on the right adds it to the daily exercises.",
+    "include": "Add “{{name}}” to daily exercises",
+    "sectionMeta_one": "{{count}} exercise · {{chosen}} chosen",
+    "sectionMeta_few": "{{count}} exercises · {{chosen}} chosen",
+    "sectionMeta_many": "{{count}} exercises · {{chosen}} chosen",
+    "sectionMeta_other": "{{count}} exercises · {{chosen}} chosen",
+    "mode": {
+      "aiTitle": "AI picks the exercises",
+      "aiBody": "Every day is a mixed session: warm-up, strength, core and cardio. Order and load rotate automatically.",
+      "manualTitle": "Daily exercises — chosen by you",
+      "manualBody_one": "{{count}} exercise chosen. What doesn't fit in a day rotates.",
+      "manualBody_few": "{{count}} exercises chosen. What doesn't fit in a day rotates.",
+      "manualBody_many": "{{count}} exercises chosen. What doesn't fit in a day rotates.",
+      "manualBody_other": "{{count}} exercises chosen. What doesn't fit in a day rotates."
+    },
+    "ai": {
+      "section": "AI exercise selection",
+      "label": "Use AI to choose exercises",
+      "description": "The AI chooses and rotates exercises itself, steadily building strength, activity, flexibility and coordination.",
+      "fact": {
+        "rotate": "Every session is mixed: light cardio to warm up, then strength, core and cardio in turn",
+        "load": "Load alternates (lighter · normal · harder) so the body has time to recover",
+        "week": "The order of exercises changes from session to session, no step counter"
+      },
+      "nothingSelected": "Tick exercises above — otherwise the day will be built from the assigned program.",
+      "enabledToast": "AI will choose the exercises (from tomorrow)",
+      "disabledToast": "Daily exercises — chosen by you (from tomorrow)"
+    },
+    "detail": {
+      "add": "Add to daily exercises",
+      "remove": "Remove from daily exercises",
+      "aiNote": "AI is choosing exercises now. Your chosen exercises apply when you turn AI selection off.",
+      "muscles": "Muscles worked"
+    }
+  },
+  "payments": {
+    "topup": {
+      "succeeded": "Payment received — fund topped up",
+      "pending": "Payment is processing. The fund updates as soon as the bank confirms it.",
+      "payAmount": "Pay {{amount}}",
+      "methods": "Card, Apple Pay, Google Pay, BLIK (in PLN) or PayPal. Only Stripe sees your card details."
+    },
+    "auto": {
+      "title": "Auto top-up",
+      "hint": "The fund tops itself up from your saved card — weekly or monthly.",
+      "addCard": "Add a card",
+      "changeCard": "Change",
+      "enable": "Top up automatically",
+      "weekly": "Weekly",
+      "monthly": "Monthly",
+      "next": "Next charge: {{date}}",
+      "lastError": "The last charge failed — please check your card.",
+      "saved": "Auto top-up saved",
+      "disabled": "Auto top-up turned off"
+    },
+    "payout": {
+      "title": "Withdraw money",
+      "available": "Available to withdraw",
+      "amountLabel": "Amount",
+      "all": "Withdraw all",
+      "nothing": "Nothing to withdraw yet: the earnings haven’t been paid into the fund.",
+      "manage": "Payout account",
+      "withdraw": "Withdraw",
+      "withdrawAmount": "Withdraw {{amount}}",
+      "setup": "Set up payouts",
+      "continueSetup": "Continue setup",
+      "setupHint": "Enter your details and bank account or card in Stripe once — the payment provider verifies your identity and sends the money.",
+      "pendingSetup": "Stripe is still checking your details. This usually takes a few minutes.",
+      "note": "Money arrives in your account within 1–3 business days.",
+      "done": "Payout sent"
+    }
+  }
+}

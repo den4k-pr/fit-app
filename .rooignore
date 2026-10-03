@@ -1,0 +1,13 @@
+node_modules/
+.expo/
+assets/videos/
+assets/images/
+android/
+ios/
+dist/
+build/
+*.mp4
+*.gif
+*.png
+*.jpeg
+package-lock.json

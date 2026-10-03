@@ -1,0 +1,1114 @@
+{
+  "common": {
+    "continue": "Dalej",
+    "back": "Wstecz",
+    "cancel": "Anuluj",
+    "save": "Zapisz",
+    "done": "Gotowe",
+    "retry": "Spróbuj ponownie",
+    "loading": "Ładowanie…",
+    "delete": "Usuń",
+    "yes": "Tak",
+    "no": "Nie",
+    "today": "Dzisiaj",
+    "tomorrow": "Jutro",
+    "yesterday": "Wczoraj",
+    "offline": "Brak internetu. Sprawdź połączenie.",
+    "errorTitle": "Coś poszło nie tak",
+    "backHome": "Strona główna",
+    "days_one": "{{count}} dzień",
+    "days_few": "{{count}} dni",
+    "days_many": "{{count}} dni",
+    "days_other": "{{count}} dnia",
+    "close": "Zamknij",
+    "showMore": "Pokaż więcej",
+    "showAll": "Pokaż wszystkie",
+    "next": "Dalej"
+  },
+  "errors": {
+    "VALIDATION_FAILED": "Sprawdź wprowadzone dane.",
+    "UNAUTHORIZED": "Zaloguj się ponownie.",
+    "TOKEN_EXPIRED": "Sesja wygasła. Zaloguj się ponownie.",
+    "REFRESH_TOKEN_INVALID": "Sesja wygasła. Zaloguj się ponownie.",
+    "FORBIDDEN_ROLE": "Ta akcja jest niedostępna dla Twojej roli.",
+    "NOT_FOUND": "Nie znaleziono.",
+    "TOO_MANY_REQUESTS": "Zbyt wiele prób. Poczekaj chwilę.",
+    "INTERNAL_ERROR": "Błąd serwera. Spróbuj później.",
+    "OTP_INVALID": "Nieprawidłowy kod. Spróbuj ponownie.",
+    "OTP_EXPIRED": "Kod wygasł. Wyślij nowy.",
+    "OTP_TOO_MANY_ATTEMPTS": "Zbyt wiele błędnych prób. Poproś o nowy kod.",
+    "OTP_COOLDOWN": "Nowy kod można poprosić za minutę. Poczekaj, proszę.",
+    "OTP_SEND_FAILED": "Nie udało się wysłać kodu. Spróbuj później.",
+    "ROLE_ALREADY_SET": "Rola została już wybrana i nie można jej zmienić.",
+    "ROLE_REQUIRED": "Najpierw wybierz rolę.",
+    "CONSENT_REQUIRED": "Wymagana jest zgoda na warunki.",
+    "INVITE_INVALID": "Nie znaleziono kodu zaproszenia. Sprawdź go.",
+    "INVITE_EXPIRED": "Zaproszenie wygasło. Poproś o nowy kod.",
+    "INVITE_USED": "To zaproszenie zostało już wykorzystane.",
+    "ALREADY_IN_FAMILY": "Jesteś już w rodzinie.",
+    "FAMILY_NOT_FOUND": "Nie znaleziono rodziny.",
+    "NOT_FAMILY_MEMBER": "Brak dostępu do tej rodziny.",
+    "PLAN_INVALID": "Sprawdź ustawienia planu.",
+    "REST_DAY": "Dzisiaj dzień odpoczynku.",
+    "DAY_ALREADY_CLOSED": "Ten dzień jest już zamknięty.",
+    "EXERCISE_OUT_OF_ORDER": "Tego ćwiczenia nie można teraz wykonać. Odśwież ekran „Dziś”.",
+    "EXERCISE_ALREADY_DONE": "To ćwiczenie zostało już zaliczone.",
+    "SETTLEMENT_EXCEEDS_OWED": "Kwota przekracza należność. Zmniejsz ją.",
+    "SETTLEMENT_NOT_PENDING": "Ten przelew został już rozpatrzony.",
+    "NOTHING_OWED": "Na razie nie ma czego przelewać.",
+    "REMINDER_TOO_SOON": "Przypominać można raz na 2 godziny.",
+    "REMINDER_NOT_ALLOWED": "Przypomnienie nie jest teraz potrzebne.",
+    "PARENT_HAS_NO_PUSH": "Rodzic ma wyłączone powiadomienia — zadzwoń.",
+    "NETWORK_ERROR": "Brak połączenia z internetem.",
+    "UNKNOWN": "Coś poszło nie tak. Spróbuj ponownie.",
+    "PHOTO_KEY_INVALID": "Nie udało się sprawdzić ćwiczenia. Spróbuj ponownie.",
+    "PHOTO_TOO_LARGE": "Nie udało się wysłać ćwiczenia. Spróbuj ponownie.",
+    "PHOTO_TYPE_NOT_ALLOWED": "Nie udało się wysłać ćwiczenia. Spróbuj ponownie.",
+    "PHOTOS_DELETED": "Zdjęcia usunięte (minęło 7 dni).",
+    "PHOTOS_NOT_AVAILABLE": "Brak zdjęć dla tego ćwiczenia.",
+    "STORAGE_SIGNATURE_INVALID": "Link wygasł. Spróbuj ponownie.",
+    "PHONE_COUNTRY_NOT_ALLOWED": "Na ten numer nie wysyłamy jeszcze SMS-ów. Użyj numeru z Polski lub Ukrainy.",
+    "PHONE_NOT_ALLOWED": "Ten numer nie ma jeszcze dostępu do testów.",
+    "PROGRAM_NOT_FOUND": "Nie znaleziono programu.",
+    "PROGRAM_NOT_OWNED": "Tego programu nie można edytować.",
+    "PROGRAM_EXERCISES_EMPTY": "Dodaj co najmniej jedno ćwiczenie do programu.",
+    "NO_ACTIVE_PROGRAM": "Dziecko jeszcze nie wybrało programu treningowego.",
+    "AI_ANALYSIS_FAILED": "Nie udało się sprawdzić ćwiczenia. Spróbuj ponownie.",
+    "PHOTOS_REQUIRED": "Kamera nie zdążyła śledzić wykonania. Powtórz ćwiczenie przed kamerą.",
+    "STEPS_NOT_REACHED": "Krokomierz nie naliczył jeszcze wymaganej liczby kroków. Przejdź się jeszcze trochę.",
+    "PROGRAM_TOO_MANY_EXERCISES": "Za dużo ćwiczeń w programie — usuń kilka.",
+    "ACCOUNT_BLOCKED": "Konto zablokowane. Skontaktuj się z pomocą.",
+    "GOOGLE_AUTH_FAILED": "Nie udało się zalogować przez Google. Spróbuj ponownie.",
+    "GOOGLE_AUTH_DISABLED": "Logowanie przez Google jest na razie niedostępne",
+    "SMS_NOT_CONFIGURED": "Logowanie telefonem jest chwilowo niedostępne. Zaloguj się przez e-mail.",
+    "AI_ATTEMPTS_LIMIT": "Wyczerpano na dziś próby sprawdzenia tego ćwiczenia. Pomiń je (bez zapłaty) i przejdź do pozostałych.",
+    "PAYMENTS_DISABLED": "Płatności nie są jeszcze podłączone.",
+    "PAYMENT_FAILED": "Płatność nie powiodła się. Spróbuj ponownie lub wybierz inną metodę.",
+    "PAYMENT_METHOD_REQUIRED": "Najpierw dodaj kartę.",
+    "PAYOUTS_NOT_READY": "Najpierw skonfiguruj wypłaty w Stripe.",
+    "PAYOUT_EXCEEDS_AVAILABLE": "Kwota przekracza dostępną do wypłaty.",
+    "IAP_DISABLED": "Subskrypcja jest na razie niedostępna.",
+    "IAP_INVALID": "Nie udało się potwierdzić zakupu."
+  },
+  "consent": {
+    "title": "Zanim zaczniemy",
+    "termsLabel": "Akceptuję Warunki korzystania i Politykę prywatności",
+    "disclaimerLabel": "Rozumiem, że aplikacja nie jest poradą medyczną",
+    "doctorLabel": "Rodzic skonsultował ćwiczenia z lekarzem",
+    "termsLink": "Warunki korzystania",
+    "privacyLink": "Polityka prywatności",
+    "intro": "Książeczka troski pomaga dorosłym dzieciom motywować rodziców do codziennych prostych ćwiczeń.",
+    "notMedical": "Aplikacja nie jest wyrobem medycznym i nie zastępuje konsultacji z lekarzem.",
+    "accept": "Zaakceptuj i kontynuuj",
+    "footer": "Twoje dane są chronione zgodnie z RODO."
+  },
+  "onboarding": {
+    "slide1": {
+      "title": "Książeczka troski",
+      "body": "Aplikacja, w której dzieci dziękują rodzicom za codzienną gimnastykę"
+    },
+    "slide2": {
+      "title": "Wykonujesz ćwiczenia",
+      "body": "Każdego dnia — krótki zestaw ćwiczeń na 10–25 minut. Kamera śledzi wykonanie, AI sprawdza technikę i nalicza nagrodę."
+    },
+    "slide3": {
+      "title": "Troska, która się opłaca",
+      "body": "Dziecko płaci za każdy wykonany dzień, a Ty widzisz swój zarobek"
+    },
+    "start": "Zaczynamy",
+    "skip": "Pomiń",
+    "slide4": {
+      "title": "Zdrowie i pieniądze rosną",
+      "body": "Regularna aktywność wzmacnia serce i mięśnie, poprawia sen i nastrój — potwierdzają to badania."
+    }
+  },
+  "auth": {
+    "phone": {
+      "title": "Twój numer telefonu",
+      "hint": "Wyślemy SMS z kodem. To dla Ciebie bezpłatne.",
+      "invalid": "Sprawdź numer: wpisz go tak, jak jest zapisany w Twoim telefonie.",
+      "send": "Wyślij kod",
+      "numberLabel": "Twój numer",
+      "confirmTitle": "Czy ten numer jest poprawny?",
+      "confirmYes": "Tak, wyślij kod",
+      "confirmFix": "Popraw",
+      "unavailable": "Logowanie numerem telefonu jest chwilowo niedostępne: usługa SMS jest w trakcie podłączania. Zaloguj się przez e-mail — to równie szybkie."
+    },
+    "otp": {
+      "title": "Wpisz kod z SMS",
+      "sentTo": "Kod wysłano na {{phone}}",
+      "resend": "Wyślij ponownie",
+      "resendIn": "Ponownie za {{seconds}} s",
+      "verify": "Potwierdź",
+      "help": "SMS przychodzi w ciągu minuty. Jeśli go nie ma, sprawdź numer lub wyślij kod ponownie.",
+      "changeNumber": "Zmień numer",
+      "titleEmail": "Wpisz kod z wiadomości",
+      "sentToEmail": "Kod wysłano na {{email}}",
+      "spamHint": "Wiadomość może dotrzeć w ciągu minuty. Jeśli jej nie ma, sprawdź folder „Spam”.",
+      "changeEmail": "Zmień adres",
+      "sentLabel": "Kod wysłano na"
+    },
+    "role": {
+      "title": "Kim jesteś?",
+      "parent": "Jestem rodzicem",
+      "parentHint": "Wykonuję ćwiczenia",
+      "child": "Jestem dzieckiem",
+      "childHint": "Wspieram i wypłacam nagrodę",
+      "warning": "Rolę możesz zmienić przyciskiem „Wstecz”, dopóki nie połączysz się z rodziną."
+    },
+    "profile": {
+      "title": "Powiedz coś o sobie",
+      "name": "Jak się do Ciebie zwracać?",
+      "age": "Wiek (opcjonalnie)"
+    },
+    "waiting": {
+      "title": "Czekamy na zaproszenie",
+      "body": "Poproś dziecko o kod lub link zaproszenia",
+      "enterCode": "Wpisz kod zaproszenia"
+    },
+    "join": {
+      "title": "Dołączanie do rodziny",
+      "codeLabel": "Kod zaproszenia",
+      "submit": "Dołącz"
+    },
+    "step": "Krok {{current}} z {{total}}",
+    "country": {
+      "PL": "Polska",
+      "UA": "Ukraina"
+    },
+    "help": {
+      "link": "Potrzebujesz pomocy?"
+    },
+    "method": {
+      "phone": "Telefon",
+      "email": "E-mail",
+      "useEmail": "Zaloguj przez e-mail",
+      "usePhone": "Zaloguj numerem"
+    },
+    "email": {
+      "title": "Twój adres e-mail",
+      "label": "Adres e-mail",
+      "hint": "Wyślemy wiadomość z kodem. Jeśli jej nie ma, sprawdź folder „Spam”.",
+      "invalid": "Sprawdź adres. Przykład: name@gmail.com",
+      "send": "Wyślij kod",
+      "confirmTitle": "Czy ten adres jest poprawny?",
+      "unavailable": "Logowanie przez e-mail jest chwilowo niedostępne. Zaloguj się numerem telefonu."
+    },
+    "google": {
+      "button": "Zaloguj się przez Google",
+      "signingIn": "Logowanie…",
+      "or": "lub"
+    },
+    "back": {
+      "changeLoginTitle": "Zmienić e-mail lub numer?",
+      "changeLoginBody": "Wylogujesz się i będziesz mógł wpisać inny adres e-mail lub numer telefonu.",
+      "changeLoginYes": "Tak, zmień"
+    }
+  },
+  "relationship": {
+    "mom": "Mama",
+    "dad": "Tata",
+    "grandma": "Babcia",
+    "grandpa": "Dziadek",
+    "other": "Inne"
+  },
+  "push": {
+    "localReminder": {
+      "title": "Czas na ćwiczenia",
+      "body": "Kilka minut — i dzień zaliczony"
+    }
+  },
+  "app": {
+    "name": "Książeczka troski"
+  },
+  "tabs": {
+    "today": "Dziś",
+    "progress": "Postępy",
+    "profile": "Profil",
+    "dashboard": "Pulpit",
+    "plan": "Plan",
+    "programs": "Programy",
+    "activity": "Aktywność",
+    "exercises": "Ćwiczenia"
+  },
+  "today": {
+    "section": "Dziś",
+    "greeting": {
+      "morning": "Dzień dobry, {{name}}",
+      "day": "Dzień dobry, {{name}}",
+      "evening": "Dobry wieczór, {{name}}"
+    },
+    "owed": "Do odebrania: {{amount}}",
+    "ringCaption": "ćwiczeń",
+    "ringLabel_one": "Wykonano {{done}} z {{total}} ćwiczenia",
+    "ringLabel_few": "Wykonano {{done}} z {{total}} ćwiczeń",
+    "ringLabel_many": "Wykonano {{done}} z {{total}} ćwiczeń",
+    "ringLabel_other": "Wykonano {{done}} z {{total}} ćwiczenia",
+    "earnBanner": "Wykonaj wszystkie ćwiczenia i zarób <b>{{amount}}</b> dziś",
+    "exercises": "Ćwiczenia na dziś",
+    "start": "Start",
+    "lockedToast": "Dzień jest już zamknięty — to ćwiczenie jest niedostępne",
+    "doneToast": "To ćwiczenie jest już wykonane",
+    "rest": {
+      "title": "Dziś dzień odpoczynku",
+      "next": "Następne zajęcia: {{day}}"
+    },
+    "allDone": "Dziś wszystko wykonane! +{{amount}}",
+    "streak": "Dni z rzędu: {{count}}",
+    "noProgram": {
+      "title": "Dziecko jeszcze nie wybrało programu",
+      "body": "Poproś dziecko o przypisanie Ci programu treningowego w jego aplikacji"
+    },
+    "programCalendar": "Program treningów",
+    "fundPill": "Zarobione w tym miesiącu: {{earned}} z możliwych {{fund}}",
+    "skippedLabel": "Pominięte — bez zapłaty",
+    "skippedToast": "To ćwiczenie zostało dziś pominięte (bez zapłaty)"
+  },
+  "exercise": {
+    "reps_one": "{{count}} powtórzenie",
+    "reps_few": "{{count}} powtórzenia",
+    "reps_many": "{{count}} powtórzeń",
+    "reps_other": "{{count}} powtórzenia",
+    "seconds_one": "{{count}} sekunda",
+    "seconds_few": "{{count}} sekundy",
+    "seconds_many": "{{count}} sekund",
+    "seconds_other": "{{count}} sekundy",
+    "benefit": "Korzyść",
+    "demoCaption": "Zobacz technikę. Zapamiętaj ruch",
+    "target": "Co robimy",
+    "startExercise": "Zacznij ćwiczenie",
+    "secondsLeft_one": "sekunda do końca",
+    "secondsLeft_few": "sekundy do końca",
+    "secondsLeft_many": "sekund do końca",
+    "secondsLeft_other": "sekundy do końca",
+    "hints": {
+      "0": "Stań tak, żeby było Cię widać w całości",
+      "1": "Zaczynaj",
+      "2": "Powtarzaj w spokojnym tempie",
+      "3": "Oddychaj równo",
+      "4": "Zakończ w dogodnym momencie"
+    },
+    "camera": {
+      "title": "Potrzebny dostęp do kamery",
+      "body": "Kamera jest potrzebna, by AI sprawdziło, że ćwiczenie naprawdę wykonano. Wideo nie jest nagrywane; kilka momentów ćwiczenia widzi tylko Twoje dziecko, a po 7 dniach są usuwane. Bez kamery ćwiczenie nie zostanie zaliczone.",
+      "allow": "Zezwól na kamerę",
+      "openSettings": "Otwórz ustawienia"
+    },
+    "uploading": "Wysyłamy ćwiczenie do sprawdzenia…",
+    "uploadFailed": "Nie udało się wysłać ćwiczenia",
+    "done": {
+      "title": "Zaliczone!",
+      "subtitle": "Technika prawidłowa",
+      "dayCompleted": "Dzień wykonany! +{{amount}} naliczono",
+      "aiConfirmed": "AI potwierdziło prawidłową technikę",
+      "steps_one": "Przebyto {{count}} krok",
+      "steps_few": "Przebyto {{count}} kroki",
+      "steps_many": "Przebyto {{count}} kroków",
+      "steps_other": "Przebyto {{count}} kroku",
+      "aiResult": "Wynik analizy",
+      "claim": "Odbierz +{{amount}}"
+    },
+    "unavailable": {
+      "title": "Ćwiczenie niedostępne",
+      "body": "To ćwiczenie jest teraz niedostępne: zostało już wykonane lub pominięte albo dzień jest zamknięty."
+    },
+    "finish": "Zakończ",
+    "stepOf": "Ćwiczenie {{current}} z {{total}}",
+    "safety": "Bezpieczeństwo",
+    "aiChecking": "AI sprawdza wykonanie…",
+    "aiRejected": {
+      "title": "Spróbujmy jeszcze raz",
+      "body": "AI nie potwierdziło prawidłowego wykonania",
+      "score": "Ocena: {{score}} ze 100",
+      "retry": "Spróbuj ponownie",
+      "timeline": "Co było nie tak",
+      "atSecond": "{{sec}}. s",
+      "fromTo": "{{from}}–{{to}} s",
+      "howToFix": "Jak poprawić"
+    },
+    "steps_one": "{{count}} krok",
+    "steps_few": "{{count}} kroki",
+    "steps_many": "{{count}} kroków",
+    "steps_other": "{{count}} kroku",
+    "watchAndRepeat": "Patrz i powtarzaj",
+    "soundOn": "Włącz dźwięk",
+    "soundOff": "Wyłącz dźwięk",
+    "medical": {
+      "title": "Ważne",
+      "body": "Jeśli podczas ćwiczenia pojawi się ból w klatce piersiowej, silne zawroty głowy lub ostry ból stawu — zatrzymaj się i odpocznij. To nie jest zalecenie medyczne: przed rozpoczęciem skonsultuj się z lekarzem.",
+      "confirm": "Rozumiem, dalej"
+    },
+    "watchFirst": "Obejrzyj technikę… {{seconds}}",
+    "liveBadge": "Kamera",
+    "aiSteps": {
+      "title": "Analiza",
+      "person": "Sprawdzamy, czy Cię widać",
+      "pose": "Określamy pozycję ciała",
+      "movement": "Analizujemy ruch w trakcie ćwiczenia",
+      "technique": "Sprawdzamy technikę ćwiczenia",
+      "score": "Wystawiamy ocenę"
+    },
+    "getReady": "Przygotuj się — odsuń się, żeby było cię widać w całości",
+    "technique": "Jak wykonywać",
+    "voiceOn": "Włącz asystenta głosowego",
+    "voiceOff": "Wyłącz asystenta głosowego",
+    "skip": {
+      "button": "Pomiń bez zapłaty",
+      "hint": "Nie trzeba powtarzać: pozostałe ćwiczenia możesz robić w dowolnej kolejności. Za pominięte ćwiczenie pieniądze nie są naliczane.",
+      "confirmTitle": "Pominąć ćwiczenie?",
+      "confirmBody": "Za to ćwiczenie dziś nie zostaną naliczone pieniądze. Pozostałe ćwiczenia są dostępne — wykonaj je w dowolnej kolejności.",
+      "confirmYes": "Pomiń",
+      "done": "Ćwiczenie pominięte. Przejdź do pozostałych",
+      "doneDay": "Ćwiczenie pominięte — dzień zakończony"
+    }
+  },
+  "reward": {
+    "credited": "naliczono na saldo",
+    "total": "Razem do odebrania: {{amount}}",
+    "changedTitle": "Co się zmieniło po tym dniu",
+    "streakLine": "Dni z rzędu: {{count}}. Tak trzymaj!",
+    "bodyTitle": "Co się stało z ciałem:",
+    "dayDone": "Dzień wykonany!"
+  },
+  "history": {
+    "legend": {
+      "completed": "Wykonano",
+      "missed": "Pominięto",
+      "planned": "Przed nami"
+    },
+    "prevMonth": "Poprzedni miesiąc",
+    "nextMonth": "Następny miesiąc"
+  },
+  "progress": {
+    "mine": "Moje osiągnięcia",
+    "family": "Postępy",
+    "calendar": "Kalendarz",
+    "ledger": "Rozliczenia",
+    "reminder": "Przypomnienie",
+    "activityStats": "Treningi"
+  },
+  "stats": {
+    "owed": "Do odebrania",
+    "daysCompleted": "Dni wykonane",
+    "earnedTotal": "Zarobiono łącznie",
+    "streak": "Dni z rzędu",
+    "completion": "Realizacja",
+    "settledTotal": "Wypłacono",
+    "received": "Otrzymano"
+  },
+  "ledger": {
+    "title": "Rozliczenia",
+    "earn": "Dzień wykonany · {{date}}",
+    "settlement": {
+      "pending": "Przelew · czeka na potwierdzenie",
+      "confirmed": "Przelew · odebrano",
+      "rejected": "Przelew · niepotwierdzony"
+    },
+    "empty": {
+      "title": "Brak wpisów",
+      "body": "Pojawią się tu naliczenia za wykonane dni i przelewy"
+    },
+    "earnExercise": "Ćwiczenie wykonane · {{name}}",
+    "dayCompleted": "Pełny zestaw wykonany"
+  },
+  "settlement": {
+    "title": "Przelew wykonany",
+    "amount": "Kwota przelewu, {{symbol}}",
+    "hint": "Przelew robisz poza aplikacją: przelew bankowy, BLIK itp. Tutaj tylko ewidencja.",
+    "amountInvalid": "Podaj kwotę większą od 0 i nie większą niż {{max}}",
+    "submit": "Zgłoś przelew",
+    "created": "Przelew wysłany do potwierdzenia",
+    "confirmed": "Przelew potwierdzony",
+    "rejected": "Przelew odrzucony",
+    "pendingTitle": "{{name}} · przelew {{amount}}",
+    "accept": "Tak, otrzymano",
+    "reject": "Nie, nie otrzymano",
+    "nothingOwed": "Teraz nie ma nic do przelania"
+  },
+  "dashboard": {
+    "section": "Stan na dziś",
+    "status": {
+      "completed": "Dzisiejsze ćwiczenia wykonane",
+      "in_progress_one": "Wykonano {{done}} z {{total}} ćwiczenia",
+      "in_progress_few": "Wykonano {{done}} z {{total}} ćwiczeń",
+      "in_progress_many": "Wykonano {{done}} z {{total}} ćwiczeń",
+      "in_progress_other": "Wykonano {{done}} z {{total}} ćwiczenia",
+      "not_started": "Jeszcze nie zaczęto",
+      "rest_day": "Dziś dzień odpoczynku"
+    },
+    "badge": {
+      "completed": "Wykonano",
+      "in_progress": "{{done}}/{{total}}",
+      "not_started": "Nie zaczęto",
+      "rest_day": "Odpoczynek"
+    },
+    "stats": {
+      "owed": "Do wypłaty",
+      "earned": "Naliczono łącznie"
+    },
+    "pending": "Czeka na potwierdzenie: {{amount}}",
+    "settle": "Przelew wykonany",
+    "remind": "Przypomnij",
+    "remindIn": "Przypomnij za {{time}}",
+    "reminderSent": "Przypomnienie wysłane",
+    "editPlan": "Ustaw plan",
+    "progressToday": "Postęp dziś",
+    "doneToday": "Wykonano dziś",
+    "exercisesOf_one": "{{done}} z {{total}} ćwiczenia",
+    "exercisesOf_few": "{{done}} z {{total}} ćwiczeń",
+    "exercisesOf_many": "{{done}} z {{total}} ćwiczeń",
+    "exercisesOf_other": "{{done}} z {{total}} ćwiczenia",
+    "ledger": "Historia rozliczeń",
+    "photos": "Zdjęcia z tygodnia",
+    "photosEmpty": {
+      "title": "Brak zdjęć",
+      "body": "Pojawią się po wykonaniu ćwiczeń"
+    },
+    "noPhotos": "bez zdjęć",
+    "photosDeleted": "Zdjęcia usunięte",
+    "photoCount_one": "{{count}} zdjęcie",
+    "photoCount_few": "{{count}} zdjęcia",
+    "photoCount_many": "{{count}} zdjęć",
+    "photoCount_other": "{{count}} zdjęcia",
+    "noFamily": "Rodzic jeszcze nie dołączył. Utwórz kod i wyślij go: po dołączeniu pojawi się tu postęp.",
+    "banner": {
+      "notYet_f": "{{name}} jeszcze nie ćwiczyła dzisiaj",
+      "notYet_m": "{{name}} jeszcze nie ćwiczył dzisiaj",
+      "notYet_n": "{{name}} jeszcze nie ćwiczy dzisiaj",
+      "inProgress": "{{name}}: wykonano {{done}} z {{total}}",
+      "last": "Ostatni trening: {{when}}",
+      "never": "Nie było jeszcze treningów",
+      "left_one": "Zostało {{count}} ćwiczenie",
+      "left_few": "Zostały {{count}} ćwiczenia",
+      "left_many": "Zostało {{count}} ćwiczeń",
+      "left_other": "Zostało {{count}} ćwiczenia"
+    },
+    "sectionFor": "Stan: {{name}}"
+  },
+  "plan": {
+    "daysSection": "Kalendarz aktywności",
+    "chooseDays": "Wybierz dni zajęć",
+    "dayHint": "Dotknij, aby dodać lub usunąć dzień",
+    "summary_one": "{{days}} · {{count}} dzień",
+    "summary_few": "{{days}} · {{count}} dni",
+    "summary_many": "{{days}} · {{count}} dni",
+    "summary_other": "{{days}} · {{count}} dnia",
+    "rateSection": "Stawka",
+    "rate": "Stawka za dzień",
+    "perDay": "za dzień",
+    "estimate": "Dni w tygodniu: {{days}} · ≈ {{amount}} miesięcznie",
+    "reminderSection": "Przypomnienie",
+    "reminderTime": "Godzina przypomnienia",
+    "reminderHint": "O tej godzinie rodzic dostanie powiadomienie „Czas na ćwiczenia”",
+    "save": "Zapisz plan",
+    "saved": "Plan zapisany",
+    "appliesFromTomorrow": "Zmiany obowiązują od następnego dnia",
+    "minutes_one": "{{count}} min",
+    "minutes_few": "{{count}} min",
+    "minutes_many": "{{count}} min",
+    "minutes_other": "{{count}} min",
+    "typesSection": "Rodzaje treningu",
+    "typesHint": "Wybierz rodzaje treningu: do dnia trafią tylko ćwiczenia tych rodzajów (od następnego dnia).",
+    "durationSection": "Czas treningu",
+    "durationAverage": "Średni czas",
+    "durationNoWalking": "bez chodzenia",
+    "recommendation": "Zalecenie",
+    "durationTip": {
+      "a": "Dobry początek! 10 minut wystarczy na pierwsze tygodnie. Najważniejsza jest regularność.",
+      "b": "Optymalnie dla poziomu podstawowego: 10–25 min to zalecany zakres bez chodzenia.",
+      "c": "Dobry poziom. Upewnij się, że po zajęciach nie ma dużego zmęczenia.",
+      "d": "Dla poziomu podstawowego 40+ minut może być za dużo. Zacznij od 15–25 min."
+    },
+    "autoSection": "Autoprogresja",
+    "autoLabel": "Automatyczny wzrost obciążenia",
+    "autoHint": "Wymaga potwierdzenia",
+    "autoRate": "Tempo wzrostu: {{pct}}% tygodniowo",
+    "autoConfirmTitle": "Włączyć autoprogresję?",
+    "autoConfirmBody": "Co tydzień liczba powtórzeń, sekund i kroków wzrośnie o {{pct}}% (nie więcej niż dwukrotnie). Wyłączyć można w każdej chwili.",
+    "autoConfirmYes": "Tak, włącz",
+    "rateMin": "{{amount}} min.",
+    "rateStandard": "{{amount}} standard",
+    "rateMax": "{{amount}} maks.",
+    "days": {
+      "every": "Codziennie",
+      "workdays": "W dni robocze",
+      "weekends": "W weekendy"
+    },
+    "typesAiNote": "Teraz ćwiczenia dobiera AI: każdy trening jest mieszany (siła, brzuch, cardio). Te rodzaje działają, gdy dobór AI jest wyłączony w „Ćwiczeniach”."
+  },
+  "reminder": {
+    "title": "Budzik",
+    "everyDay": "Codziennie o wybranej godzinie",
+    "time": "Godzina przypomnienia",
+    "setByChild": "Godzinę ustawia {{name}} w planie",
+    "test": "Sprawdź powiadomienie",
+    "on": "Przypomnienie włączone",
+    "off": "Przypomnienie wyłączone",
+    "testSent": "Wysłano testowe powiadomienie",
+    "testDenied": "Zezwól na powiadomienia w ustawieniach telefonu",
+    "notificationTitle": "Czas na ćwiczenia!",
+    "notificationBody": "{{name}} czeka"
+  },
+  "invite": {
+    "section": "Zaproś rodzica",
+    "description": "Wyślij kod — rodzic zainstaluje aplikację i połączycie się automatycznie.",
+    "whoIs": "Kim jest dla Ciebie ta osoba?",
+    "create": "Utwórz kod",
+    "regenerate": "Utwórz nowy kod",
+    "code": "Kod zaproszenia",
+    "expires": "Ważny do {{date}}",
+    "share": "Udostępnij",
+    "copy": "Skopiuj kod",
+    "copied": "Kod skopiowany",
+    "message": "Dołącz do „Książeczki troski”! Kod: {{code}}. Link: {{link}}"
+  },
+  "account": {
+    "section": "Mój profil",
+    "paysYou": "{{name}} płaci Ci {{amount}} za dzień",
+    "rate": "Stawka",
+    "perDay": "{{amount}} / dzień",
+    "days": "Dni zajęć",
+    "balance": "Do odebrania",
+    "owedLabel": "czeka na przelew od dziecka",
+    "owedHint": "Pieniądze są przekazywane poza aplikacją (bank, BLIK), tu jest tylko ewidencja. Potwierdź odbiór w zakładce „Postępy”.",
+    "age_one": "{{count}} rok",
+    "age_few": "{{count}} lata",
+    "age_many": "{{count}} lat",
+    "age_other": "{{count}} roku",
+    "level": "Poziom",
+    "levelName": {
+      "1": "Poziom podstawowy",
+      "2": "Poziom 2 — wzrost",
+      "3": "Poziom 3 — pewny",
+      "4": "Poziom 4 — silny",
+      "5": "Poziom 5 — maksymalny"
+    }
+  },
+  "profile": {
+    "account": "Moje konto",
+    "phone": "Telefon",
+    "rate": "Stawka",
+    "family": "Rodzina",
+    "childRole": "Dziecko",
+    "settings": "Ustawienia",
+    "language": "Język interfejsu",
+    "notifications": "Powiadomienia",
+    "notificationsHint": "Przypomnienia i wiadomości o przelewach",
+    "security": "Bezpieczeństwo",
+    "privacy": "Dane o Twojej aktywności są przechowywane w formie zaszyfrowanej i dostępne tylko dla Twojej rodziny.",
+    "logout": "Wyloguj",
+    "deleteAccount": "Usuń konto",
+    "deleteConfirm": {
+      "title": "Usunąć konto?",
+      "body": "Wszystkie Twoje dane i zdjęcia zostaną usunięte bezpowrotnie. Druga strona zobaczy, że konto zostało usunięte.",
+      "confirm": "Tak, usuń"
+    },
+    "version": "Wersja {{version}}",
+    "logoutEverywhere": "Wyloguj na wszystkich urządzeniach",
+    "logoutEverywhereConfirm": {
+      "title": "Wylogować na wszystkich urządzeniach?",
+      "body": "Przydatne, jeśli telefon zaginął. Aby zalogować się ponownie, będzie potrzebny kod weryfikacyjny.",
+      "confirm": "Tak, wyloguj wszędzie"
+    },
+    "email": "E-mail",
+    "changePhoto": "Zmień zdjęcie",
+    "voice": "Asystent głosowy",
+    "voiceHint": "Podpowiada technikę, liczy powtórzenia i czas podczas ćwiczeń"
+  },
+  "disclaimer": {
+    "short": "Aplikacja nie jest zaleceniem medycznym. W razie potrzeby skonsultuj się z lekarzem."
+  },
+  "category": {
+    "strength": "Siłowe",
+    "cardio": "Cardio",
+    "balance": "Równowaga",
+    "breathing": "Oddech",
+    "jointMobility": "Gimnastyka stawowa",
+    "stretch": "Rozciąganie"
+  },
+  "programs": {
+    "title": "Programy treningowe",
+    "active": "Aktywny program",
+    "noActive": "Nie wybrano jeszcze programu",
+    "noActiveBody": "Wybierz gotowy program lub stwórz własny z katalogu bezpiecznych ćwiczeń",
+    "presets": "Gotowe programy",
+    "mine": "Moje programy",
+    "createNew": "Stwórz własny program",
+    "noOwn": "Nie masz jeszcze własnych programów",
+    "assign": "Przypisz",
+    "assignConfirm": {
+      "title": "Przypisać ten program?",
+      "body": "Rodzic zobaczy nowe ćwiczenia w „Dziś” od jutra.",
+      "confirm": "Tak, przypisz"
+    },
+    "assigned": "Program przypisany",
+    "edit": "Edytuj",
+    "editTitle": "Edytuj program",
+    "createTitle": "Nowy program",
+    "nameLabel": "Nazwa programu",
+    "namePlaceholder": "Na przykład „Poranna gimnastyka”",
+    "descriptionLabel": "Opis (opcjonalnie)",
+    "durationLabel": "Czas trwania",
+    "duration": {
+      "week": "Tydzień",
+      "month": "Miesiąc"
+    },
+    "exercisesSection": "Ćwiczenia programu",
+    "addExercise": "Dodaj ćwiczenie",
+    "noExercises": "Nie dodano jeszcze żadnego ćwiczenia",
+    "catalogTitle": "Katalog ćwiczeń",
+    "removeExercise": "Usuń",
+    "moveUp": "W górę",
+    "moveDown": "W dół",
+    "daysLabel": "Dni tygodnia",
+    "save": "Zapisz program",
+    "saved": "Program zapisany",
+    "exercisesCount_one": "{{count}} ćwiczenie",
+    "exercisesCount_few": "{{count}} ćwiczenia",
+    "exercisesCount_many": "{{count}} ćwiczeń",
+    "exercisesCount_other": "{{count}} ćwiczenia",
+    "selectedOfMax": "Wybrano {{count}} z {{max}}",
+    "rotates": "↻ Na zmianę z podobnymi ćwiczeniami"
+  },
+  "photos": {
+    "title": "Zdjęcia z ćwiczenia",
+    "frame": "Zdjęcie {{index}} z {{total}}"
+  },
+  "firstPlan": {
+    "title": "Ustawmy pierwszy plan",
+    "body": "Wybierz dni ćwiczeń i ile płacisz za dzień. Wszystko można później zmienić.",
+    "next": "Dalej",
+    "skip": "Pomiń, ustawię później"
+  },
+  "dev": {
+    "serverDown": "Serwer niedostępny: {{url}}. Uruchom backend i sprawdź EXPO_PUBLIC_API_URL.",
+    "localhostHint": "Na telefonie „localhost” to sam telefon: podaj IP komputera w Wi-Fi (http://192.168.x.x:3000/api/v1)."
+  },
+  "steps": {
+    "start": "Zacznij spacer",
+    "ofTarget_one": "krok z {{target}}",
+    "ofTarget_few": "kroki z {{target}}",
+    "ofTarget_many": "kroków z {{target}}",
+    "ofTarget_other": "kroku z {{target}}",
+    "progressA11y_one": "Przebyto {{count}} krok z {{target}}",
+    "progressA11y_few": "Przebyto {{count}} kroki z {{target}}",
+    "progressA11y_many": "Przebyto {{count}} kroków z {{target}}",
+    "progressA11y_other": "Przebyto {{count}} kroku z {{target}}",
+    "reached": "Cel osiągnięty! Zaliczamy…",
+    "left_one": "Został {{count}} krok",
+    "left_few": "Zostały {{count}} kroki",
+    "left_many": "Zostało {{count}} kroków",
+    "left_other": "Zostało {{count}} kroku",
+    "hintBackground": "Możesz schować telefon do kieszeni — kroki liczą się nawet przy wyłączonym ekranie.",
+    "hintKeepOpen": "Trzymaj aplikację otwartą podczas marszu: ekran sam nie zgaśnie.",
+    "sending": "Zaliczamy kroki…",
+    "sendFailed": "Nie udało się zaliczyć kroków",
+    "unavailable": {
+      "title": "Krokomierz niedostępny",
+      "body": "Ten telefon nie ma czujnika kroków, więc tego ćwiczenia nie da się zaliczyć. Poproś dziecko o zamianę w programie."
+    },
+    "permission": {
+      "title": "Potrzebny dostęp do krokomierza",
+      "body": "Pozwól aplikacji liczyć kroki — to potrzebne, by zaliczyć spacer.",
+      "allow": "Zezwól na krokomierz"
+    },
+    "today": {
+      "section": "Krokomierz",
+      "ofGoal_one": "krok dziś z {{goal}}",
+      "ofGoal_few": "kroki dziś z {{goal}}",
+      "ofGoal_many": "kroków dziś z {{goal}}",
+      "ofGoal_other": "kroku dziś z {{goal}}",
+      "ofGoalSession_one": "krok przy otwartej aplikacji (cel {{goal}})",
+      "ofGoalSession_few": "kroki przy otwartej aplikacji (cel {{goal}})",
+      "ofGoalSession_many": "kroków przy otwartej aplikacji (cel {{goal}})",
+      "ofGoalSession_other": "kroku przy otwartej aplikacji (cel {{goal}})",
+      "enable": "Włącz krokomierz",
+      "denied": "Dostęp do krokomierza jest wyłączony w ustawieniach telefonu."
+    },
+    "motionMode": "Liczymy kroki na podstawie ruchu telefonu — trzymaj go przy sobie: w ręce lub kieszeni. Aby liczyło dokładniej, zezwól na dostęp do „Aktywności fizycznej”."
+  },
+  "body": {
+    "section": "Wpływ na organizm",
+    "muscles": "Mięśnie",
+    "heart": "Serce",
+    "brain": "Mózg",
+    "bones": "Kości",
+    "energy": "Energia",
+    "level": {
+      "strong": "Mocno",
+      "notable": "Wyraźnie",
+      "moderate": "Umiarkowanie"
+    }
+  },
+  "workoutType": {
+    "strength": "Siłowe",
+    "cardio": "Kardio",
+    "morning": "Gimnastyka poranna",
+    "stretch": "Rozciąganie",
+    "warmup": "Rozgrzewka",
+    "breathing": "Oddechowe",
+    "walking": "Chodzenie",
+    "meditation": "Medytacja",
+    "coordination": "Koordynacja"
+  },
+  "dayDetail": {
+    "quality": "Jakość wykonania",
+    "muscles": "Mięśnie: {{list}}",
+    "nothingPlanned": "Na ten dzień nie zaplanowano zajęć.",
+    "exercises": "Ćwiczenia",
+    "creditedAt": "Czas naliczenia: {{time}}"
+  },
+  "parents": {
+    "rename": "Zmień nazwę",
+    "add": "Dodaj rodzica",
+    "addTitle": "Dodaj rodzica",
+    "createInvite": "Utwórz zaproszenie",
+    "inviteHint": "Wyślij kod — gdy osoba wpisze go w swojej aplikacji, pojawi się w przełączniku.",
+    "labelField": "Jak nazywać",
+    "labelPlaceholder": "Np.: Mama, Tata, Babcia",
+    "quick": {
+      "mom": "Mama",
+      "dad": "Tata",
+      "grandma": "Babcia",
+      "grandpa": "Dziadek"
+    },
+    "renameTitle": "Zmień nazwę",
+    "renamed": "Zmieniono: {{name}}"
+  },
+  "activity": {
+    "section": "Aktywność",
+    "title": "Kroki i treningi",
+    "steps": "Kroki",
+    "workouts": "Treningi",
+    "period": {
+      "7": "7 dni",
+      "30": "Miesiąc",
+      "90": "3 miesiące",
+      "180": "6 miesięcy",
+      "365": "Rok",
+      "all": "Cały czas"
+    },
+    "periodPhrase": {
+      "7": "w ostatnim tygodniu",
+      "30": "w ostatnim miesiącu",
+      "90": "w ostatnich 3 miesiącach",
+      "180": "w ostatnich 6 miesiącach",
+      "365": "w ostatnim roku",
+      "all": "przez cały czas"
+    }
+  },
+  "insights": {
+    "title": "Analiza aktywności",
+    "overall": {
+      "up": "Aktywność wzrosła {{period}}",
+      "down": "Aktywność spadła {{period}}",
+      "upBody": "Obciążenie wzrosło — świetny wynik. Kontynuuj w tym samym rytmie.",
+      "downBody": "Ruchu jest mniej. Spróbuj dodać krótkie spacery między ćwiczeniami.",
+      "same": "Aktywność stabilna {{period}}",
+      "sameBody": "Trzymaj rytm — regularność jest ważniejsza niż rekordy."
+    },
+    "steps": {
+      "up": "Więcej kroków każdego dnia",
+      "down": "Mniej kroków niż wcześniej",
+      "upBody": "Średnia liczba kroków wzrosła o {{pct}}%. Chodzenie zmniejsza ryzyko chorób serca.",
+      "downBody": "Średnia liczba kroków spadła o {{pct}}%. Spróbuj wychodzić na krótki spacer po posiłku.",
+      "none": "Na razie brak kroków",
+      "noneBody": "Kroki pojawią się tutaj, gdy na telefonie rodzica zostanie włączony krokomierz.",
+      "same": "Tyle samo kroków",
+      "sameBody": "Liczba kroków się nie zmieniła. Spróbuj dodać krótki spacer."
+    },
+    "workouts": {
+      "up": "Więcej treningów według planu",
+      "down": "Więcej pominiętych treningów",
+      "upBody": "Odsetek wykonanych dni wzrósł o {{pct}}%. Mięśnie wzmacniają się przy regularnym obciążeniu.",
+      "downBody": "Pominięć jest więcej. Lepiej zmniejszyć obciążenie, niż całkiem pomijać.",
+      "same": "Treningi stabilne",
+      "sameBody": "Odsetek wykonanych dni się nie zmienił. Każdy trening według planu wzmacnia mięśnie."
+    },
+    "flex": {
+      "up": "Elastyczność i koordynacja rosną",
+      "down": "Zalecamy dodanie rozciągania",
+      "upBody": "Regularne ćwiczenia poprawiają ruchomość stawów i koordynację — spada ryzyko upadków.",
+      "downBody": "Przy mniejszej aktywności stawy stają się mniej ruchome. Dodaj 5 minut rozciągania dziennie."
+    },
+    "sleep": {
+      "up": "Sen i nastrój się poprawiają",
+      "down": "Aktywność wpływa na nastrój",
+      "upBody": "Badania pokazują: regularne ćwiczenia poprawiają jakość snu u dorosłych.",
+      "downBody": "Mniej ruchu często wiąże się z gorszym snem i nastrojem. Nawet 10 minut ruchu pomaga."
+    }
+  },
+  "accounts": {
+    "section": "Konta",
+    "parent": "Rodzic",
+    "child": "Dziecko",
+    "current": "Teraz",
+    "add": "Dodaj konto",
+    "expired": "Sesja tego konta wygasła — zaloguj się ponownie przez „Dodaj konto”."
+  },
+  "voice": {
+    "getReady": "Przygotuj się. Postaw telefon i odsuń się, żeby było cię widać w całości.",
+    "go": "Zaczynamy!",
+    "targetDone": "Cel osiągnięty!",
+    "phase": {
+      "squat": {
+        "a": "W dół",
+        "b": "W górę"
+      },
+      "lunge": {
+        "a": "Krok i w dół",
+        "b": "Wstajemy"
+      },
+      "push": {
+        "a": "Opuszczamy się",
+        "b": "Wypychamy"
+      },
+      "bridge": {
+        "a": "Biodra w górę",
+        "b": "Opuszczamy"
+      },
+      "raise": {
+        "a": "Unosimy",
+        "b": "Opuszczamy"
+      },
+      "reach": {
+        "a": "Wyciągamy się",
+        "b": "Wracamy"
+      },
+      "twist": {
+        "a": "W lewo",
+        "b": "W prawo"
+      },
+      "fold": {
+        "a": "Skłon",
+        "b": "Prostujemy się"
+      },
+      "breath": {
+        "a": "Wdech",
+        "b": "Wydech"
+      }
+    },
+    "hold": {
+      "start": "Utrzymujemy pozycję",
+      "breathe": "Oddychaj równo"
+    },
+    "left_one": "Została {{count}} sekunda",
+    "left_few": "Zostały {{count}} sekundy",
+    "left_many": "Zostało {{count}} sekund",
+    "left_other": "Zostało {{count}} sekundy",
+    "hint": {
+      "march": "Kolana wyżej!",
+      "jacks": "Ręce do końca w górę!",
+      "circle": "Szersze koła!",
+      "steps": "Idziemy w wygodnym tempie"
+    },
+    "circle": {
+      "switch": "Zmieniamy kierunek!"
+    },
+    "half": "Połowa! Trzymamy tempo",
+    "lastSeconds": "Ostatnie sekundy, dajesz!",
+    "finish": "Stop! Świetna robota",
+    "accepted": "Ćwiczenie zaliczone!",
+    "steps": {
+      "start_one": "Idziemy! Cel — {{count}} krok",
+      "start_few": "Idziemy! Cel — {{count}} kroki",
+      "start_many": "Idziemy! Cel — {{count}} kroków",
+      "start_other": "Idziemy! Cel — {{count}} kroku",
+      "left_one": "Został {{count}} krok",
+      "left_few": "Zostały {{count}} kroki",
+      "left_many": "Zostało {{count}} kroków",
+      "left_other": "Zostało {{count}} kroku",
+      "done": "Cel osiągnięty! Świetnie"
+    }
+  },
+  "money": {
+    "section": "Pieniądze",
+    "tapHint": "Dotknij kafelka — wyjaśnimy, co oznacza kwota",
+    "gotIt": "Rozumiem",
+    "fund": {
+      "label": "Fundusz",
+      "explain": "Pieniądze, które sponsor odłożył z góry na nagrody — na miesiąc, na 5 miesięcy albo na lata. Za każde zaliczone ćwiczenie z funduszu schodzi jego część stawki dziennej. Na ile wystarczy, zależy od salda, stawki dziennej i liczby dni treningów.",
+      "hintMonths": "wystarczy na ~{{months}} mies.",
+      "hintLessThanMonth": "wystarczy na mniej niż miesiąc",
+      "hintEmpty": "fundusz jeszcze niezasilony",
+      "hintEmptySponsor": "dotknij, aby zasilić",
+      "deposit": "Zasil fundusz",
+      "depositAmount": "Zasil kwotą {{amount}}",
+      "depositHint": "Wpisz kwotę lub wybierz, na ile miesięcy treningów zasilić fundusz według obecnego planu.",
+      "amountLabel": "Kwota zasilenia",
+      "forMonths_one": "na {{count}} miesiąc",
+      "forMonths_few": "na {{count}} miesiące",
+      "forMonths_many": "na {{count}} miesięcy",
+      "forMonths_other": "na {{count}} miesiąca",
+      "depositNote": "To tylko ewidencja: pieniądze przelewa się poza aplikacją (bank, BLIK).",
+      "deposited": "Fundusz zasilony"
+    },
+    "earned": {
+      "label": "Zarobione za aktywność",
+      "hint": "w tym miesiącu: {{amount}}",
+      "explain": "Kwota, która rośnie za wykonane treningi: za każde zaliczone ćwiczenie naliczana jest jego część stawki dziennej. Tutaj — za cały czas."
+    },
+    "settled": {
+      "label": "Wypłacono łącznie",
+      "hint": "na czysto, bez prowizji",
+      "explain": "Ile łącznie wypłacono rodzicowi — na czysto, bez prowizji banku czy systemu płatności. Liczą się tylko potwierdzone przelewy."
+    },
+    "owed": {
+      "label": "Do wypłaty",
+      "hint": "zarobione, jeszcze niewypłacone",
+      "pending": "czeka na potwierdzenie: {{amount}}",
+      "explain": "Ile zarobiono, ale jeszcze nie wypłacono: „Zarobione za aktywność” minus „Wypłacono łącznie”. Właśnie tę kwotę sponsor przelewa rodzicowi."
+    },
+    "facts": {
+      "plannedDays": "Zaplanowane dni w tym miesiącu",
+      "completedDays": "Wykonane dni w tym miesiącu",
+      "monthEarned": "Zarobione w tym miesiącu",
+      "daysCompleted": "Wykonane dni łącznie",
+      "pending": "Czeka na potwierdzenie",
+      "fundDeposited": "Łącznie odłożono w funduszu",
+      "fundMonthlyCost": "Koszt miesięczny (wszystkie treningi)",
+      "fundEnoughFor": "Wystarczy mniej więcej na",
+      "fundUntil": "Pokrywa treningi do",
+      "months": "{{months}} mies."
+    }
+  },
+  "guide": {
+    "title": "Jak korzystać",
+    "open": "Jak korzystać z aplikacji",
+    "openHint": "Krótki przewodnik po najważniejszych funkcjach",
+    "skip": "Pomiń",
+    "next": "Dalej",
+    "back": "Wstecz",
+    "done": "Rozumiem",
+    "stepOf": "{{current}} z {{total}}",
+    "where": "Gdzie: zakładka „{{tab}}”",
+    "parent": {
+      "welcome": {
+        "title": "Jak to działa",
+        "body": "Codziennie krótki zestaw ćwiczeń, a dziecko dziękuje Ci nagrodą.",
+        "p1": "Około 15 minut, kilka razy w tygodniu",
+        "p2": "Za każde zaliczone ćwiczenie — część stawki dziennej"
+      },
+      "today": {
+        "title": "Ćwiczenia na dziś",
+        "body": "Rób je w dowolnej kolejności. Nie wyszło — powtórz albo pomiń bez zapłaty.",
+        "p1": "Ustaw telefon tak, by było Cię widać w całości",
+        "p2": "Głos podpowie tempo i policzy powtórzenia"
+      },
+      "money": {
+        "title": "Twoje pieniądze",
+        "body": "Zarobione i przelane — w zakładce „{{progress}}”. Dostałeś przelew — potwierdź go tam.",
+        "p1": "Przelewy odbywają się poza aplikacją: bank, BLIK"
+      },
+      "safety": {
+        "title": "Bezpieczeństwo i ustawienia",
+        "body": "Ból lub zawroty głowy — od razu przerwij i odpocznij.",
+        "p1": "Język, głos i przypomnienia — w „{{profile}}”",
+        "p2": "Ten przewodnik otworzysz ponownie w „{{profile}}”"
+      }
+    },
+    "child": {
+      "welcome": {
+        "title": "Jak to działa",
+        "body": "Motywujesz rodziców do ruchu i dziękujesz im nagrodą za wykonane ćwiczenia.",
+        "p1": "Zarządzasz planem, ćwiczeniami i pieniędzmi",
+        "p2": "Rodzice ćwiczą w swojej aplikacji"
+      },
+      "overview": {
+        "title": "Rodzice dziś",
+        "body": "Ile ćwiczeń już wykonano i zdjęcia-potwierdzenia.",
+        "p1": "„Przypomnij” — powiadomienie dla rodziców",
+        "p2": "„+” u góry — dodaj kolejnego rodzica"
+      },
+      "plan": {
+        "title": "Plan",
+        "body": "Dni treningów, stawka dzienna i godzina przypomnienia. Zmiany działają od jutra.",
+        "p1": "Autoprogresja stopniowo zwiększa obciążenie"
+      },
+      "programs": {
+        "title": "Ćwiczenia",
+        "body": "Zaznacz ćwiczenia albo zdaj się na dobór AI.",
+        "p1": "Dotknij ćwiczenia — wideo i opis"
+      },
+      "money": {
+        "title": "Pieniądze",
+        "body": "Fundusz, zarobione i „Do wypłaty”. Przelałeś — dotknij „Przelew wykonany”.",
+        "p1": "Ten przewodnik otworzysz ponownie w „{{profile}}”"
+      }
+    }
+  },
+  "catalog": {
+    "section": "Katalog ćwiczeń",
+    "intro": "Dotknij ćwiczenia — zobaczysz wideo i opis. Pole po prawej — włącz ćwiczenie do codziennych.",
+    "include": "Włącz „{{name}}” do codziennych ćwiczeń",
+    "sectionMeta_one": "{{count}} ćwiczenie · wybrano {{chosen}}",
+    "sectionMeta_few": "{{count}} ćwiczenia · wybrano {{chosen}}",
+    "sectionMeta_many": "{{count}} ćwiczeń · wybrano {{chosen}}",
+    "sectionMeta_other": "{{count}} ćwiczenia · wybrano {{chosen}}",
+    "mode": {
+      "aiTitle": "Ćwiczenia dobiera AI",
+      "aiBody": "Każdego dnia mieszany trening: rozgrzewka, siła, brzuch i cardio. Kolejność i obciążenie zmieniają się same.",
+      "manualTitle": "Codzienne ćwiczenia — wybrane przez Ciebie",
+      "manualBody_one": "Wybrano {{count}} ćwiczenie. Co nie mieści się w dniu — jest rotowane.",
+      "manualBody_few": "Wybrano {{count}} ćwiczenia. Co nie mieści się w dniu — jest rotowane.",
+      "manualBody_many": "Wybrano {{count}} ćwiczeń. Co nie mieści się w dniu — jest rotowane.",
+      "manualBody_other": "Wybrano {{count}} ćwiczenia. Co nie mieści się w dniu — jest rotowane."
+    },
+    "ai": {
+      "section": "Dobór ćwiczeń przez AI",
+      "label": "Używaj AI do doboru ćwiczeń",
+      "description": "AI samo wybiera i zmienia ćwiczenia, stopniowo zwiększając siłę, aktywność, gibkość i koordynację.",
+      "fact": {
+        "rotate": "Każdy trening jest mieszany: lekkie cardio na rozgrzewkę, potem siła, brzuch i cardio na zmianę",
+        "load": "Obciążenie się zmienia (lżej · normalnie · ciężej), by ciało zdążyło się zregenerować",
+        "week": "Z treningu na trening zmienia się kolejność ćwiczeń, bez krokomierza"
+      },
+      "nothingSelected": "Zaznacz ćwiczenia powyżej — inaczej dzień zostanie ułożony z przypisanego programu.",
+      "enabledToast": "Ćwiczenia będzie dobierać AI (od jutra)",
+      "disabledToast": "Codzienne ćwiczenia — wybrane przez Ciebie (od jutra)"
+    },
+    "detail": {
+      "add": "Włącz do codziennych ćwiczeń",
+      "remove": "Usuń z codziennych ćwiczeń",
+      "aiNote": "Teraz ćwiczenia dobiera AI. Wybrane ćwiczenia zadziałają, gdy wyłączysz dobór AI.",
+      "muscles": "Zaangażowane mięśnie"
+    }
+  },
+  "payments": {
+    "topup": {
+      "succeeded": "Płatność otrzymana — fundusz zasilony",
+      "pending": "Płatność jest przetwarzana. Fundusz zaktualizuje się, gdy bank ją potwierdzi.",
+      "payAmount": "Zapłać {{amount}}",
+      "methods": "Karta, Apple Pay, Google Pay, BLIK (w złotych) lub PayPal. Dane karty widzi tylko Stripe."
+    },
+    "auto": {
+      "title": "Automatyczne zasilanie",
+      "hint": "Fundusz będzie zasilany automatycznie z zapisanej karty — co tydzień lub co miesiąc.",
+      "addCard": "Dodaj kartę",
+      "changeCard": "Zmień",
+      "enable": "Zasilaj automatycznie",
+      "weekly": "Co tydzień",
+      "monthly": "Co miesiąc",
+      "next": "Następne obciążenie: {{date}}",
+      "lastError": "Ostatnie obciążenie nie powiodło się — sprawdź kartę.",
+      "saved": "Automatyczne zasilanie zapisane",
+      "disabled": "Automatyczne zasilanie wyłączone"
+    },
+    "payout": {
+      "title": "Wypłać środki",
+      "available": "Dostępne do wypłaty",
+      "amountLabel": "Kwota",
+      "all": "Wypłać wszystko",
+      "nothing": "Na razie nie ma czego wypłacić: zarobione nie zostało jeszcze opłacone w funduszu.",
+      "manage": "Konto do wypłat",
+      "withdraw": "Wypłać",
+      "withdrawAmount": "Wypłać {{amount}}",
+      "setup": "Skonfiguruj wypłaty",
+      "continueSetup": "Kontynuuj konfigurację",
+      "setupHint": "Raz podaj swoje dane i konto lub kartę w Stripe — operator płatności sam weryfikuje tożsamość i wysyła pieniądze.",
+      "pendingSetup": "Stripe nadal weryfikuje Twoje dane. Zwykle trwa to kilka minut.",
+      "note": "Pieniądze trafiają na Twoje konto w ciągu 1–3 dni roboczych.",
+      "done": "Wypłata wysłana"
+    }
+  }
+}

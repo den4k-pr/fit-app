@@ -1,0 +1,27 @@
+node_modules/
+.expo/
+dist/
+web-build/
+expo-env.d.ts
+
+# Native (Continuous Native Generation: папки створює `expo prebuild` / EAS)
+/ios
+/android
+
+# Credentials
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+google-services.json
+GoogleService-Info.plist
+
+.env
+.env.*
+!.env.example
+
+.DS_Store
+npm-debug.*
+*.tsbuildinfo
+.aider*

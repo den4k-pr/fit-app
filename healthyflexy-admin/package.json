@@ -1,0 +1,35 @@
+{
+  "name": "healthyflexy-admin",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "CRM «Книжки турботи»: користувачі, вправи, програми, дизайн і тексти мобільного застосунку",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview",
+    "start": "serve -s dist -l ${PORT:-4173}",
+    "typecheck": "tsc -b --noEmit",
+    "sync-texts": "node scripts/sync-texts.mjs"
+  },
+  "dependencies": {
+    "@tanstack/react-query": "^5.103.2",
+    "axios": "^1.20.0",
+    "clsx": "^2.1.1",
+    "lucide-react": "^1.48.0",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "react-router": "^8.4.0",
+    "recharts": "^3.10.1",
+    "serve": "^14.2.4"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.3.3",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "@vitejs/plugin-react": "^6.1.1",
+    "tailwindcss": "^4.3.3",
+    "typescript": "~6.0.3",
+    "vite": "^8.3.1"
+  }
+}
