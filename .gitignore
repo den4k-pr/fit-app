@@ -1,1 +1,24 @@
+# OS
+.DS_Store
+
+# Python (локальні генератори/скрипти)
+.venv/
+__pycache__/
+*.pyc
+
+# Вихідні матеріали (не входять у застосунок і не мають бути в git)
+/frames/
+/video-originals/
+
+# Локальний прототип/макет (не частина застосунку)
+/index.html
+
+# AI-агенти та редактори
 .aider*
+.claude/
+.rooignore
+.idea/
+.vscode/
+
+# Збірка / кеші
+*.tsbuildinfo
