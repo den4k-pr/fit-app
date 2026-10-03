@@ -1,13 +1,14 @@
 import { useTranslation } from 'react-i18next';
 import { StyleSheet, View } from 'react-native';
-import { CATEGORY_LABEL_KEY } from '@/constants/exercise-categories';
+import { CATEGORY_ICON, CATEGORY_LABEL_KEY } from '@/constants/exercise-categories';
+import { getExerciseIcon } from '@/constants/exercise-icons';
 import { formatTarget } from '@/lib/exercise-target';
 import { BenefitLine } from '@/shared/components/BenefitLine';
+import { FadeView, PressableScale } from '@/shared/motion';
 import { AppText } from '@/shared/ui/AppText';
 import { Button } from '@/shared/ui/Button';
 import { Icon } from '@/shared/ui/Icon';
-import { FadeView, PressableScale } from '@/shared/motion';
-import { ExerciseThumb } from '@/features/programs/components/ExerciseThumb';
+import { IconBadge } from '@/shared/ui/IconBadge';
 import { borderWidth, colors } from '@/theme';
 import { ExerciseState, type TodayExercise } from '@/types';
 
@@ -46,9 +47,14 @@ export function ExerciseCard({ exercise, onPress, isLast, index = 0 }: ExerciseC
         ]}
       >
         <View style={styles.row}>
-          {/* своя картинка в кожної вправи — кадр із її демо-ролика */}
+          {/* іконка вправи (за slug) замість постера/мініатюри */}
           <View style={done && styles.thumbDone}>
-            <ExerciseThumb slug={exercise.slug} category={exercise.category} size={56} showPlay={false} />
+            <IconBadge
+              icon={getExerciseIcon(exercise.slug) ?? CATEGORY_ICON[exercise.category].icon}
+              tone={CATEGORY_ICON[exercise.category].tone}
+              size={56}
+              shape="squircle"
+            />
           </View>
           <View style={styles.texts}>
             <AppText

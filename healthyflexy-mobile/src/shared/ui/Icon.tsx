@@ -1,5 +1,6 @@
 import {
   Activity,
+  ArrowDownUp,
   ArrowLeft,
   ArrowRight,
   Banknote,
@@ -42,6 +43,7 @@ import {
   LogOut,
   Mail,
   Minus,
+  Mountain,
   Move,
   PartyPopper,
   Pencil,
@@ -62,6 +64,7 @@ import {
   Square,
   SquareCheck,
   Sprout,
+  StretchHorizontal,
   Sun,
   Target,
   Timer,
@@ -167,6 +170,9 @@ export const ICONS = {
   skip: SkipForward,
   square: Square,
   'square-check': SquareCheck,
+  'arrow-down-up': ArrowDownUp,
+  'stretch-horizontal': StretchHorizontal,
+  mountain: Mountain,
 } satisfies Record<string, LucideIcon>;
 
 export type IconName = keyof typeof ICONS;

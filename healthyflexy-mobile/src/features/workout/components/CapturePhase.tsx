@@ -2,9 +2,9 @@ import { CameraView, useCameraPermissions } from 'expo-camera';
 import { useVideoPlayer, VideoView } from 'expo-video';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { StyleSheet, useWindowDimensions, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { CATEGORY_ICON } from '@/constants/exercise-categories';
-import { getExerciseVideo } from '@/constants/exercise-videos';
+import { EXERCISE_VIDEO_RATIO, getExerciseVideo } from '@/constants/exercise-videos';
 import { PHOTO } from '@/constants/limits';
 import { formatTarget } from '@/lib/exercise-target';
 import { AppText } from '@/shared/ui/AppText';
@@ -55,9 +55,6 @@ export function CapturePhase({ exercise, onCaptured }: CapturePhaseProps) {
 
 function CapturingStage({ exercise, onCaptured }: CapturePhaseProps) {
   const { t } = useTranslation();
-  // майже весь екран — ролик техніки; нижче лишається місце для прогресу, цілі та кнопки «Завершити»
-  const { height: windowHeight } = useWindowDimensions();
-  const callHeight = Math.round(Math.max(520, windowHeight * 0.64));
   const cameraRef = useRef<CameraView | null>(null);
   const capture = usePhotoCapture(cameraRef, exercise.recordMaxSec, onCaptured);
   const { start } = capture;
@@ -120,7 +117,7 @@ function CapturingStage({ exercise, onCaptured }: CapturePhaseProps) {
       <ExerciseHero padded={false}>
         {demo ? (
           // відеодзвінок: ролик — «співрозмовник» на весь екран, ваша камера — віконце справа внизу
-          <View style={[styles.call, { height: callHeight }]}>
+          <View style={styles.call}>
             <DemoLoop source={demo} />
             <View style={styles.pip}>
               {camera}
@@ -186,7 +183,8 @@ const styles = StyleSheet.create({
   getReady: { ...StyleSheet.absoluteFill, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(0, 0, 0, 0.45)', gap: 6, paddingHorizontal: 24 },
   getReadyNumber: { color: colors.white, fontSize: 88, lineHeight: 96 },
   getReadyText: { color: colors.white },
-  call: { width: '100%', height: 480, backgroundColor: colors.black },
+  // контейнер повторює пропорцію ролика (496:864) → відео заповнює його без обрізання й без чорних смуг
+  call: { width: '100%', aspectRatio: EXERCISE_VIDEO_RATIO, backgroundColor: colors.black },
   pip: { position: 'absolute', right: 12, bottom: 12, width: 112, height: 150, borderRadius: radius.md, overflow: 'hidden', backgroundColor: colors.black },
   pipFrame: { ...StyleSheet.absoluteFill, borderRadius: radius.md, borderWidth: 2, borderColor: 'rgba(255, 255, 255, 0.85)' },
   hintBesidePip: { right: 136 },
