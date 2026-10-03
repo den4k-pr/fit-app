@@ -2,7 +2,7 @@ import { CameraView, useCameraPermissions } from 'expo-camera';
 import { useVideoPlayer, VideoView } from 'expo-video';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, useWindowDimensions, View } from 'react-native';
 import { CATEGORY_ICON } from '@/constants/exercise-categories';
 import { getExerciseVideo } from '@/constants/exercise-videos';
 import { PHOTO } from '@/constants/limits';
@@ -55,6 +55,9 @@ export function CapturePhase({ exercise, onCaptured }: CapturePhaseProps) {
 
 function CapturingStage({ exercise, onCaptured }: CapturePhaseProps) {
   const { t } = useTranslation();
+  // майже весь екран — ролик техніки; нижче лишається місце для прогресу, цілі та кнопки «Завершити»
+  const { height: windowHeight } = useWindowDimensions();
+  const callHeight = Math.round(Math.max(520, windowHeight * 0.64));
   const cameraRef = useRef<CameraView | null>(null);
   const capture = usePhotoCapture(cameraRef, exercise.recordMaxSec, onCaptured);
   const { start } = capture;
@@ -117,7 +120,7 @@ function CapturingStage({ exercise, onCaptured }: CapturePhaseProps) {
       <ExerciseHero padded={false}>
         {demo ? (
           // відеодзвінок: ролик — «співрозмовник» на весь екран, ваша камера — віконце справа внизу
-          <View style={styles.call}>
+          <View style={[styles.call, { height: callHeight }]}>
             <DemoLoop source={demo} />
             <View style={styles.pip}>
               {camera}

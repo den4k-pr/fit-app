@@ -3,18 +3,22 @@
  * вправа (вміст роликів переглянуто). У роликах є звукова доріжка — у застосунку вони ЗАВЖДИ без звуку,
  * а «вдих / видих» проговорює голосовий помічник мовою застосунку.
  * Постери (assets/video/posters) — кадр із того самого ролика: легкі мініатюри для списків.
+ *
+ * Назва файлу = slug вправи (латиниця; дефіс у складених назвах):
+ * squat · push-up · forward-lunge · wall-sit · plank · crunch · mountain-climber · jumping-jacks ·
+ * high-knees · burpee.
  */
 const VIDEOS: Record<string, number> = {
-  squat: require('../../assets/video/final_squat_v19 (1).mp4'),
-  'push-up': require('../../assets/video/final_pushup_v10 (1).mp4'),
-  'forward-lunge': require('../../assets/video/final_lunge30 (1).mp4'),
-  'wall-sit': require('../../assets/video/final_mux (1).mp4'),
-  plank: require('../../assets/video/final_plank30.mp4'),
-  crunch: require('../../assets/video/final_crunch30 (1).mp4'),
-  'mountain-climber': require('../../assets/video/final_climber30.mp4'),
-  'jumping-jacks': require('../../assets/video/final_jacks_v12.mp4'),
-  'high-knees': require('../../assets/video/final_knees_v4.mp4'),
-  burpee: require('../../assets/video/final_burpee30.mp4'),
+  squat: require('../../assets/video/squat.mp4'),
+  'push-up': require('../../assets/video/push-up.mp4'),
+  'forward-lunge': require('../../assets/video/forward-lunge.mp4'),
+  'wall-sit': require('../../assets/video/wall-sit.mp4'),
+  plank: require('../../assets/video/plank.mp4'),
+  crunch: require('../../assets/video/crunch.mp4'),
+  'mountain-climber': require('../../assets/video/mountain-climber.mp4'),
+  'jumping-jacks': require('../../assets/video/jumping-jacks.mp4'),
+  'high-knees': require('../../assets/video/high-knees.mp4'),
+  burpee: require('../../assets/video/burpee.mp4'),
 };
 
 const POSTERS: Record<string, number> = {

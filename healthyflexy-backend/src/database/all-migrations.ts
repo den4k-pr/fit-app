@@ -15,6 +15,7 @@ import { ForeignKeyIndexes1791000000000 } from './migrations/1791000000000-Forei
 import { SponsorExercisesFundAi1791100000000 } from './migrations/1791100000000-SponsorExercisesFundAi';
 import { EmailVerification1791200000000 } from './migrations/1791200000000-EmailVerification';
 import { Payments1791300000000 } from './migrations/1791300000000-Payments';
+import { VideoOnlyCatalog1791400000000 } from './migrations/1791400000000-VideoOnlyCatalog';
 
 /**
  * Явний список міграцій: використовується лише в тестах, де глоб `*.ts` не працює (vitest не компілює файли для require).
@@ -38,4 +39,5 @@ export const ALL_MIGRATIONS = [
   SponsorExercisesFundAi1791100000000,
   EmailVerification1791200000000,
   Payments1791300000000,
+  VideoOnlyCatalog1791400000000,
 ];
