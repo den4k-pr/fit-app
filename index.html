@@ -1,0 +1,2955 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>Книжка заботы</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=PT+Serif:wght@700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --g:#1DB954;--gd:#17923F;--gl:#E4F7EB;--gb:#A8DEBA;
+  --forest:#0A5C2E;--deep:#0D7A3D;
+  --paper:#FFFFFF;--shade:#F5FFF8;--border:#D4EDD9;
+  --ink:#0D1F14;--soft:#3D6B4A;--muted:#7AAA89;
+  --gold:#C9962B;--gold-d:#9C7420;--gold-s:#EBD9A4;--gold-bg:#FDF4E3;
+  --red:#B5473A;--red-bg:#FDF0EF;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{width:100%;height:100%;overflow:hidden;background:#0A0A0A;font-family:'Inter',sans-serif;color:var(--ink)}
+#app{width:100%;height:100%;display:flex;justify-content:center;align-items:center}
+.shell{width:min(390px,100vw);height:min(844px,100vh);background:var(--paper);border-radius:min(44px,0px);display:flex;flex-direction:column;overflow:hidden;position:relative}
+@media(max-width:390px){.shell{border-radius:0}}
+
+/* STATUS BAR */
+.sbar{background:var(--forest);height:44px;display:flex;align-items:flex-end;justify-content:space-between;padding:0 20px 8px;flex-shrink:0;color:#A8FFCA;font-size:12px;font-family:'IBM Plex Mono',monospace;font-weight:500}
+
+/* ROLE BAR */
+.rbar{background:var(--forest);padding:10px 16px;flex-shrink:0;z-index:5}
+.rtrack{background:rgba(0,0,0,.3);border-radius:999px;padding:3px;display:flex;gap:2px}
+.rbtn{flex:1;border:none;border-radius:999px;padding:9px;font-size:13px;font-weight:600;cursor:pointer;color:rgba(255,255,255,.5);background:transparent;transition:.18s}
+.rbtn.on{background:var(--g);color:#fff}
+
+/* SCREENS — full height from top */
+.screen{position:absolute;top:0;left:0;right:0;bottom:62px;overflow-y:auto;overflow-x:hidden;background:var(--paper);transition:opacity .22s ease,transform .22s ease}
+.screen.shifted{top:88px}
+.screen::-webkit-scrollbar{display:none}
+.screen.off{opacity:0;pointer-events:none;transform:translateX(20px)}
+
+/* NAVBAR */
+.nav{position:absolute;bottom:0;left:0;right:0;height:62px;background:var(--forest);display:flex;border-top:1px solid rgba(255,255,255,.12)}
+.ni{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;border:none;background:transparent;color:rgba(255,255,255,.45);cursor:pointer}
+.ni.on{color:#fff}
+.ni svg{width:22px;height:22px}
+.ni span{font-size:10px;font-weight:600}
+
+/* CARDS */
+.card{background:#fff;border:1px solid var(--border);border-radius:16px;padding:16px;margin:0 16px 12px;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.slb{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding:14px 16px 6px}
+
+/* BUTTONS */
+.btn{width:100%;border:none;border-radius:999px;padding:14px;font-size:15px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;transition:transform .1s,opacity .15s}
+.btn:active{transform:scale(.97)}
+.btng{background:var(--g);color:#fff;box-shadow:0 4px 0 var(--gd)}
+.btng:active{box-shadow:0 1px 0 var(--gd)}
+.btno{background:transparent;border:1.5px solid var(--border);color:var(--soft)}
+.btnr{background:var(--red-bg);border:1px solid #F0CFC2;color:var(--red)}
+.bsm{padding:9px 16px;font-size:13px;width:auto}
+
+/* STAT GRID */
+.sgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.sc{border-radius:12px;padding:14px}
+.sc-green{background:var(--forest);color:#A8FFCA}
+.sc-gold{background:linear-gradient(135deg,#D4A017 0%,#F0C040 40%,#C9962B 70%,#9C7420 100%);border:none}
+.sc-shade{background:var(--shade);border:1px solid var(--border)}
+.snum{font-size:24px;font-weight:700;font-variant-numeric:tabular-nums}
+.sc-green .snum{color:#A8FFCA}
+.sc-gold .snum{color:#fff}
+.slbl{font-size:11px;margin-top:2px}
+.sc-green .slbl{color:rgba(255,255,255,.5)}
+.sc-gold .slbl{color:rgba(255,255,255,.8)}
+.sc-shade .slbl{color:var(--muted)}
+
+/* PILLS */
+.pg{display:inline-flex;align-items:center;gap:5px;border-radius:999px;padding:5px 12px;font-size:12px;font-weight:600;background:var(--gl);color:var(--forest);border:1px solid var(--gb)}
+.po{display:inline-flex;align-items:center;gap:5px;border-radius:999px;padding:5px 12px;font-size:12px;font-weight:600;background:var(--gold-bg);color:var(--gold-d);border:1px solid #EDD9A3}
+
+/* BARS */
+.bar{height:6px;background:var(--shade);border-radius:99px;overflow:hidden;border:1px solid var(--border)}
+.bf{height:100%;border-radius:99px;transition:width .5s ease}
+
+/* EXERCISE LIST */
+.exi{display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid var(--border);cursor:pointer;transition:background .12s}
+.exi:active{background:var(--shade)}
+.exi:last-child{border-bottom:none}
+.exic{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.chk{width:22px;height:22px;border-radius:50%;background:var(--gl);border:1.5px solid var(--g);display:flex;align-items:center;justify-content:center;color:var(--g);font-size:13px;flex-shrink:0}
+
+/* AVATAR */
+.ava{width:40px;height:40px;border-radius:50%;background:var(--forest);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;overflow:hidden;cursor:pointer;position:relative}
+.ava img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+.ava-overlay{position:absolute;inset:0;background:rgba(0,0,0,.35);display:flex;align-items:center;justify-content:center;border-radius:50%;opacity:0;transition:.2s}
+.ava:hover .ava-overlay{opacity:1}
+input.ava-input{position:absolute;inset:0;opacity:0;cursor:pointer;font-size:0}
+
+/* TOGGLE */
+.tog{position:relative;width:44px;height:26px;cursor:pointer;display:inline-block;flex-shrink:0}
+.tog input{opacity:0;position:absolute;width:100%;height:100%;margin:0;cursor:pointer;z-index:1}
+.tt{position:absolute;inset:0;background:var(--g);border-radius:999px;transition:.2s}
+.tk{position:absolute;top:3px;left:3px;width:20px;height:20px;background:#fff;border-radius:50%;transition:.2s;transform:translateX(18px)}
+.tog input:not(:checked)+.tt{background:var(--border)}
+.tog input:not(:checked)~.tk{transform:translateX(0)}
+
+/* FIELD */
+.fld{background:#fff;border:1.5px solid var(--border);border-radius:12px;padding:12px 14px;width:100%;font-size:15px;font-family:'Inter',sans-serif;color:var(--ink);outline:none;transition:border-color .15s}
+.fld:focus{border-color:var(--g)}
+.flbl{font-size:12px;color:var(--muted);margin-bottom:6px;display:block}
+
+/* CALENDAR */
+.cgrid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+.cday{text-align:center;padding:6px 2px;border-radius:10px;cursor:pointer;user-select:none;transition:background .15s}
+.cday .dl{font-size:10px;color:var(--muted)}
+.cday .dm{font-size:14px;margin-top:2px}
+.cday.on{background:var(--forest)}
+.cday.on .dl,.cday.on .dm{color:var(--g)}
+.cday.off .dm{color:#DDD}
+
+/* TX */
+.txi{display:flex;align-items:center;gap:12px;padding:11px 16px;border-bottom:1px solid var(--border);cursor:pointer;transition:background .12s}
+.txi:active{background:var(--shade)}
+.txi:last-child{border-bottom:none}
+.txd{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+
+/* WORKOUT TYPES */
+.wgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.wt{display:flex;align-items:center;gap:10px;padding:12px;border:1.5px solid var(--border);border-radius:12px;cursor:pointer;transition:all .15s}
+.wt.on{border-color:var(--g);background:var(--gl)}
+.wtic{font-size:20px;flex-shrink:0}
+.wtnm{font-size:13px;font-weight:500;flex:1}
+.wtck{width:18px;height:18px;border-radius:4px;border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:11px;transition:all .15s}
+.wt.on .wtck{background:var(--g);border-color:var(--g);color:#fff}
+
+/* MODAL */
+.mbg{position:absolute;inset:0;background:rgba(0,0,0,.55);z-index:150;display:flex;align-items:flex-end;opacity:0;pointer-events:none;transition:opacity .28s}
+.mbg.open{opacity:1;pointer-events:all}
+.msh{background:#fff;border-radius:24px 24px 0 0;padding:20px;width:100%;max-height:88%;overflow-y:auto;transform:translateY(100%);transition:transform .3s cubic-bezier(.4,0,.2,1)}
+.mbg.open .msh{transform:translateY(0)}
+.mdrg{width:40px;height:4px;background:#DDD;border-radius:99px;margin:0 auto 18px}
+.mttl{font-family:'PT Serif',serif;font-size:20px;font-weight:700;margin-bottom:16px}
+
+/* PAYMENT */
+.pm{display:flex;align-items:center;gap:12px;padding:14px;border:1.5px solid var(--border);border-radius:14px;cursor:pointer;transition:all .15s;margin-bottom:10px}
+.pm.sel{border-color:var(--g);background:var(--gl)}
+.pml{width:44px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0}
+.pmn{font-size:14px;font-weight:600;flex:1}
+.pms{font-size:12px;color:var(--muted)}
+.pmck{width:20px;height:20px;border-radius:50%;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0;transition:all .15s}
+.pm.sel .pmck{background:var(--g);border-color:var(--g);color:#fff}
+
+/* AMOUNT */
+.amtrow{display:flex;align-items:baseline;gap:6px;justify-content:center;padding:16px 0 8px}
+.amtsym{font-size:26px;font-weight:700;color:var(--muted)}
+.amtinp{font-size:50px;font-weight:700;color:var(--forest);border:none;outline:none;width:155px;text-align:center;font-family:'PT Serif',serif;background:transparent}
+.qarow{display:flex;gap:8px;justify-content:center;margin-bottom:14px;flex-wrap:wrap}
+.qa{padding:8px 14px;border:1.5px solid var(--border);border-radius:999px;font-size:13px;font-weight:600;cursor:pointer;background:#fff;color:var(--soft);transition:all .15s}
+.qa.sel{background:var(--g);border-color:var(--g);color:#fff}
+
+/* CURRENCY SELECT */
+.currrow{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap}
+.curr{padding:7px 14px;border:1.5px solid var(--border);border-radius:999px;font-size:13px;font-weight:600;cursor:pointer;background:#fff;color:var(--soft);transition:all .15s}
+.curr.sel{background:var(--forest);border-color:var(--forest);color:#fff}
+
+/* TX DETAIL MODAL */
+.exr{display:flex;align-items:flex-start;gap:10px;margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid var(--border)}
+.exr:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
+.exrib{font-size:24px;flex-shrink:0}
+.exrnm{font-size:14px;font-weight:600;margin-bottom:3px}
+.exrmeta{font-size:12px;color:var(--muted)}
+.exrsrc{font-size:11px;color:var(--g);font-family:'IBM Plex Mono',monospace;cursor:pointer;margin-top:4px;display:inline-block}
+
+/* TOAST */
+.toast{position:absolute;bottom:80px;left:16px;right:16px;background:var(--forest);color:#fff;border-radius:14px;padding:14px 18px;font-size:14px;font-weight:500;z-index:300;opacity:0;transform:translateY(10px);transition:all .3s;pointer-events:none;text-align:center}
+.toast.show{opacity:1;transform:translateY(0)}
+
+/* MISC */
+.bbtn{background:var(--shade);border:none;border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:18px;flex-shrink:0}
+.ptit{padding:16px 16px 6px;display:flex;align-items:center;gap:12px}
+.ptit h2{font-family:'PT Serif',serif;font-size:20px;font-weight:700}
+.rw{display:flex;justify-content:center;padding:8px 0}
+@keyframes bnc{0%,80%,100%{transform:translateY(0)}40%{transform:translateY(-8px)}}
+@keyframes fi{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.fi{animation:fi .3s ease}
+.dvdr{height:1px;background:var(--border);margin:0 0 12px}
+/* ONBOARDING */
+.ob-screen{position:absolute;inset:0;z-index:500;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding:0 0 40px}
+.ob-screen.hidden{display:none}
+.ob-slide{display:none;flex-direction:column;align-items:center;text-align:center;padding:0 32px;flex:1;justify-content:center}
+.ob-slide.active{display:flex}
+.ob-emoji{font-size:72px;margin-bottom:20px}
+.ob-title{font-family:'PT Serif',serif;font-size:24px;font-weight:700;color:var(--forest);margin-bottom:12px;line-height:1.3}
+.ob-desc{font-size:15px;color:var(--soft);line-height:1.6}
+.ob-dots{display:flex;gap:8px;margin-bottom:24px}
+.ob-dot{width:8px;height:8px;border-radius:50%;background:var(--border);transition:.2s}
+.ob-dot.on{background:var(--g);width:24px;border-radius:4px}
+.ob-btn{width:calc(100% - 64px);padding:16px;border:none;border-radius:999px;background:var(--g);color:#fff;font-size:16px;font-weight:700;cursor:pointer;box-shadow:0 4px 0 var(--gd)}
+.ob-skip{background:none;border:none;color:var(--muted);font-size:14px;cursor:pointer;margin-top:12px;padding:8px}
+
+/* CONSENT */
+.consent-screen{position:absolute;inset:0;z-index:490;background:#fff;display:flex;flex-direction:column;padding:40px 24px 32px;align-items:center;justify-content:center}
+.consent-screen.hidden{display:none}
+
+/* CHART PERIOD BTNS */
+.chart-period-btn{border:1.5px solid var(--border);background:#fff;border-radius:999px;padding:5px 12px;font-size:11px;font-weight:600;color:var(--muted);cursor:pointer;white-space:nowrap;transition:.15s;font-family:'Inter',sans-serif}
+.chart-period-btn.active{background:var(--forest);border-color:var(--forest);color:#fff}
+
+/* INSIGHT ITEMS */
+.insight{display:flex;align-items:flex-start;gap:10px;padding:9px 0;border-bottom:1px solid var(--border)}
+.insight:last-child{border-bottom:none}
+.insight-icon{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;margin-top:1px}
+.insight-up{background:#E4F7EB}
+.insight-down{background:#FDF0EF}
+.insight-title{font-size:13px;font-weight:600;margin-bottom:2px}
+.insight-desc{font-size:12px;color:var(--muted);line-height:1.45}
+.insight-pct{font-size:12px;font-weight:700;padding:2px 8px;border-radius:999px;margin-left:auto;flex-shrink:0;align-self:center}
+.pct-up{background:#E4F7EB;color:#0A5C2E}
+.pct-down{background:#FDF0EF;color:var(--red)}
+
+
+/* REMINDER BANNER */
+.remind-banner{background:#FFF3E0;border:1px solid #FFB74D;border-radius:12px;padding:12px 14px;margin:0 16px 12px;display:flex;align-items:center;gap:10px}
+.remind-banner.hidden{display:none}
+</style>
+</head>
+<body>
+<div id="app"><div class="shell">
+
+<!-- STATUS BAR -->
+<div class="sbar">
+  <span id="clk">9:41</span>
+  <span style="font-weight:600">Книжка заботы</span>
+  <span>100%</span>
+</div>
+
+<!-- ROLE BAR -->
+<div class="rbar" id="rbar">
+  <div id="role-tabs" style="background:rgba(0,0,0,.3);border-radius:999px;padding:3px;display:flex;gap:2px;overflow-x:auto"></div>
+</div>
+
+<!-- ══ ADD PARENT MODAL ══ -->
+<div class="mbg" id="add-parent-modal">
+  <div class="msh">
+    <div class="mdrg"></div>
+    <div class="mttl">Добавить аккаунт</div>
+
+    <div class="flbl">Тип аккаунта</div>
+    <div style="display:flex;gap:8px;margin-bottom:16px">
+      <button class="qa sel" id="apt-parent" onclick="selAptType('parent')">👵 Родитель</button>
+      <button class="qa" id="apt-child" onclick="selAptType('child')">👨 Ребенок</button>
+    </div>
+
+    <div class="flbl">Имя</div>
+    <input class="fld" id="apt-name" placeholder="Например: Мама, Папа, Бабушка" style="margin-bottom:12px">
+
+    <div class="flbl">Возраст</div>
+    <input class="fld" id="apt-age" type="number" placeholder="68" min="18" max="100" style="margin-bottom:12px">
+
+    <div class="flbl">Стартовый фонд</div>
+    <div style="display:flex;align-items:center;border:1.5px solid var(--border);border-radius:12px;overflow:hidden;background:#fff;margin-bottom:12px">
+      <span style="padding:12px 10px 12px 14px;font-size:18px;font-weight:700;color:var(--muted)">€</span>
+      <input type="number" id="apt-fund" value="150" min="10" style="flex:1;border:none;outline:none;font-size:16px;padding:12px 14px 12px 0;font-family:'Inter',sans-serif;color:var(--ink)">
+    </div>
+
+    <div class="flbl">Ставка за день</div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+      <span style="font-size:28px;font-weight:700;color:var(--forest)">€<span id="apt-rate-disp">5</span></span>
+      <span style="font-size:12px;color:var(--muted)">в день</span>
+    </div>
+    <input type="range" min="1" max="20" value="5" step="0.5" style="width:100%;margin-bottom:16px;accent-color:var(--g)" oninput="$s('apt-rate-disp',parseFloat(this.value)%1===0?parseInt(this.value):parseFloat(this.value).toFixed(1))">
+
+    <button class="btn btng" onclick="confirmAddParent()">Создать аккаунт и запустить</button>
+    <button class="btn btno" style="margin-top:8px" onclick="closeAddParent()">Отмена</button>
+  </div>
+</div>
+
+<!-- ══ RENAME MODAL ══ -->
+<div class="mbg" id="rename-modal">
+  <div class="msh">
+    <div class="mdrg"></div>
+    <div class="mttl">Переименовать</div>
+    <div class="flbl">Как называть этот аккаунт?</div>
+    <input class="fld" id="rename-input" placeholder="Мама, Папа, Бабушка..." style="margin-bottom:8px">
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px">
+      <button class="qa" onclick="$s('rename-input','Мама','value')">Мама</button>
+      <button class="qa" onclick="$s('rename-input','Папа','value')">Папа</button>
+      <button class="qa" onclick="$s('rename-input','Бабушка','value')">Бабушка</button>
+      <button class="qa" onclick="$s('rename-input','Дедушка','value')">Дедушка</button>
+      <button class="qa" onclick="$s('rename-input','Сын','value')">Сын</button>
+      <button class="qa" onclick="$s('rename-input','Дочь','value')">Дочь</button>
+    </div>
+    <button class="btn btng" onclick="confirmRename()">Сохранить</button>
+    <button class="btn btno" style="margin-top:8px" onclick="$e('rename-modal').classList.remove('open')">Отмена</button>
+  </div>
+</div>
+
+<!-- ══ GEAR MODAL ══ -->
+<div class="mbg" id="gear-modal">
+  <div class="msh">
+    <div class="mdrg"></div>
+    <div class="mttl">⚙️ Настройки аккаунта</div>
+    <div class="flbl">Ваше имя (как вы себя называете)</div>
+    <input class="fld" id="gear-name-input" placeholder="Андрей, Сын, Дочь..." style="margin-bottom:8px">
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px">
+      <button class="qa" onclick="$s('gear-name-input','Сын','value')">Сын</button>
+      <button class="qa" onclick="$s('gear-name-input','Дочь','value')">Дочь</button>
+      <button class="qa" onclick="$s('gear-name-input','Андрей','value')">Андрей</button>
+    </div>
+    <div class="flbl">Уведомления</div>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+      <span style="font-size:14px">Мама выполнила задание</span>
+      <label class="tog"><input type="checkbox" checked onchange="showToast('Настройка уведомлений обновлена')"><div class="tt"></div><div class="tk"></div></label>
+    </div>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+      <span style="font-size:14px">Фонд заканчивается</span>
+      <label class="tog"><input type="checkbox" checked onchange="showToast('Настройка уведомлений обновлена')"><div class="tt"></div><div class="tk"></div></label>
+    </div>
+    <button class="btn btng" onclick="saveGear()">Сохранить</button>
+    <button class="btn btno" style="margin-top:8px" onclick="$e('gear-modal').classList.remove('open')">Закрыть</button>
+  </div>
+</div>
+
+
+
+<!-- ══ P: TODAY ══ -->
+<div class="screen shifted" id="s-p-today">
+  <div class="slb">Сегодня</div>
+  <div class="card">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px">
+      <div class="ava" id="p-ava" style="width:48px;height:48px;font-size:22px">
+        <span id="p-ava-emoji">👵</span>
+        <img id="p-ava-img" style="display:none;width:100%;height:100%;object-fit:cover;border-radius:50%">
+        <div class="ava-overlay"><span style="font-size:12px;color:#fff">📷</span></div>
+        <input class="ava-input" type="file" accept="image/*" onchange="loadAva(this,'p')">
+      </div>
+      <div style="flex:1">
+        <div style="font-size:16px;font-weight:600" id="p-greet">Добрый день, Мария</div>
+        <div style="font-size:12px;color:var(--muted)" id="p-date"></div>
+      </div>
+      <div class="pg">€<span id="p-bal">53</span></div>
+    </div>
+    <div class="rw">
+      <svg width="120" height="120" viewBox="0 0 120 120">
+        <circle cx="60" cy="60" r="50" fill="none" stroke="#D4EDD9" stroke-width="9"/>
+        <circle id="ring" cx="60" cy="60" r="50" fill="none" stroke="#1DB954" stroke-width="9"
+          stroke-dasharray="314" stroke-dashoffset="235" stroke-linecap="round" transform="rotate(-90 60 60)"
+          style="transition:stroke-dashoffset .6s ease"/>
+        <text id="ringtxt" x="60" y="56" text-anchor="middle" font-size="24" font-weight="700" fill="#0A5C2E">1/4</text>
+        <text id="ring-lbl" x="60" y="73" text-anchor="middle" font-size="11" fill="#7AAA89">задания</text>
+      </svg>
+    </div>
+    <div style="background:var(--gold-bg);border:1px solid #EDD9A3;border-radius:10px;padding:10px 12px;font-size:13px;color:#633806;text-align:center">
+      <span id="banner-txt">Выполните задания и получите <strong>€<span id="brate">5</span></strong> сегодня</span>
+    </div>
+  </div>
+
+  <div class="slb">Упражнения</div>
+  <div class="card" style="padding:0;overflow:hidden"><div id="exlist"></div></div>
+
+  <div class="slb" id="p-today-slb-sys">Влияние на организм</div>
+  <div class="card" id="sysbars"></div>
+
+  <div class="slb" id="p-today-slb-steps">Шагомер</div>
+  <div class="card">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+      <div><div style="font-size:28px;font-weight:700;color:var(--forest)" id="stepn">4 214</div><div style="font-size:12px;color:var(--muted)">из 7 500 шагов</div></div>
+      <div style="font-size:32px">🚶</div>
+    </div>
+    <div class="bar"><div class="bf" id="stepbar" style="width:56%;background:var(--g)"></div></div>
+    <button class="btn btno" style="margin-top:12px;font-size:13px;padding:10px" onclick="toggleSteps()" id="steps-btn">🚶 Включить шагомер</button>
+  </div>
+
+  <div class="slb" id="prog-cal-slb">Программа тренировок</div>
+  <div class="card" style="padding:12px">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+      <button onclick="prevMonth()" style="background:var(--shade);border:none;border-radius:50%;width:32px;height:32px;font-size:18px;cursor:pointer">‹</button>
+      <div style="font-size:15px;font-weight:700;color:var(--forest)" id="cal-month-title">Август 2026</div>
+      <button onclick="nextMonth()" style="background:var(--shade);border:none;border-radius:50%;width:32px;height:32px;font-size:18px;cursor:pointer">›</button>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:2px;margin-bottom:4px">
+      <div style="text-align:center;font-size:10px;color:var(--muted);font-weight:600;padding:4px 0">Пн</div>
+      <div style="text-align:center;font-size:10px;color:var(--muted);font-weight:600;padding:4px 0">Вт</div>
+      <div style="text-align:center;font-size:10px;color:var(--muted);font-weight:600;padding:4px 0">Ср</div>
+      <div style="text-align:center;font-size:10px;color:var(--muted);font-weight:600;padding:4px 0">Чт</div>
+      <div style="text-align:center;font-size:10px;color:var(--muted);font-weight:600;padding:4px 0">Пт</div>
+      <div style="text-align:center;font-size:10px;color:var(--muted);font-weight:600;padding:4px 0">Сб</div>
+      <div style="text-align:center;font-size:10px;color:var(--muted);font-weight:600;padding:4px 0">Вс</div>
+    </div>
+    <div id="big-cal-grid" style="display:grid;grid-template-columns:repeat(7,1fr);gap:3px"></div>
+  </div>
+  <div id="day-detail" style="display:none;margin:0 16px 12px">
+    <div class="card" style="margin:0;border-color:var(--g)">
+      <div style="font-size:13px;font-weight:700;color:var(--forest);margin-bottom:10px" id="day-detail-title"></div>
+      <div id="day-detail-content"></div>
+    </div>
+  </div>
+
+  <div style="height:16px"></div>
+</div>
+
+<!-- ══ P: EXERCISE ══ -->
+<div class="screen shifted off" id="s-p-ex">
+  <div class="ptit">
+    <button class="bbtn" onclick="exitEx()">←</button>
+    <h2 id="extit">Упражнение</h2>
+  </div>
+  <div id="st-watch">
+    <div style="margin:0 16px 12px;border-radius:16px;overflow:hidden;position:relative;background:var(--forest)">
+      <canvas id="excv" width="358" height="220" style="width:100%;display:block"></canvas>
+      <div style="position:absolute;top:12px;left:12px;background:rgba(0,0,0,.6);border-radius:999px;padding:4px 12px;font-family:'IBM Plex Mono',monospace;font-size:11px;color:#A8FFCA">СМОТРИ И ПОВТОРЯЙ</div>
+      <div style="position:absolute;top:12px;right:12px;background:var(--g);border-radius:999px;padding:4px 14px;font-family:'IBM Plex Mono',monospace;font-size:14px;font-weight:700;color:#fff" id="wsec">20</div>
+      <div style="position:absolute;bottom:0;left:0;right:0;height:4px;background:rgba(255,255,255,.15)"><div id="wprog" style="height:100%;background:var(--g);width:100%;transition:width .1s linear"></div></div>
+    </div>
+    <div style="padding:0 16px">
+      <div style="font-size:15px;font-weight:600;margin-bottom:4px" id="wphase">Смотрите на технику</div>
+      <div style="font-size:13px;color:var(--muted);margin-bottom:14px" id="wdesc">Запомните движение</div>
+      <div style="background:var(--gl);border:1px solid var(--gb);border-radius:12px;padding:12px;margin-bottom:10px">
+        <div style="font-size:12px;font-weight:700;color:var(--forest);margin-bottom:5px">⚡ Польза сейчас</div>
+        <div style="font-size:13px" id="exshrt"></div>
+      </div>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--g);background:var(--shade);border:1px solid var(--border);border-radius:999px;padding:4px 10px;display:inline-block;margin-bottom:14px" id="exsrc">🔗</div>
+      <button class="btn btno" id="skipbtn" onclick="goRec()" style="opacity:.4;font-size:13px;padding:10px">Пропустить → Начать</button>
+    </div>
+    <div style="height:16px"></div>
+  </div>
+  <div id="st-rec" style="display:none">
+    <div style="position:relative;margin:0 16px 12px;border-radius:16px;overflow:hidden;background:#000">
+      <video id="camfeed" autoplay muted playsinline style="width:100%;display:block;min-height:250px;object-fit:cover;border-radius:16px"></video>
+      <div style="position:absolute;inset:0;border:2px dashed rgba(29,185,84,.4);border-radius:16px;pointer-events:none"></div>
+      <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);border:2px solid rgba(29,185,84,.3);width:55%;height:78%;border-radius:12px;pointer-events:none"></div>
+      <div style="position:absolute;top:12px;left:12px;background:rgba(0,0,0,.7);border-radius:999px;padding:4px 12px;display:flex;align-items:center;gap:6px">
+        <div id="recdot" style="width:8px;height:8px;border-radius:50%;background:#E24B4A"></div>
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#fff">REC</span>
+      </div>
+      <div style="position:absolute;top:12px;right:12px;background:var(--g);border-radius:999px;padding:4px 14px;font-family:'IBM Plex Mono',monospace;font-size:14px;font-weight:700;color:#fff" id="recsec">30</div>
+      <div style="position:absolute;bottom:12px;left:12px;right:12px;background:rgba(0,0,0,.65);border-radius:10px;padding:8px 12px;font-size:13px;color:#fff;text-align:center" id="rechint">Встаньте так чтобы все тело было в кадре</div>
+    </div>
+    <div style="padding:0 16px">
+      <div style="background:var(--shade);border-radius:12px;padding:12px;margin-bottom:14px;display:flex;gap:10px;align-items:center">
+        <div style="font-size:24px" id="recic"></div>
+        <div><div style="font-size:14px;font-weight:600" id="recnm"></div><div style="font-size:12px;color:var(--muted)" id="recrp"></div></div>
+      </div>
+      <button class="btn btnr" onclick="finishRec()">Завершить запись</button>
+    </div>
+    <div style="height:16px"></div>
+  </div>
+  <div id="st-ai" style="display:none;padding:24px 16px;text-align:center">
+    <div id="aiload">
+      <div style="font-size:48px;margin-bottom:14px">🤖</div>
+      <div style="font-size:18px;font-weight:700;color:var(--forest);margin-bottom:6px">ИИ анализирует видео</div>
+      <div style="font-size:13px;color:var(--muted);margin-bottom:24px">Проверяем технику...</div>
+      <div style="display:flex;justify-content:center;gap:8px;margin-bottom:24px">
+        <div style="width:10px;height:10px;border-radius:50%;background:var(--g);animation:bnc .8s ease-in-out infinite"></div>
+        <div style="width:10px;height:10px;border-radius:50%;background:var(--g);animation:bnc .8s ease-in-out infinite .15s"></div>
+        <div style="width:10px;height:10px;border-radius:50%;background:var(--g);animation:bnc .8s ease-in-out infinite .3s"></div>
+      </div>
+      <div style="background:var(--shade);border-radius:12px;padding:14px;text-align:left">
+        <div style="font-size:11px;font-weight:600;color:var(--muted);margin-bottom:8px;font-family:'IBM Plex Mono',monospace;letter-spacing:.06em">АНАЛИЗ:</div>
+        <div id="aisteps" style="font-size:12.5px;color:var(--soft);line-height:2.1"></div>
+      </div>
+    </div>
+    <div id="aipass" style="display:none" class="fi">
+      <div style="font-size:64px;margin-bottom:12px">✅</div>
+      <div style="font-size:22px;font-weight:700;color:var(--g);margin-bottom:6px">Засчитано!</div>
+      <div style="font-size:14px;color:var(--muted);margin-bottom:16px">Техника правильная</div>
+      <div style="background:var(--gl);border:1px solid var(--gb);border-radius:12px;padding:14px;margin-bottom:20px;text-align:left">
+        <div style="font-size:12px;font-weight:700;color:var(--forest);margin-bottom:6px">📊 Результат анализа</div>
+        <div id="aidet" style="font-size:13px;line-height:1.7"></div>
+      </div>
+      <button class="btn btng" onclick="claimMoney()">Забрать +€<span id="clamt">1.25</span></button>
+    </div>
+    <div id="aifail" style="display:none" class="fi">
+      <div style="font-size:64px;margin-bottom:12px">⚠️</div>
+      <div style="font-size:20px;font-weight:700;color:var(--red);margin-bottom:6px">Не засчитано</div>
+      <div style="background:var(--red-bg);border:1px solid #F0CFC2;border-radius:12px;padding:14px;margin-bottom:20px;text-align:left">
+        <div style="font-size:12px;font-weight:700;color:var(--red);margin-bottom:6px">Что исправить:</div>
+        <div id="aifailtxt" style="font-size:13px;line-height:1.7"></div>
+      </div>
+      <button class="btn btng" style="margin-bottom:10px" onclick="retryEx()">Попробовать еще раз</button>
+      <button class="btn btno" onclick="claimMoney()">Засчитать вручную</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ P: REWARD ══ -->
+<div class="screen shifted off" id="s-p-rew">
+  <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;padding:32px;text-align:center">
+    <div class="fi">
+      <div style="font-size:72px;margin-bottom:16px">💰</div>
+      <div style="font-family:'PT Serif',serif;font-size:44px;font-weight:700;color:var(--forest);margin-bottom:6px">+€<span id="rewamt">1.25</span></div>
+      <div style="font-size:16px;color:var(--muted);margin-bottom:10px">начислено на баланс</div>
+      <div class="pg" style="margin:0 auto 28px">Итого: €<span id="rewbal">24</span></div>
+      <div style="background:var(--shade);border-radius:16px;padding:18px;margin-bottom:24px;text-align:left">
+        <div style="font-size:13px;font-weight:600;color:var(--forest);margin-bottom:8px">Что произошло с телом:</div>
+        <div style="font-size:13px;color:var(--soft);line-height:1.6" id="rewben"></div>
+      </div>
+      <button class="btn btng" id="continue-rew-btn" onclick="goS('s-p-today')">Продолжить</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ P: STATS (full, no offset) ══ -->
+<div class="screen off" id="s-p-stats">
+  <div style="height:44px;background:var(--forest)"></div>
+  <div style="height:44px;background:var(--forest);display:flex;align-items:center;padding:0 16px">
+    <span style="font-family:'PT Serif',serif;font-size:18px;font-weight:700;color:#fff">Прогресс</span>
+  </div>
+  <div class="slb" id="ps-achieve-slb">Мои достижения</div>
+  <div style="padding:0 16px;margin-bottom:12px">
+    <div class="sgrid">
+      <div class="sc sc-gold"><div class="snum" id="ps-fund">€97</div><div class="slbl">Остаток фонда</div></div>
+      <div class="sc sc-green"><div class="snum" id="ps-done">12</div><div class="slbl">Дней выполнено</div></div>
+      <div class="sc sc-green"><div class="snum">€<span id="ps-earned-total">53</span></div><div class="slbl">Заработано всего</div></div>
+      <div class="sc sc-green"><div class="snum">€<span id="ps-earned">53</span></div><div class="slbl">Доступно к выводу</div></div>
+      <div class="sc sc-shade"><div class="snum" id="ps-streak">4🔥</div><div class="slbl">Дней подряд</div></div>
+      <div class="sc sc-shade"><div class="snum">€<span id="ps-withdrawn">0</span></div><div class="slbl">Выведено</div></div>
+    </div>
+  </div>
+
+  <div class="slb" id="act-slb">Активность</div>
+  <div class="card" style="padding:14px 14px 10px">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+      <span style="font-size:13px;font-weight:600;color:var(--forest)">Шаги и тренировки</span>
+    </div>
+    <!-- period tabs -->
+    <div style="display:flex;gap:6px;margin-bottom:12px;overflow-x:auto;padding-bottom:2px">
+      <button class="chart-period-btn active" data-period="7" onclick="setChartPeriod(7)">7 дней</button>
+      <button class="chart-period-btn" data-period="30" onclick="setChartPeriod(30)">Месяц</button>
+      <button class="chart-period-btn" data-period="90" onclick="setChartPeriod(90)">3 месяца</button>
+      <button class="chart-period-btn" data-period="180" onclick="setChartPeriod(180)">6 месяцев</button>
+      <button class="chart-period-btn" data-period="365" onclick="setChartPeriod(365)">Год</button>
+      <button class="chart-period-btn" data-period="0" onclick="setChartPeriod(0)">Всё время</button>
+    </div>
+    <div class="chart-wrap">
+      <svg class="chart-svg" id="activity-chart" viewBox="0 0 320 110" preserveAspectRatio="none"></svg>
+    </div>
+    <div style="display:flex;gap:14px;margin-top:6px;margin-bottom:4px">
+      <div style="display:flex;align-items:center;gap:5px"><div style="width:10px;height:3px;background:var(--g);border-radius:2px"></div><span style="font-size:11px;color:var(--muted)">Шаги</span></div>
+      <div style="display:flex;align-items:center;gap:5px"><div style="width:10px;height:3px;background:var(--gold);border-radius:2px"></div><span style="font-size:11px;color:var(--muted)">Тренировки</span></div>
+    </div>
+  </div>
+
+  <!-- insights -->
+  <div class="card" id="insights-card" style="padding:14px"></div>
+
+  <div class="slb" id="ps-hist-slb">История</div>
+  <div class="card" style="padding:0;overflow:hidden"><div id="txp"></div></div>
+  <div style="height:16px"></div>
+</div>
+
+<!-- ══ P: PROFILE ══ -->
+<div class="screen shifted off" id="s-p-prof">
+  <div class="slb" id="pp-profile-slb">Мой профиль</div>
+  <div class="card">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+      <div class="ava" style="width:56px;height:56px;font-size:26px">
+        <span id="pp-ava-emoji">👵</span>
+        <img id="pp-ava-img" style="display:none;width:100%;height:100%;object-fit:cover;border-radius:50%">
+        <div class="ava-overlay"><span style="font-size:12px;color:#fff">📷</span></div>
+        <input class="ava-input" type="file" accept="image/*" onchange="loadAva(this,'pp')">
+      </div>
+      <div><div style="font-size:17px;font-weight:700">Мария Иванова</div><div style="font-size:13px;color:var(--muted)">68 лет · Базовый уровень</div></div>
+    </div>
+    <div style="border-top:1px solid var(--border);padding-top:12px">
+      <div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--border)"><span style="color:var(--soft)">Ставка за день</span><span style="font-weight:700;color:var(--gold)">€<span id="pp-rate">5</span></span></div>
+      <div style="display:flex;justify-content:space-between;padding:7px 0"><span style="color:var(--soft)">Уровень</span><span style="font-weight:700;color:var(--g)">3 / 5</span></div>
+    </div>
+  </div>
+  <div class="slb">Вывод средств</div>
+  <div class="card">
+    <div style="display:flex;gap:8px;margin-bottom:14px">
+      <div style="flex:1;background:var(--shade);border-radius:12px;padding:12px;text-align:center">
+        <div style="font-size:11px;color:var(--muted);margin-bottom:4px">Заработано всего</div>
+        <div style="font-size:22px;font-weight:700;color:var(--forest)">€<span id="pp-earned-total">53</span></div>
+      </div>
+      <div style="flex:1;background:var(--gl);border:1px solid var(--gb);border-radius:12px;padding:12px;text-align:center">
+        <div style="font-size:11px;color:var(--muted);margin-bottom:4px">Доступно к выводу</div>
+        <div style="font-size:22px;font-weight:700;color:var(--forest)">€<span id="pp-bal">53</span></div>
+      </div>
+      <div style="flex:1;background:var(--shade);border:1px solid var(--border);border-radius:12px;padding:12px;text-align:center">
+        <div style="font-size:11px;color:var(--muted);margin-bottom:4px">Выведено</div>
+        <div style="font-size:22px;font-weight:700;color:var(--soft)">€<span id="pp-withdrawn">0</span></div>
+      </div>
+    </div>
+    <button class="btn btng" style="margin-bottom:8px" id="pp-withdraw-btn" onclick="withdraw()">Вывести на карту *4821</button>
+    <button class="btn btno" onclick="withdrawBlik()" style="display:flex;align-items:center;justify-content:center;gap:8px">
+      <svg width="34" height="18" viewBox="0 0 90 54"><rect width="90" height="54" rx="6" fill="#1A1A1A"/><text x="45" y="36" text-anchor="middle" font-family="Arial Black,sans-serif" font-size="26" font-weight="900" fill="white" letter-spacing="-1">blik</text><circle cx="45" cy="10" r="5" fill="#E30613"/></svg>
+      Вывести через BLIK 🇵🇱
+    </button>
+  </div>
+
+  <div class="slb">Язык интерфейса</div>
+  <div class="card">
+    <select class="fld" id="p-lang-select" onchange="setLang('p',this.value)"></select>
+  </div>
+
+  <div class="slb">Реферальная программа</div>
+  <div class="card">
+    <div style="background:var(--gold-bg);border:1px solid #EDD9A3;border-radius:12px;padding:12px;margin-bottom:12px">
+      <div style="font-size:12px;font-weight:700;color:var(--gold-d);margin-bottom:6px">Ваши бонусы</div>
+      <div style="font-size:13px;color:var(--ink);margin-bottom:4px">🎁 Вы получите <strong>€5</strong> с каждого пополненного депозита реферала</div>
+      <div style="font-size:13px;color:var(--ink)">🎉 Ваш друг получит скидку <strong>€5</strong> на первый месяц</div>
+    </div>
+    <div class="flbl">Ваша реферальная ссылка</div>
+    <div style="display:flex;gap:8px;margin-bottom:12px">
+      <div style="flex:1;background:var(--shade);border:1px solid var(--border);border-radius:10px;padding:10px 12px;font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--soft);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">kniga-zaboty.app/ref/MARIA2026</div>
+      <button class="btn btng bsm" onclick="copyRef('MARIA2026')">Копировать</button>
+    </div>
+    <button class="btn btno" onclick="shareRef('MARIA2026')">Поделиться ссылкой</button>
+  </div>
+  <div style="height:16px"></div>
+</div>
+
+<!-- ══ C: DASHBOARD ══ -->
+<div class="screen shifted off" id="s-c-dash">
+  <!-- parent accounts list -->
+  <div style="padding:10px 16px 4px;display:flex;align-items:center;gap:8px">
+    <button onclick="openGear()" style="background:var(--shade);border:1px solid var(--border);border-radius:50%;width:34px;height:34px;display:flex;align-items:center;justify-content:center;font-size:16px;cursor:pointer;flex-shrink:0" title="Настройки">⚙️</button>
+    <div id="parent-tabs" style="flex:1;display:flex;gap:8px;overflow-x:auto;padding:2px 0"></div>
+    <button onclick="openAddParent()" style="background:var(--g);border:none;border-radius:50%;width:34px;height:34px;display:flex;align-items:center;justify-content:center;font-size:20px;color:#fff;cursor:pointer;flex-shrink:0;box-shadow:0 2px 8px rgba(29,185,84,.4)">+</button>
+  </div>
+
+  <div class="remind-banner" id="remind-banner">
+    <div style="font-size:24px">⏰</div>
+    <div style="flex:1">
+      <div style="font-size:13px;font-weight:600;color:#E65100">Мама еще не занималась сегодня</div>
+      <div style="font-size:12px;color:#BF360C">Последняя тренировка: вчера</div>
+    </div>
+    <button id="remind-btn-el" onclick="sendReminder()" style="background:#FF6F00;border:none;border-radius:999px;padding:7px 14px;color:#fff;font-size:12px;font-weight:700;cursor:pointer">Напомнить</button>
+  </div>
+
+  <div class="slb" id="c-dash-label">Фонд для мамы</div>
+  <div class="card">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px">
+      <div class="ava">
+        <span id="c-p-emoji">👵</span>
+        <img id="c-p-img" style="display:none;width:100%;height:100%;object-fit:cover;border-radius:50%">
+      </div>
+      <div style="flex:1">
+        <div style="font-size:15px;font-weight:600" id="c-p-name">Мария</div>
+        <div style="font-size:12px;color:var(--muted)">Активна сегодня</div>
+      </div>
+      <div class="pg">Онлайн</div>
+    </div>
+    <div class="sgrid" style="margin-bottom:14px">
+      <div class="sc sc-gold"><div class="snum">€<span id="c-fund">97</span></div><div class="slbl">Остаток фонда</div></div>
+      <div class="sc sc-green"><div class="snum">€<span id="c-earned">53</span></div><div class="slbl">Заработано всего</div></div>
+      <div class="sc sc-green"><div class="snum">€<span id="c-avail">53</span></div><div class="slbl">Доступно к выводу</div></div>
+      <div class="sc sc-shade"><div class="snum">€<span id="c-withdrawn">0</span></div><div class="slbl">Выведено</div></div>
+      <div class="sc sc-green"><div class="snum" id="c-days">12</div><div class="slbl">Дней выполнено</div></div>
+      <div class="sc sc-shade"><div class="snum" id="c-pct">80%</div><div class="slbl">Выполнение</div></div>
+    </div>
+    <button class="btn btng" style="margin-bottom:8px" id="top-up-btn" onclick="openPay()">+ Пополнить фонд</button>
+    <button class="btn btno" id="setup-plan-btn" onclick="goS('s-c-plan')">Настроить план</button>
+  </div>
+  <div class="slb" id="c-prog-slb">Прогресс сегодня</div>
+  <div class="card">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+      <div><div style="font-size:15px;font-weight:600" id="c-done-lbl">Выполнено сегодня</div><div style="font-size:13px;color:var(--muted)" id="c-progtxt">2 из 4 упражнений</div></div>
+      <div style="font-size:26px;font-weight:700;color:var(--g)">50%</div>
+    </div>
+    <div class="bar"><div class="bf" style="width:50%;background:var(--g)"></div></div>
+  </div>
+  <div class="slb" id="c-hist-slb">История</div>
+  <div class="card" style="padding:0;overflow:hidden"><div id="txc"></div></div>
+  <div style="height:16px"></div>
+</div>
+
+<!-- ══ C: PLAN ══ -->
+<div class="screen shifted off" id="s-c-plan">
+  <div class="slb" id="plan-train-days-slb">Дни тренировок</div>
+  <div class="card">
+    <div style="font-size:14px;font-weight:600;margin-bottom:10px">Выберите дни занятий</div>
+    <div class="cgrid" id="cgrid"></div>
+    <div style="margin-top:10px;font-size:13px;color:var(--muted)" id="calsum"></div>
+  </div>
+
+  <div class="slb" id="plan-rate-slb">Ставка вознаграждения</div>
+  <div class="card">
+    <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px">
+      <div style="font-size:14px;font-weight:600">Сумма за выполненный день</div>
+      <div style="font-size:36px;font-weight:700;color:var(--forest);font-family:'PT Serif',serif">€<span id="rdisp">5</span></div>
+    </div>
+    <input type="range" id="rsldr" min="1" max="20" value="5" step="0.5" oninput="onRate(this.value)" style="width:100%;margin-bottom:8px;accent-color:var(--g)">
+    <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-bottom:14px">
+      <span>€1 мин.</span><span style="color:var(--g);font-weight:600">€5 стандарт</span><span>€20 макс.</span>
+    </div>
+    <div style="background:var(--shade);border-radius:10px;padding:12px;font-size:13px;color:var(--soft)" id="rcalc"></div>
+  </div>
+
+  <div class="slb" id="plan-types-slb">Виды нагрузки</div>
+  <div class="card">
+    <div style="font-size:13px;color:var(--muted);margin-bottom:12px">Выберите типы тренировок</div>
+    <div class="wgrid" id="wgrid"></div>
+  </div>
+
+  <div class="slb" id="plan-dur-slb">Время тренировки</div>
+  <div class="card">
+    <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px">
+      <div><div style="font-size:14px;font-weight:600" id="dur-avg-lbl">Среднее время</div><div style="font-size:12px;color:var(--muted)" id="dur-no-walk">без учета ходьбы</div></div>
+      <div style="font-size:32px;font-weight:700;color:var(--forest);font-family:'PT Serif',serif"><span id="ddisp">15</span> мин</div>
+    </div>
+    <input type="range" id="dsldr" min="5" max="60" value="15" step="5" oninput="onDur(this.value)" style="width:100%;margin-bottom:8px;accent-color:var(--g)">
+    <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-bottom:12px">
+      <span>5 мин</span><span>30 мин</span><span>60 мин</span>
+    </div>
+    <div style="background:var(--gl);border:1px solid var(--gb);border-radius:10px;padding:12px">
+      <div style="font-size:12px;font-weight:700;color:var(--forest);margin-bottom:4px" id="rec-lbl">💡 Рекомендация</div>
+      <div style="font-size:12.5px;color:var(--ink)" id="dtip">Среднее время мини-тренировки на начальном уровне — 10–25 мин без учета ходьбы. Начните с 15 минут.</div>
+    </div>
+  </div>
+
+  <div class="slb" id="plan-auto-slb">Автоусложнение</div>
+  <div class="card">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+      <div><div style="font-size:14px;font-weight:600">Авто-рост нагрузки</div><div style="font-size:12px;color:var(--muted)">Требует подтверждения</div></div>
+      <label class="tog"><input type="checkbox" checked onchange="showToast(this.checked?'Авто-усложнение включено':'Выключено')"><div class="tt"></div><div class="tk"></div></label>
+    </div>
+    <div class="flbl">Темп роста: <strong id="progval" style="color:var(--forest)">5%</strong> в неделю</div>
+    <input type="range" min="1" max="15" value="5" oninput="$s('progval',this.value+'%')" style="width:100%;accent-color:var(--g)">
+  </div>
+  <div style="padding:0 16px 16px"><button class="btn btng" id="save-plan-btn" onclick="savePlan()">Сохранить план</button></div>
+</div>
+
+<!-- ══ C: PROFILE ══ -->
+<div class="screen shifted off" id="s-c-prof">
+  <div class="slb" id="cp-acct-slb">Мой аккаунт</div>
+  <div class="card">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+      <div class="ava" style="width:56px;height:56px;font-size:26px">
+        <span id="cp-ava-emoji">👨</span>
+        <img id="cp-ava-img" style="display:none;width:100%;height:100%;object-fit:cover;border-radius:50%">
+        <div class="ava-overlay"><span style="font-size:12px;color:#fff">📷</span></div>
+        <input class="ava-input" type="file" accept="image/*" onchange="loadAva(this,'cp')">
+      </div>
+      <div><div style="font-size:17px;font-weight:700">Андрей Иванов</div><div style="font-size:13px;color:var(--muted)" id="cp-sponsor">Спонсор</div></div>
+    </div>
+    <div style="border-top:1px solid var(--border);padding-top:12px">
+      <div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--border)"><span style="color:var(--soft)" id="cp-rate-lbl">Ставка</span><span style="font-weight:700;color:var(--gold)">€<span id="cp-rate">5</span>/день</span></div>
+      <div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--border)"><span style="color:var(--soft)" id="cp-fund-lbl">Остаток фонда</span><span style="font-weight:700;color:var(--gold)">€<span id="cp-fund">97</span></span></div>
+      <div style="display:flex;justify-content:space-between;padding:7px 0"><span style="color:var(--soft)" id="cp-sub-lbl">Подписка</span><div class="pg" style="padding:3px 10px;font-size:11px">Активна</div></div>
+    </div>
+  </div>
+  <div class="slb">Пригласить родителя</div>
+  <div class="card">
+    <div style="font-size:13px;color:var(--soft);margin-bottom:12px">Отправьте ссылку маме или папе — они установят приложение и вы будете связаны автоматически.</div>
+    <button class="btn btno" onclick="shareLink()">Отправить ссылку в WhatsApp</button>
+  </div>
+
+  <div class="slb">Язык интерфейса</div>
+  <div class="card">
+    <select class="fld" id="c-lang-select" onchange="setLang('c',this.value)"></select>
+  </div>
+
+  <div class="slb">Реферальная программа</div>
+  <div class="card">
+    <div style="background:var(--gold-bg);border:1px solid #EDD9A3;border-radius:12px;padding:12px;margin-bottom:12px">
+      <div style="font-size:12px;font-weight:700;color:var(--gold-d);margin-bottom:6px">Ваши бонусы</div>
+      <div style="font-size:13px;color:var(--ink);margin-bottom:4px">🎁 Вы получите <strong>€5</strong> с каждого пополненного депозита реферала</div>
+      <div style="font-size:13px;color:var(--ink)">🎉 Ваш друг получит скидку <strong>€5</strong> на первый месяц</div>
+    </div>
+    <div class="flbl">Ваша реферальная ссылка</div>
+    <div style="display:flex;gap:8px;margin-bottom:12px">
+      <div style="flex:1;background:var(--shade);border:1px solid var(--border);border-radius:10px;padding:10px 12px;font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--soft);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">kniga-zaboty.app/ref/ANDREY2026</div>
+      <button class="btn btng bsm" onclick="copyRef('ANDREY2026')">Копировать</button>
+    </div>
+    <button class="btn btno" onclick="shareRef('ANDREY2026')">Поделиться ссылкой</button>
+  </div>
+  <div style="height:16px"></div>
+</div>
+
+
+<nav class="nav" id="navbar">
+  <button class="ni on" id="nav0" onclick="navTo(0)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+    <span>Активность</span>
+  </button>
+  <button class="ni" id="nav1" onclick="navTo(1)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+    <span>Прогресс</span>
+  </button>
+  <button class="ni" id="nav2" onclick="navTo(2)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+    <span>План</span>
+  </button>
+  <button class="ni" id="nav3" onclick="navTo(3)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    <span>Профиль</span>
+  </button>
+</nav>
+
+<!-- ══ PAYMENT MODAL ══ -->
+<div class="mbg" id="paymod">
+  <div class="msh">
+    <div class="mdrg"></div>
+    <div class="mttl" id="pay-modal-title">Пополнить фонд</div>
+    <div class="flbl">Валюта</div>
+    <div class="currrow" id="currrow"></div>
+    <div class="amtrow">
+      <span class="amtsym" id="cursym">€</span>
+      <input class="amtinp" id="payamt" type="number" value="150" min="1" oninput="onAmt(this.value)">
+    </div>
+    <div class="qarow">
+      <button class="qa" onclick="setAmt(50)">50</button>
+      <button class="qa" onclick="setAmt(100)">100</button>
+      <button class="qa sel" onclick="setAmt(150)">150</button>
+      <button class="qa" onclick="setAmt(200)">200</button>
+      <button class="qa" onclick="setAmt(500)">500</button>
+    </div>
+    <div style="margin-bottom:14px">
+      <div class="flbl">id="pay-manual-lbl">Или введите сумму вручну</div>
+      <div style="display:flex;align-items:center;border:1.5px solid var(--border);border-radius:12px;overflow:hidden;background:#fff">
+        <span style="padding:12px 10px 12px 14px;font-size:18px;font-weight:700;color:var(--muted)" id="cursym2">€</span>
+        <input type="number" id="payamt-manual" placeholder="Любая сумма" min="1" style="flex:1;border:none;outline:none;font-size:16px;padding:12px 14px 12px 0;font-family:'Inter',sans-serif;color:var(--ink)" oninput="onManualAmt(this.value)">
+      </div>
+    </div>
+    <div class="flbl" id="pay-method-lbl">Способ оплаты</div>
+    <div class="pm sel" id="pm-card" onclick="selPay('card')">
+      <div class="pml" style="background:#1A1F71;color:#fff">VISA</div>
+      <div><div class="pmn">Карта Visa / Mastercard</div><div class="pms">**** **** **** 4821</div></div>
+      <div class="pmck">✓</div>
+    </div>
+    <div class="pm" id="pm-paypal" onclick="selPay('paypal')">
+      <div class="pml" style="background:#003087;color:#009CDE;font-size:12px;font-weight:900">Pay<span style="color:#fff">Pal</span></div>
+      <div><div class="pmn">PayPal</div><div class="pms">andrey@mail.ru</div></div>
+      <div class="pmck"></div>
+    </div>
+    <div class="pm" id="pm-apple" onclick="selPay('apple')">
+      <div class="pml" style="background:#000;color:#fff;font-size:18px">🍎</div>
+      <div><div class="pmn">Apple Pay</div><div class="pms">Face ID</div></div>
+      <div class="pmck"></div>
+    </div>
+    <div class="pm" id="pm-google" onclick="selPay('google')">
+      <div class="pml" style="background:#fff;border:1px solid #DDD;font-size:16px;font-weight:700;color:#4285F4">G</div>
+      <div><div class="pmn">Google Pay</div><div class="pms">Быстрая оплата</div></div>
+      <div class="pmck"></div>
+    </div>
+    <div style="background:var(--shade);border:1px solid var(--border);border-radius:14px;padding:14px;margin-top:4px;margin-bottom:4px">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+        <div>
+          <div style="font-size:14px;font-weight:600">🔄 Настроить автоплатеж</div>
+          <div style="font-size:12px;color:var(--muted)">Автоматически пополнять фонд</div>
+        </div>
+        <label class="tog"><input type="checkbox" id="autopay-toggle" onchange="toggleAutopay(this.checked)"><div class="tt"></div><div class="tk"></div></label>
+      </div>
+      <div id="autopay-opts" style="display:none">
+        <div class="flbl">Периодичность</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button class="qa sel" id="ap-weekly" onclick="selAutopay('weekly')">Еженедельно</button>
+          <button class="qa" id="ap-monthly" onclick="selAutopay('monthly')">Ежемесячно</button>
+        </div>
+        <div style="margin-top:8px;font-size:12px;color:var(--muted)" id="autopay-desc">Следующий платеж: через 7 дней</div>
+      </div>
+    </div>
+    <div class="pm" id="pm-blik" onclick="selPay('blik')">
+      <div class="pml" style="background:#1A1A1A;border:none;border-radius:8px;display:flex;align-items:center;justify-content:center;padding:2px"><svg width="38" height="22" viewBox="0 0 90 54"><rect width="90" height="54" rx="6" fill="#1A1A1A"/><text x="45" y="36" text-anchor="middle" font-family="Arial Black,sans-serif" font-size="26" font-weight="900" fill="white" letter-spacing="-1">blik</text><circle cx="45" cy="10" r="5" fill="#E30613"/></svg></div>
+      <div><div class="pmn">BLIK <span style="font-size:11px;color:var(--muted)">🇵🇱</span></div><div class="pms">Польская мгновенная оплата</div></div>
+      <div class="pmck"></div>
+    </div>
+    <button class="btn btng" style="margin-top:4px" id="paybtn" onclick="confirmPay()">Оплатить €150</button>
+    <button class="btn btno" style="margin-top:8px" id="paybtn-cancel" onclick="closePay()">Отмена</button>
+  </div>
+</div>
+
+<!-- ══ TX DETAIL MODAL ══ -->
+<div class="mbg" id="txmod">
+  <div class="msh">
+    <div class="mdrg"></div>
+    <div id="txmod-content"></div>
+    <button class="btn btno" style="margin-top:14px" onclick="closeTxMod()">Закрыть</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<!-- ══ CONSENT SCREEN ══ -->
+<div class="consent-screen" id="consent-screen">
+  <div id="consent-body"></div>
+</div>
+<div class="ob-screen hidden" id="ob-screen">
+  <div id="ob-slides-wrap" style="flex:1;width:100%;display:flex;flex-direction:column;align-items:center;justify-content:center"></div>
+  <div class="ob-dots">
+    <div class="ob-dot on" id="dot-1"></div>
+    <div class="ob-dot" id="dot-2"></div>
+    <div class="ob-dot" id="dot-3"></div>
+    <div class="ob-dot" id="dot-4"></div>
+  </div>
+  <button class="ob-btn" id="ob-next-btn" onclick="obNext()">Далее</button>
+  <button class="ob-skip" id="ob-skip-btn" onclick="finishOnboarding()">Пропустить</button>
+</div>
+
+</div></div>
+
+<script>
+// ═══ STATE ═══
+const S={
+  role:'p',pBal:53,totalEarned:53,pWithdrawn:0,steps:4214,
+  cFund:97,cEarned:53,
+  rate:5,dur:15,currency:'EUR',selPay:'card',
+  curSym:{EUR:'€',USD:'$',PLN:'zł',GBP:'£'},
+  calDays:{Mon:true,Tue:true,Wed:false,Thu:true,Fri:true,Sat:false,Sun:false},
+  calLbls:{Mon:'Пн',Tue:'Вт',Wed:'Ср',Thu:'Чт',Fri:'Пт',Sat:'Сб',Sun:'Вс'},
+  wtypes:[
+    {id:'s',n:{ru:'Силовые',pl:'Siłowe',en:'Strength',uk:'Силові'},ic:'💪',on:true},
+    {id:'c',n:{ru:'Кардио',pl:'Kardio',en:'Cardio',uk:'Кардіо'},ic:'❤️‍🔥',on:true},
+    {id:'z',n:{ru:'Зарядка',pl:'Ćwiczenia poranne',en:'Morning exercise',uk:'Зарядка'},ic:'⚡',on:true},
+    {id:'r',n:{ru:'Растяжка',pl:'Rozciąganie',en:'Stretching',uk:'Розтяжка'},ic:'🤸',on:false},
+    {id:'w',n:{ru:'Разминка',pl:'Rozgrzewka',en:'Warm-up',uk:'Розминка'},ic:'🔄',on:true},
+    {id:'b',n:{ru:'Дыхательные',pl:'Oddechowe',en:'Breathing',uk:'Дихальні'},ic:'🌬️',on:true},
+    {id:'h',n:{ru:'Ходьба',pl:'Chodzenie',en:'Walking',uk:'Ходьба'},ic:'🚶',on:true},
+    {id:'m',n:{ru:'Медитация',pl:'Medytacja',en:'Meditation',uk:'Медитація'},ic:'🧘',on:false},
+    {id:'k',n:{ru:'Координация',pl:'Koordynacja',en:'Coordination',uk:'Координація'},ic:'🎯',on:false},
+  ],
+  txs:[
+    {lk:'today',lt:'09:24',s:'Полный комплекс выполнен',a:'+€5',ac:'#0D7A3D',type:'earn',exids:[0,1]},
+    {lk:'yesterday',lt:'10:11',s:'Полный комплекс выполнен',a:'+€5',ac:'#0D7A3D',type:'earn',exids:[0,1,2]},
+    {lk:'sat',s:'День отдыха',a:'—',ac:'#999',type:'rest',exids:[]},
+    {lk:'fri',lt:'09:05',s:'Пополнение фонда',a:'+€150',ac:null,type:'topup',exids:[]},
+    {lk:'thu',s:'Полный комплекс',a:'+€5',ac:'#0D7A3D',type:'earn',exids:[0,1]},
+  ],
+  exs:[
+    {id:0,n:{ru:'Приседания у стула',pl:'Przysiady przy krześle',en:'Chair squats',uk:'Присідання біля стільця'},
+     ic:'🦵',cat:{ru:'Силовые',pl:'Siłowe',en:'Strength',uk:'Силові'},reps:10,u:{ru:'повт.',pl:'pow.',en:'reps',uk:'пов.'},done:true,locked:false,
+     short:{ru:'Ноги получают нагрузку похожую на подъем со стула — именно то движение которое нужно в быту.',pl:'Nogi otrzymują obciążenie podobne do wstawania z krzesła — dokładnie ten ruch, który jest potrzebny w codziennym życiu.',en:'Legs get a load similar to standing up from a chair — exactly the movement needed in daily life.',uk:'Ноги отримують навантаження схоже на підйом зі стільця.'},
+     src:'Hasegawa et al., Scientific Reports, 2021',srcUrl:'https://www.nature.com/articles/s41598-021-86030-7',
+     anim:'squat',muscles:{ru:['Квадрицепсы','Ягодицы','Икры'],pl:['Czworogłowy','Pośladki','Łydki'],en:['Quadriceps','Glutes','Calves'],uk:['Квадрицепси','Сідниці','Литки']},systems:{muscles:80,heart:30,brain:10,bones:70,energy:40},dur:8,pct:94},
+    {id:1,n:{ru:'Шаги на месте',pl:'Marsz w miejscu',en:'Marching in place',uk:'Марш на місці'},
+     ic:'🏃',cat:{ru:'Кардио',pl:'Kardio',en:'Cardio',uk:'Кардіо'},reps:60,u:{ru:'сек.',pl:'sek.',en:'sec.',uk:'сек.'},done:false,locked:false,
+     short:{ru:'Учащается пульс и дыхание — сердце и сосуды получают тренирующую нагрузку прямо сейчас.',pl:'Puls i oddech przyspieszają — serce i naczynia krwionośne otrzymują obciążenie treningowe.',en:'Pulse and breathing accelerate — heart and blood vessels get a training load right now.',uk:'Прискорюється пульс і дихання — серце і судини отримують тренувальне навантаження.'},
+     src:'Manson et al., NEJM, 1999',srcUrl:'https://pubmed.ncbi.nlm.nih.gov/10460816/',
+     anim:'march',muscles:{ru:['Икры','Квадрицепсы','Сердце'],pl:['Łydki','Czworogłowy','Serce'],en:['Calves','Quadriceps','Heart'],uk:['Литки','Квадрицепси','Серце']},systems:{muscles:20,heart:80,brain:20,bones:15,energy:70},dur:10,pct:88},
+    {id:2,n:{ru:'Отжимания от стола',pl:'Pompki od stołu',en:'Table push-ups',uk:'Віджимання від столу'},
+     ic:'💪',cat:{ru:'Силовые',pl:'Siłowe',en:'Strength',uk:'Силові'},reps:8,u:{ru:'повт.',pl:'pow.',en:'reps',uk:'пов.'},done:false,locked:true,
+     short:{ru:'Нагружаются руки и плечи — те же мышцы что помогают удержаться при потере равновесия.',pl:'Obciążone są ramiona i barki — te same mięśnie, które pomagają utrzymać równowagę.',en:'Arms and shoulders are loaded — the same muscles that help maintain balance.',uk:'Навантажуються руки і плечі — ті самі м\u02BCязи що допомагають утриматися при втраті рівноваги.'},
+     src:'Arnold et al., 2022, РКИ',srcUrl:'https://pubmed.ncbi.nlm.nih.gov/35287479/',
+     anim:'pushup',muscles:{ru:['Трицепсы','Грудь','Плечи'],pl:['Triceps','Klatka piersiowa','Barki'],en:['Triceps','Chest','Shoulders'],uk:['Тріцепси','Груди','Плечі']},systems:{muscles:85,heart:25,brain:10,bones:40,energy:35},dur:6,pct:91},
+    {id:3,n:{ru:'Дыхательная практика',pl:'Ćwiczenia oddechowe',en:'Breathing practice',uk:'Дихальна практика'},
+     ic:'🌬️',cat:{ru:'Дыхание',pl:'Oddechowe',en:'Breathing',uk:'Дихальні'},reps:5,u:{ru:'мин.',pl:'min.',en:'min.',uk:'хв.'},done:false,locked:true,
+     short:{ru:'Дыхание замедляется — тело переходит в режим восстановления прямо сейчас.',pl:'Oddech zwalnia — ciało przechodzi w tryb regeneracji właśnie teraz.',en:'Breathing slows down — the body enters recovery mode right now.',uk:'Дихання сповільнюється — тіло переходить у режим відновлення.'},
+     src:'Fincham et al., Scientific Reports, 2023',srcUrl:'https://www.nature.com/articles/s41598-022-27247-y',
+     anim:'breath',muscles:{ru:['Диафрагма','Нервная система'],pl:['Przepona','Układ nerwowy'],en:['Diaphragm','Nervous system'],uk:['Діафрагма','Нервова система']},systems:{muscles:0,heart:30,brain:60,bones:0,energy:50},dur:5,pct:100},
+  ],
+  curEx:null,watchIv:null,recIv:null,raf:null,
+};
+
+// ─── helpers ───
+function $e(id){return document.getElementById(id);}
+
+// ─── multilingual field resolver ───
+function exF(field){return typeof field==='object'?(field[currentLang]||field.ru):field;}
+
+function $s(id,v,p='textContent'){const e=$e(id);if(e)e[p]=v;}
+function fmt(v){const n=parseFloat(v);return Number.isInteger(n)?n:n.toFixed(1);}
+function csym(){return S.curSym[S.currency]||'€';}
+
+// ─── init ───
+document.addEventListener('DOMContentLoaded',()=>{
+  updateClk();setInterval(updateClk,30000);
+  const d=new Date();
+  renderGreeting();
+  renderRoleTabs();renderParentTabs();
+  setRole('p');
+  renderCal();renderTx();renderExList();renderSys();renderWtypes();renderCurr();
+  onRate(5);onDur(15);renderBigCal();initLangSelects();initChartData();renderChart();renderInsights();
+  // show consent/onboarding on first visit
+  initConsent();
+  // if already seen consent, go straight to app
+  if(localStorage.getItem('kb_consent')){
+    $e('consent-screen')&&$e('consent-screen').classList.add('hidden');
+  }
+});
+
+function updateClk(){
+  const n=new Date();
+  $s('clk',n.getHours().toString().padStart(2,'0')+':'+n.getMinutes().toString().padStart(2,'0'));
+}
+
+
+// ─── greeting + date ───
+const DOW_FULL={
+  ru:['Воскресенье','Понедельник','Вторник','Среда','Четверг','Пятница','Суббота'],
+  pl:['Niedziela','Poniedzialek','Wtorek','Sroda','Czwartek','Piatek','Sobota'],
+  en:['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'],
+  uk:['Недiля','Понедiлок','Вiвторок','Середа','Четвер','Пятниця','Субота'],
+};
+const MON_GEN={
+  ru:['января','февраля','марта','апреля','мая','июня','июля','августа','сентября','октября','ноября','декабря'],
+  pl:['stycznia','lutego','marca','kwietnia','maja','czerwca','lipca','sierpnia','wrzesnia','pazdziernika','listopada','grudnia'],
+  en:['January','February','March','April','May','June','July','August','September','October','November','December'],
+  uk:['сiчня','лютого','березня','квiтня','травня','червня','липня','серпня','вересня','жовтня','листопада','грудня'],
+};
+const GREET={ru:'Добрый день',pl:'Dzien dobry',en:'Good day',uk:'Добрий день'};
+function renderGreeting(){
+  const d=new Date();
+  const dow=(DOW_FULL[currentLang]||DOW_FULL.ru)[d.getDay()];
+  const mon=(MON_GEN[currentLang]||MON_GEN.ru)[d.getMonth()];
+  const pname=(PARENTS.find(p=>p.id===activeParentId)||{}).name||'Мария';
+  $s('p-greet',(GREET[currentLang]||GREET.ru)+', '+pname);
+  const dateStr=currentLang==='en'?`${dow}, ${mon} ${d.getDate()}`:`${dow}, ${d.getDate()} ${mon}`;
+  $s('p-date',dateStr);
+}
+
+// ─── screens ───
+let curS='s-p-today';
+function goS(id){
+  const prev=$e(curS);if(prev)prev.classList.add('off');
+  curS=id;
+  const el=$e(id);if(el){el.classList.remove('off');el.scrollTop=0;}
+}
+
+// ─── role ───
+const pNav=['s-p-today','s-p-stats',null,'s-p-prof'];
+const cNav=['s-c-dash','s-p-stats','s-c-plan','s-c-prof'];
+const NAVL={
+  ru:{act:'Активность',prog:'Прогресс',plan:'План',prof:'Профиль',dash:'Дашборд'},
+  pl:{act:'Aktywnosc',prog:'Postep',plan:'Plan',prof:'Profil',dash:'Panel'},
+  en:{act:'Activity',prog:'Progress',plan:'Plan',prof:'Profile',dash:'Dashboard'},
+  uk:{act:'Активнiсть',prog:'Прогрес',plan:'План',prof:'Профiль',dash:'Панель'},
+};
+function navLabels(role){
+  const n=NAVL[currentLang]||NAVL.ru;
+  return role==='p'?[n.act,n.prog,'',n.prof]:[n.dash,n.prog,n.plan,n.prof];
+}
+
+function setRole(r){
+  S.role=r;
+  ['s-p-today','s-p-ex','s-p-rew','s-p-stats','s-p-prof',
+   's-c-dash','s-c-plan','s-c-prof'].forEach(id=>{const e=$e(id);if(e)e.classList.add('off');});
+  const lb=navLabels(r);
+  // show/hide nav2 depending on role (parent has 3 tabs, child has 4)
+  const n2=$e('nav2');if(n2)n2.style.display=r==='p'?'none':'flex';
+  document.querySelectorAll('.ni span').forEach((s,i)=>{if(lb[i])s.textContent=lb[i];});
+  navTo(0);
+}
+
+function navTo(i){
+  document.querySelectorAll('.ni').forEach((b,j)=>b.classList.toggle('on',i===j));
+  const sc=S.role==='p'?pNav:cNav;
+  if(sc[i])goS(sc[i]);
+}
+
+// ─── exercises ───
+const CC={Силовые:'#E8F5EE',Кардио:'#FAECE7',Дыхание:'#E6F1FB',Растяжка:'#EEEDFE'};
+const SY=[
+  {k:'muscles',n:{ru:'💪 Мышцы',pl:'💪 Mięśnie',en:'💪 Muscles',uk:'💪 М\u02BCязи'},c:'#1DB954'},
+  {k:'heart',n:{ru:'❤️ Сердце',pl:'❤️ Serce',en:'❤️ Heart',uk:'❤️ Серце'},c:'#E24B4A'},
+  {k:'brain',n:{ru:'🧠 Мозг',pl:'🧠 Mózg',en:'🧠 Brain',uk:'🧠 Мозок'},c:'#7F77DD'},
+  {k:'bones',n:{ru:'🦴 Кости',pl:'🦴 Kości',en:'🦴 Bones',uk:'🦴 Кістки'},c:'#378ADD'},
+  {k:'energy',n:{ru:'⚡ Энергия',pl:'⚡ Energia',en:'⚡ Energy',uk:'⚡ Енергія'},c:'#EF9F27'},
+];
+
+function renderExList(){
+  const el=$e('exlist');if(!el)return;el.innerHTML='';
+  S.exs.forEach(ex=>{
+    const d=document.createElement('div');d.className='exi';d.onclick=()=>openEx(ex.id);
+    let right='';
+    if(ex.done)right='<div class="chk">✓</div>';
+    else if(ex.locked)right='<span style="color:#DDD;font-size:18px">🔒</span>';
+    else right=`<button class="btn btng bsm" onclick="event.stopPropagation();openEx(${ex.id})">${{ru:"Старт",pl:"Start",en:"Start",uk:"Старт"}[currentLang]||"Start"}</button>`;
+    d.innerHTML=`<div class="exic" style="background:${CC[ex.cat]||'#F5F5F5'}">${ex.ic}</div><div style="flex:1"><div style="font-size:14px;font-weight:500;${ex.done?'text-decoration:line-through;color:#999':''}">${ex.n}</div><div style="font-size:12px;color:var(--muted)">${ex.reps} ${ex.u} · ${ex.cat}</div></div>${right}`;
+    el.appendChild(d);
+  });
+  updateRing();
+}
+
+function updateRing(){
+  const done=S.exs.filter(e=>e.done).length,total=S.exs.length;
+  const el=$e('ring');if(el)el.style.strokeDashoffset=314-(314*done/total);
+  $s('ringtxt',done+'/'+total);
+  const TL={ru:'задания',pl:'zadania',en:'tasks',uk:'завдання'};
+  $s('ring-lbl',TL[currentLang]||TL.ru);
+  const BN={
+    ru:`Выполните задания и получите <strong>${csym()}${fmt(S.rate)}</strong> сегодня`,
+    pl:`Wykonaj cwiczenia i otrzymaj <strong>${csym()}${fmt(S.rate)}</strong> dzisiaj`,
+    en:`Complete tasks and earn <strong>${csym()}${fmt(S.rate)}</strong> today`,
+    uk:`Виконайте завдання та отримайте <strong>${csym()}${fmt(S.rate)}</strong> сьогоднi`,
+  };
+  const bt=$e('banner-txt');if(bt)bt.innerHTML=BN[currentLang]||BN.ru;
+}
+
+function renderSys(){
+  const el=$e('sysbars');if(!el)return;el.innerHTML='';
+  const tot={};SY.forEach(s=>tot[s.k]=0);
+  S.exs.forEach(ex=>SY.forEach(s=>tot[s.k]=Math.max(tot[s.k],ex.systems[s.k]||0)));
+  const LB={ru:['Сильно','Заметно','Умеренно'],pl:['Mocno','Zauwazalnie','Umiarkowanie'],en:['Strong','Notable','Moderate'],uk:['Сильно','Помiтно','Помiрно']};
+  const lset=LB[currentLang]||LB.ru;
+  SY.forEach(s=>{
+    const pct=Math.min(100,Math.round(tot[s.k]));
+    const lbl=pct>66?lset[0]:pct>33?lset[1]:lset[2];
+    const row=document.createElement('div');row.style.marginBottom='9px';
+    row.innerHTML=`<div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px"><span>${exF(s.n)}</span><span style="color:${s.c};font-weight:600">${lbl}</span></div><div class="bar"><div class="bf" style="width:${pct}%;background:${s.c}"></div></div>`;
+    el.appendChild(row);
+  });
+}
+
+// ─── workout types ───
+function renderWtypes(){
+  const el=$e('wgrid');if(!el)return;el.innerHTML='';
+  S.wtypes.forEach(wt=>{
+    const d=document.createElement('div');d.className='wt'+(wt.on?' on':'');
+    d.onclick=()=>{wt.on=!wt.on;renderWtypes();};
+    d.innerHTML=`<span class="wtic">${wt.ic}</span><span class="wtnm">${exF(wt.n)}</span><span class="wtck">${wt.on?'✓':''}</span>`;
+    el.appendChild(d);
+  });
+}
+
+
+// ─── canvas text translations ───
+const CVTR={
+  ru:{down:'ВНИЗ ▼',up:'ВВЕРХ ▲',march:'МАРШ НА МЕСТЕ',inhale:'ВДОХ',exhale:'ВЫДОХ',nose:'носом',mouth:'ртом',breath:'ДЫХАТЕЛЬНАЯ ПРАКТИКА'},
+  pl:{down:'W DOL ▼',up:'W GORE ▲',march:'MARSZ W MIEJSCU',inhale:'WDECH',exhale:'WYDECH',nose:'nosem',mouth:'ustami',breath:'CWICZENIA ODDECHOWE'},
+  en:{down:'DOWN ▼',up:'UP ▲',march:'MARCH IN PLACE',inhale:'INHALE',exhale:'EXHALE',nose:'nose',mouth:'mouth',breath:'BREATHING PRACTICE'},
+  uk:{down:'ВНИЗ ▼',up:'ВГОРУ ▲',march:'МАРШ НА МIСЦI',inhale:'ВДИХ',exhale:'ВИДИХ',nose:'носом',mouth:'ротом',breath:'ДИХАЛЬНА ПРАКТИКА'},
+};
+function CVT(){return CVTR[currentLang]||CVTR.ru;}
+
+// ─── exercise flow ───
+const AN={
+  squat:(ctx,t)=>{
+    const W=358,H=220,cx=W/2;
+    ctx.fillStyle='#0A5C2E';ctx.fillRect(0,0,W,H);
+    const q=(Math.sin(t*1.6)+1)/2,dy=q*34;
+    ctx.fillStyle='#C8EDD5';ctx.fillRect(cx+28,100,8,100);ctx.fillRect(cx+18,95,28,9);
+    ctx.fillStyle='#F5C4B3';ctx.beginPath();ctx.arc(cx,58+dy,16,0,Math.PI*2);ctx.fill();
+    ctx.fillStyle='#1DB954';ctx.beginPath();ctx.roundRect(cx-15,74+dy,30,40,8);ctx.fill();
+    ctx.strokeStyle='#1DB954';ctx.lineWidth=8;ctx.lineCap='round';
+    ctx.beginPath();ctx.moveTo(cx+15,86+dy);ctx.lineTo(cx+28,104);ctx.stroke();
+    ctx.beginPath();ctx.moveTo(cx-15,86+dy);ctx.lineTo(cx-28,106);ctx.stroke();
+    const ks=q*22;
+    ctx.strokeStyle='#E8927A';ctx.lineWidth=10;
+    ctx.beginPath();ctx.moveTo(cx-8,113+dy);ctx.lineTo(cx-14-ks,148+dy*.5);ctx.stroke();
+    ctx.beginPath();ctx.moveTo(cx+8,113+dy);ctx.lineTo(cx+14+ks,148+dy*.5);ctx.stroke();
+    ctx.lineWidth=8;
+    ctx.beginPath();ctx.moveTo(cx-14-ks,148+dy*.5);ctx.lineTo(cx-14,192);ctx.stroke();
+    ctx.beginPath();ctx.moveTo(cx+14+ks,148+dy*.5);ctx.lineTo(cx+14,192);ctx.stroke();
+    ctx.fillStyle='#333';ctx.beginPath();ctx.ellipse(cx-14,197,13,5,0,0,Math.PI*2);ctx.fill();
+    ctx.beginPath();ctx.ellipse(cx+14,197,13,5,0,0,Math.PI*2);ctx.fill();
+    ctx.fillStyle='#A8FFCA';ctx.font='bold 12px IBM Plex Mono,monospace';ctx.textAlign='center';
+    ctx.fillText(q>.5?CVT().down:CVT().up,cx,22);
+  },
+  march:(ctx,t)=>{
+    const W=358,H=220,cx=W/2,s=Math.sin(t*3);
+    ctx.fillStyle='#0A5C2E';ctx.fillRect(0,0,W,H);
+    ctx.fillStyle='#F5C4B3';ctx.beginPath();ctx.arc(cx,30,16,0,Math.PI*2);ctx.fill();
+    ctx.fillStyle='#1DB954';ctx.beginPath();ctx.roundRect(cx-15,46,30,42,8);ctx.fill();
+    ctx.strokeStyle='#1DB954';ctx.lineWidth=8;ctx.lineCap='round';
+    ctx.beginPath();ctx.moveTo(cx-15,60);ctx.lineTo(cx-30,88+s*10);ctx.stroke();
+    ctx.beginPath();ctx.moveTo(cx+15,60);ctx.lineTo(cx+30,88-s*10);ctx.stroke();
+    ctx.strokeStyle='#E8927A';ctx.lineWidth=10;
+    ctx.beginPath();ctx.moveTo(cx-8,88);ctx.lineTo(cx-12,125-s*18);ctx.stroke();
+    ctx.beginPath();ctx.moveTo(cx+8,88);ctx.lineTo(cx+12,125+s*18);ctx.stroke();
+    ctx.lineWidth=8;
+    ctx.beginPath();ctx.moveTo(cx-12,125-s*18);ctx.lineTo(cx-10,178);ctx.stroke();
+    ctx.beginPath();ctx.moveTo(cx+12,125+s*18);ctx.lineTo(cx+10,178);ctx.stroke();
+    ctx.fillStyle='#333';ctx.beginPath();ctx.ellipse(cx-10,183,12,5,0,0,Math.PI*2);ctx.fill();
+    ctx.beginPath();ctx.ellipse(cx+10,183,12,5,0,0,Math.PI*2);ctx.fill();
+    ctx.fillStyle='#A8FFCA';ctx.font='bold 12px IBM Plex Mono,monospace';ctx.textAlign='center';
+    ctx.fillText(CVT().march,cx,22);
+  },
+  pushup:(ctx,t)=>{
+    const W=358,H=220,cx=W/2,p=(Math.sin(t*1.6)+1)/2;
+    ctx.fillStyle='#0A5C2E';ctx.fillRect(0,0,W,H);
+    ctx.fillStyle='#C8EDD5';ctx.fillRect(cx-90,72+p*18,180,10);
+    ctx.fillRect(cx-85,82+p*18,10,60);ctx.fillRect(cx+75,82+p*18,10,60);
+    ctx.save();ctx.translate(cx-10,100+p*18);ctx.rotate(-0.18+p*0.12);
+    ctx.fillStyle='#F5C4B3';ctx.beginPath();ctx.arc(55,-2,14,0,Math.PI*2);ctx.fill();
+    ctx.fillStyle='#1DB954';ctx.beginPath();ctx.roundRect(-28,-10,56,20,6);ctx.fill();
+    ctx.fillStyle='#E8927A';ctx.beginPath();ctx.roundRect(-52,-8,24,16,5);ctx.fill();
+    ctx.strokeStyle='#E8927A';ctx.lineWidth=9;ctx.lineCap='round';
+    ctx.beginPath();ctx.moveTo(-50,8);ctx.lineTo(-48,42+p*5);ctx.stroke();
+    ctx.beginPath();ctx.moveTo(-35,8);ctx.lineTo(-33,42+p*5);ctx.stroke();
+    ctx.restore();
+    ctx.fillStyle='#A8FFCA';ctx.font='bold 12px IBM Plex Mono,monospace';ctx.textAlign='center';
+    ctx.fillText(p>.5?CVT().down:CVT().up,cx,22);
+  },
+  breath:(ctx,t)=>{
+    const W=358,H=220,cx=W/2,cy=H/2+10,b=(Math.sin(t*.7)+1)/2,r=40+b*32;
+    ctx.fillStyle='#0A5C2E';ctx.fillRect(0,0,W,H);
+    for(let i=3;i>0;i--){ctx.beginPath();ctx.arc(cx,cy,r+i*14,0,Math.PI*2);ctx.fillStyle=`rgba(29,185,84,${.08*i})`;ctx.fill();}
+    ctx.beginPath();ctx.arc(cx,cy,r,0,Math.PI*2);ctx.fillStyle='#1DB954';ctx.fill();
+    ctx.fillStyle='#fff';ctx.font='bold 15px IBM Plex Mono,monospace';ctx.textAlign='center';
+    ctx.fillText(b>.5?CVT().inhale:CVT().exhale,cx,cy+6);
+    ctx.fillStyle='rgba(255,255,255,.55)';ctx.font='12px IBM Plex Mono,monospace';
+    ctx.fillText(b>.5?CVT().nose:CVT().mouth,cx,cy+24);
+    ctx.fillStyle='#A8FFCA';ctx.font='bold 12px IBM Plex Mono,monospace';
+    ctx.fillText(CVT().breath,cx,22);
+  },
+};
+
+function openEx(id){
+  const ex=S.exs[id];
+  if(ex.locked){showToast(TG('locked'));return;}
+  if(ex.done){showToast(TG('done'));return;}
+  // show medical disclaimer once
+  if(!localStorage.getItem('kb_disclaimer')){
+    const DSC={
+      ru:'⚠️ Важно: Если во время упражнения появилась боль в груди, сильное головокружение или резкая боль в суставе — остановитесь и отдохните.\n\nЭто не медицинская рекомендация. Проконсультируйтесь с врачом перед началом занятий.\n\nПродолжить?',
+      pl:'⚠️ Wazne: Jesli podczas cwiczenia pojawi sie bol w klatce piersiowej, silne zawroty glowy lub ostry bol stawu — zatrzymaj sie i odpocznij.\n\nTo nie jest zalecenie medyczne. Skonsultuj sie z lekarzem przed rozpoczeciem.\n\nKontynuowac?',
+      en:'⚠️ Important: If during the exercise you feel chest pain, severe dizziness or sharp joint pain — stop and rest.\n\nThis is not a medical recommendation. Consult a doctor before starting.\n\nContinue?',
+      uk:'⚠️ Важливо: Якщо пiд час вправи зявився бiль у грудях, сильне запаморочення або рiзкий бiль у суглобi — зупинiться i вiдпочиньте.\n\nЦе не медична рекомендацiя. Проконсультуйтесь з лiкарем.\n\nПродовжити?',
+    };
+    if(!confirm(DSC[currentLang]||DSC.ru))return;
+    localStorage.setItem('kb_disclaimer','1');
+  }
+  S.curEx=id;
+  $s('extit',exF(ex.n));$s('exshrt',exF(ex.short));$s('exsrc','🔗 '+ex.src);
+  $s('recic',ex.ic);$s('recnm',exF(ex.n));$s('recrp',ex.reps+' '+exF(ex.u));
+  $s('clamt',fmt(S.rate/S.exs.length));
+  showSt('st-watch');goS('s-p-ex');startWatch(ex);
+}
+
+function showSt(st){['st-watch','st-rec','st-ai'].forEach(s=>{const e=$e(s);if(e)e.style.display=s===st?'block':'none';});}
+
+function stopAll(){
+  if(S.watchIv){clearInterval(S.watchIv);S.watchIv=null;}
+  if(S.recIv){clearInterval(S.recIv);S.recIv=null;}
+  if(S.raf){cancelAnimationFrame(S.raf);S.raf=null;}
+}
+function stopCam(){const v=$e('camfeed');if(v&&v.srcObject){v.srcObject.getTracks().forEach(t=>t.stop());v.srcObject=null;}}
+function exitEx(){stopAll();stopCam();goS('s-p-today');}
+
+function startWatch(ex){
+  stopAll();
+  const cv=$e('excv'),ctx=cv.getContext('2d'),fn=AN[ex.anim]||AN.squat;
+  let t=0;
+  function fr(){t+=0.042;fn(ctx,t);S.raf=requestAnimationFrame(fr);}
+  S.raf=requestAnimationFrame(fr);
+  let sec=20;const sb=$e('skipbtn');
+  S.watchIv=setInterval(()=>{
+    sec--;$s('wsec',sec);
+    const wp=$e('wprog');if(wp)wp.style.width=(sec/20*100)+'%';
+    if(sec<=10&&sb)sb.style.opacity='1';
+    if(sec<=0){stopAll();goRec();}
+  },1000);
+}
+
+async function goRec(){
+  stopAll();showSt('st-rec');
+  const ex=S.exs[S.curEx];
+  try{
+    const st=await navigator.mediaDevices.getUserMedia({video:{facingMode:'user'},audio:false});
+    $e('camfeed').srcObject=st;startRecTimer(ex);
+  }catch(e){showToast(TG('camoff'));setTimeout(()=>runAI(true),1200);}
+}
+
+function startRecTimer(ex){
+  let sec=30;
+  const HT={
+    ru:['Встаньте так чтобы все тело было в кадре','Начинайте выполнять упражнение',`Делайте ${ex.reps} ${exF(ex.u)}`,'ИИ считает повторения','Заканчивайте подход'],
+    pl:['Stan tak, zeby cale cialo bylo w kadrze','Zacznij wykonywac cwiczenie',`Wykonaj ${ex.reps} ${exF(ex.u)}`,'AI liczy powtorzenia','Koncz serie'],
+    en:['Stand so your whole body is in frame','Start doing the exercise',`Do ${ex.reps} ${exF(ex.u)}`,'AI is counting reps','Finish the set'],
+    uk:['Встаньте так щоб все тiло було в кадрi','Починайте виконувати вправу',`Робiть ${ex.reps} ${exF(ex.u)}`,'ІІ рахує повторення','Закiнчуйте пiдхiд'],
+  };
+  const hints=HT[currentLang]||HT.ru;
+  let hi=0,dot=true;
+  S.recIv=setInterval(()=>{
+    sec--;$s('recsec',sec);
+    dot=!dot;const rd=$e('recdot');if(rd)rd.style.opacity=dot?'1':'.3';
+    const ni=Math.floor((30-sec)/6);if(ni!==hi&&ni<hints.length){hi=ni;$s('rechint',hints[hi]);}
+    if(sec<=0){stopAll();finishRec();}
+  },1000);
+}
+
+function finishRec(){stopAll();stopCam();runAI(Math.random()>.25);}
+
+function runAI(pass){
+  showSt('st-ai');
+  const al=$e('aiload'),ap=$e('aipass'),af=$e('aifail');
+  if(al)al.style.display='block';if(ap)ap.style.display='none';if(af)af.style.display='none';
+  const ex=S.exs[S.curEx];
+  const AIS={
+    ru:['✓ Обнаружена фигура человека...','✓ Определены 17 ключевых точек...','✓ Анализ траектории движения...',`✓ Подсчет: ${ex.reps} ${exF(ex.u)}...`,'✓ Проверка амплитуды...',pass?'✓ Техника засчитана':'⚠ Недостаточная амплитуда'],
+    pl:['✓ Wykryto sylwetke czlowieka...','✓ Zidentyfikowano 17 punktow kluczowych...','✓ Analiza trajektorii ruchu...',`✓ Liczenie: ${ex.reps} ${exF(ex.u)}...`,'✓ Sprawdzanie amplitudy...',pass?'✓ Technika zaliczona':'⚠ Niewystarczajaca amplituda'],
+    en:['✓ Human figure detected...','✓ 17 key points identified...','✓ Movement trajectory analysis...',`✓ Counting: ${ex.reps} ${exF(ex.u)}...`,'✓ Amplitude check...',pass?'✓ Technique approved':'⚠ Insufficient amplitude'],
+    uk:['✓ Виявлено фiгуру людини...','✓ Визначено 17 ключових точок...','✓ Аналiз траєкторiї руху...',`✓ Пiдрахунок: ${ex.reps} ${exF(ex.u)}...`,'✓ Перевiрка амплiтуди...',pass?'✓ Технiку зараховано':'⚠ Недостатня амплiтуда'],
+  };
+  const steps=AIS[currentLang]||AIS.ru;
+  const stEl=$e('aisteps');if(stEl)stEl.innerHTML='';
+  let i=0;
+  const iv=setInterval(()=>{
+    if(i<steps.length){if(stEl)stEl.innerHTML+=steps[i]+'<br>';i++;}
+    else{clearInterval(iv);setTimeout(()=>showAIRes(pass),500);}
+  },480);
+}
+
+function showAIRes(pass){
+  const al=$e('aiload'),ap=$e('aipass'),af=$e('aifail');
+  if(al)al.style.display='none';
+  if(pass){
+    if(ap)ap.style.display='block';if(af)af.style.display='none';
+    const ex=S.exs[S.curEx];
+    const d=$e('aidet');
+    const aiRes={ru:`Повторений: <strong>${ex.reps}</strong><br>Амплитуда: <strong>Норма</strong><br>Темп: <strong>Оптимальный</strong><br>Баланс: <strong>Стабильный</strong>`,pl:`Powtórzeń: <strong>${ex.reps}</strong><br>Amplituda: <strong>Norma</strong><br>Tempo: <strong>Optymalne</strong><br>Balans: <strong>Stabilny</strong>`,en:`Repetitions: <strong>${ex.reps}</strong><br>Amplitude: <strong>Normal</strong><br>Pace: <strong>Optimal</strong><br>Balance: <strong>Stable</strong>`,uk:`Повторень: <strong>${ex.reps}</strong><br>Амплітуда: <strong>Норма</strong><br>Темп: <strong>Оптимальний</strong><br>Баланс: <strong>Стабільний</strong>`};
+    if(d)d.innerHTML=aiRes[currentLang]||aiRes.ru;
+  }else{
+    if(ap)ap.style.display='none';if(af)af.style.display='block';
+    const ft=$e('aifailtxt');
+    const failTr={ru:'Амплитуда недостаточная — опускайтесь ниже<br>Держите спину прямо<br>Темп: 2 сек вниз, 2 сек вверх',pl:'Amplituda niewystarczająca — opuszczaj się niżej<br>Trzymaj plecy prosto<br>Tempo: 2 sek. w dół, 2 sek. w górę',en:'Amplitude insufficient — go lower<br>Keep your back straight<br>Pace: 2 sec down, 2 sec up',uk:'Амплітуда недостатня — опускайтесь нижче<br>Тримайте спину прямо<br>Темп: 2 сек вниз, 2 сек вгору'};
+    if(ft)ft.innerHTML=failTr[currentLang]||failTr.ru;
+  }
+}
+
+function retryEx(){const ex=S.exs[S.curEx];showSt('st-watch');startWatch(ex);}
+
+function claimMoney(){
+  const ex=S.exs[S.curEx];
+  const amt=parseFloat((S.rate/S.exs.length).toFixed(2));
+  const sym=csym();
+  ex.done=true;
+  S.pBal=parseFloat((S.pBal+amt).toFixed(2));
+  S.totalEarned=parseFloat((S.totalEarned+amt).toFixed(2));
+  S.cEarned=parseFloat((S.cEarned+amt).toFixed(2));
+  S.cFund=parseFloat((S.cFund-amt).toFixed(2));
+  const ni=S.curEx+1;if(ni<S.exs.length)S.exs[ni].locked=false;
+  const now=new Date();
+  // parent tx: positive
+  S.txs.unshift({
+    lk:'today',lt:`${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')}`,
+    s:'Полный комплекс выполнен',a:`+${sym}${amt}`,ac:'#0D7A3D',type:'earn',exids:[S.curEx],pct:ex.pct,
+  });
+  $s('rewamt',fmt(amt));$s('rewbal',fmt(S.pBal));$s('rewben',ex.short);
+  syncUI();renderExList();renderTx();
+  goS('s-p-rew');
+}
+
+// ─── sliders ───
+function onRate(v){
+  const r=parseFloat(v);S.rate=r;
+  $s('rdisp',fmt(r));$s('brate',fmt(r));$s('pp-rate',fmt(r));$s('cp-rate',fmt(r));
+  $s('clamt',fmt(r/S.exs.length));
+  const days=Object.values(S.calDays).filter(Boolean).length||5;
+  const el=$e('rcalc');
+  const RC={ru:`При ${days} тренировочных днях: ~<strong>${csym()}${Math.round(r*days*4)}</strong>/мес`,pl:`Przy ${days} dniach treningowych: ~<strong>${csym()}${Math.round(r*days*4)}</strong>/mies.`,en:`With ${days} training days: ~<strong>${csym()}${Math.round(r*days*4)}</strong>/month`,uk:`При ${days} тренувальних днях: ~<strong>${csym()}${Math.round(r*days*4)}</strong>/мiс`};
+  if(el)el.innerHTML=RC[currentLang]||RC.ru;
+}
+
+function onDur(v){
+  const d=parseInt(v);S.dur=d;$s('ddisp',d);
+  const tip=$e('dtip');if(!tip)return;
+  const T={
+    ru:{a:'Хорошее начало! 10 минут достаточно для первых недель. Главное — регулярность.',b:'Оптимально для начального уровня. 10–25 мин — рекомендуемый диапазон без учета ходьбы.',c:'Хороший уровень. Убедитесь что родитель не чувствует усталости после занятия.',d:'Для начального уровня 40+ минут может быть много. Рекомендуем начать с 15–20 минут.'},
+    pl:{a:'Dobry poczatek! 10 minut wystarczy na pierwsze tygodnie. Najwazniejsza jest regularnosc.',b:'Optymalne dla poziomu podstawowego. 10-25 min to zalecany zakres bez chodzenia.',c:'Dobry poziom. Upewnij sie, ze rodzic nie czuje zmeczenia po cwiczeniach.',d:'Dla poziomu podstawowego 40+ minut moze byc za duzo. Zalecamy zaczac od 15-20 minut.'},
+    en:{a:'Good start! 10 minutes is enough for the first weeks. Regularity is key.',b:'Optimal for beginner level. 10-25 min is the recommended range excluding walking.',c:'Good level. Make sure the parent does not feel tired after the session.',d:'For beginner level 40+ minutes may be too much. We recommend starting with 15-20 minutes.'},
+    uk:{a:'Гарний початок! 10 хвилин достатньо для перших тижнiв. Головне — регулярнiсть.',b:'Оптимально для початкового рiвня. 10-25 хв — рекомендований дiапазон без ходьби.',c:'Хороший рiвень. Переконайтесь що батьки не вiдчувають втоми пiсля заняття.',d:'Для початкового рiвня 40+ хвилин може бути забагато. Рекомендуємо 15-20 хвилин.'},
+  };
+  const t=T[currentLang]||T.ru;
+  if(d<=10)tip.textContent=t.a;
+  else if(d<=25)tip.textContent=t.b;
+  else if(d<=40)tip.textContent=t.c;
+  else tip.textContent=t.d;
+}
+
+// ─── calendar ───
+function renderCal(){
+  const g=$e('cgrid');if(!g)return;g.innerHTML='';
+  Object.entries(S.calDays).forEach(([k,active])=>{
+    const d=document.createElement('div');d.className='cday '+(active?'on':'off');
+    d.innerHTML=`<div class="dl">${S.calLbls[k]}</div><div class="dm">${active?'●':'–'}</div>`;
+    d.onclick=()=>{S.calDays[k]=!S.calDays[k];renderCal();updateCalSum();onRate(S.rate);};
+    g.appendChild(d);
+  });
+  updateCalSum();
+}
+
+function updateCalSum(){
+  const active=Object.entries(S.calDays).filter(([,v])=>v).map(([k])=>S.calLbls[k]);
+  const DL={ru:'дней',pl:'dni',en:'days',uk:'днiв'};
+  $s('calsum',`${active.join(', ')} · ${active.length} ${DL[currentLang]||DL.ru}`);
+}
+
+function savePlan(){
+  // sync selected days to big calendar training days
+  const dayMap={Mon:1,Tue:2,Wed:3,Thu:4,Fri:5,Sat:6,Sun:0};
+  DOW_TRAIN.length=0;
+  Object.entries(S.calDays).forEach(([k,v])=>{if(v)DOW_TRAIN.push(dayMap[k]);});
+  renderBigCal();
+  showToast(TG('plansaved')+' ✓ '+TG('rate')+' '+csym()+fmt(S.rate));
+}
+
+// ─── steps toggle ───
+let stepsActive=false, stepsIv=null;
+function toggleSteps(){
+  stepsActive=!stepsActive;
+  const btn=$e('steps-btn');
+  if(stepsActive){
+    if(btn){btn.textContent='⏸ '+TG('stepsoff');btn.style.background='var(--gl)';btn.style.borderColor='var(--g)';}
+    stepsIv=setInterval(()=>{
+      const add=Math.floor(Math.random()*15)+5;
+      S.steps=Math.min(S.steps+add,7500);
+      const pct=Math.round(S.steps/7500*100);
+      $s('stepn',S.steps.toLocaleString('ru'));
+      const sb=$e('stepbar');if(sb)sb.style.width=pct+'%';
+    },2000);
+    showToast(TG('stepson'));
+  } else {
+    clearInterval(stepsIv);stepsIv=null;
+    if(btn){btn.textContent='🚶 '+((currentLang==='pl')?'Wlacz krokomierz':(currentLang==='en')?'Enable pedometer':(currentLang==='uk')?'Увiмкнути крокомiр':'Включить шагомер');btn.style.background='';btn.style.borderColor='';}
+    showToast(TG('stepsoff'));
+  }
+}
+
+// ═══ CONSENT + ONBOARDING CONTENT ═══
+const SCREENS_CONTENT = {
+  ru: {
+    consent_title: 'Прежде чем начать',
+    consent_desc: 'Книжка заботы — приложение для семейной мотивации физической активности.',
+    consent_medical: '<strong>Не является медицинским устройством</strong> и не заменяет консультацию врача. Перед началом занятий проконсультируйтесь со специалистом.',
+    consent_c1: 'Я понимаю что приложение не является медицинской рекомендацией',
+    consent_c2: 'Я согласен с',
+    consent_tos: 'Условиями использования',
+    consent_and: 'и',
+    consent_pp: 'Политикой конфиденциальности',
+    consent_c3: 'Перед началом упражнений родитель проконсультировался с врачом',
+    consent_btn: 'Принять и продолжить',
+    consent_gdpr: 'Ваши данные защищены по стандарту GDPR',
+    ob_next: 'Далее', ob_skip: 'Пропустить', ob_start: 'Начать',
+    slides: [
+      {emoji:'💚', title:'Книжка заботы', desc:'Приложение где взрослые дети платят родителям за ежедневные упражнения. Забота становится измеримой и мотивирующей.'},
+      {emoji:'👴', title:'Родитель выполняет задания', desc:'Каждый день — короткий комплекс упражнений 10–25 минут. Камера записывает, ИИ проверяет технику и начисляет вознаграждение.'},
+      {emoji:'👨', title:'Ребенок пополняет фонд', desc:'Вы вносите депозит раз в месяц. Мама и папа зарабатывают из него каждый день — это не подарок, это заслуженное вознаграждение.'},
+      {emoji:'📈', title:'Здоровье и деньги растут', desc:'Регулярная активность снижает риск падений, улучшает сон и настроение. Научно доказано для людей 60+.'},
+    ],
+  },
+  pl: {
+    consent_title: 'Zanim zaczniesz',
+    consent_desc: 'Ksiazka troski — aplikacja do rodzinnej motywacji aktywnosci fizycznej.',
+    consent_medical: '<strong>Nie jest urzadzeniem medycznym</strong> i nie zastepuje konsultacji lekarskiej. Przed rozpoczeciem cwiczen skonsultuj sie ze specjalista.',
+    consent_c1: 'Rozumiem, ze aplikacja nie jest zaleceniem medycznym',
+    consent_c2: 'Zgadzam sie z',
+    consent_tos: 'Warunkami uzytkowania',
+    consent_and: 'i',
+    consent_pp: 'Polityka prywatnosci',
+    consent_c3: 'Rodzic skonsultowal sie z lekarzem przed cwiczeniami',
+    consent_btn: 'Akceptuj i kontynuuj',
+    consent_gdpr: 'Twoje dane sa chronione zgodnie z RODO',
+    ob_next: 'Dalej', ob_skip: 'Pomin', ob_start: 'Zacznij',
+    slides: [
+      {emoji:'💚', title:'Ksiazka troski', desc:'Aplikacja, w ktorej dorosle dzieci placa rodzicom za codzienne cwiczenia. Opieka staje sie mierzalna i motywujaca.'},
+      {emoji:'👴', title:'Rodzic wykonuje zadania', desc:'Kazdego dnia — krotki zestaw cwiczen 10-25 minut. Kamera nagrywa, AI sprawdza technike i nalicza nagrode.'},
+      {emoji:'👨', title:'Dziecko zasila fundusz', desc:'Wplacasz depozyt raz w miesiacu. Mama i tata zarabiaja z niego kazdego dnia — to nie prezent, to zaslugowana nagroda.'},
+      {emoji:'📈', title:'Zdrowie i pieniadze rosna', desc:'Regularna aktywnosc zmniejsza ryzyko upadkow, poprawia sen i nastoj. Naukowo udowodnione dla osob 60+.'},
+    ],
+  },
+  en: {
+    consent_title: 'Before you start',
+    consent_desc: 'Care Booklet — an app for family motivation of physical activity.',
+    consent_medical: '<strong>Not a medical device</strong> and does not replace medical consultation. Consult a specialist before starting exercises.',
+    consent_c1: 'I understand the app is not a medical recommendation',
+    consent_c2: 'I agree with the',
+    consent_tos: 'Terms of Service',
+    consent_and: 'and',
+    consent_pp: 'Privacy Policy',
+    consent_c3: 'The parent has consulted a doctor before starting exercises',
+    consent_btn: 'Accept and continue',
+    consent_gdpr: 'Your data is protected under GDPR',
+    ob_next: 'Next', ob_skip: 'Skip', ob_start: 'Start',
+    slides: [
+      {emoji:'💚', title:'Care Booklet', desc:'An app where adult children pay their parents for daily exercises. Care becomes measurable and motivating.'},
+      {emoji:'👴', title:'Parent completes tasks', desc:'Every day — a short 10-25 minute exercise set. Camera records, AI checks technique and awards payment.'},
+      {emoji:'👨', title:'Child tops up the fund', desc:'You deposit once a month. Mom and dad earn from it daily — not a gift, a deserved reward.'},
+      {emoji:'📈', title:'Health and money grow', desc:'Regular activity reduces fall risk, improves sleep and mood. Scientifically proven for people 60+.'},
+    ],
+  },
+  uk: {
+    consent_title: 'Перш ніж почати',
+    consent_desc: 'Книжка турботи — застосунок для сімейної мотивації фізичної активності.',
+    consent_medical: '<strong>Не є медичним пристроєм</strong> і не замінює консультацію лікаря. Перед початком занять проконсультуйтесь зі спеціалістом.',
+    consent_c1: 'Я розумію що застосунок не є медичною рекомендацією',
+    consent_c2: 'Я погоджуюсь з',
+    consent_tos: 'Умовами використання',
+    consent_and: 'та',
+    consent_pp: 'Політикою конфіденційності',
+    consent_c3: 'Батьківська особа проконсультувалась з лікарем перед початком вправ',
+    consent_btn: 'Прийняти та продовжити',
+    consent_gdpr: 'Ваші дані захищені за стандартом GDPR',
+    ob_next: 'Далі', ob_skip: 'Пропустити', ob_start: 'Почати',
+    slides: [
+      {emoji:'💚', title:'Книжка турботи', desc:'Застосунок де дорослі діти платять батькам за щоденні вправи. Турбота стає вимірюваною і мотивуючою.'},
+      {emoji:'👴', title:'Батьки виконують завдання', desc:'Щодня — короткий комплекс вправ 10-25 хвилин. Камера записує, ІІ перевіряє техніку і нараховує винагороду.'},
+      {emoji:'👨', title:'Дитина поповнює фонд', desc:'Ви вносите депозит раз на місяць. Мама і тато заробляють щодня — це заслужена винагорода.'},
+      {emoji:'📈', title:'Здоровя і гроші зростають', desc:'Регулярна активність знижує ризик падінь, покращує сон і настрій. Доведено для людей 60+.'},
+    ],
+  },
+};
+
+function renderConsentScreen(){
+  const el = $e('consent-body'); if(!el) return;
+  const sc = SCREENS_CONTENT[currentLang] || SCREENS_CONTENT.ru;
+  el.innerHTML = `
+    <div style="font-size:48px;margin-bottom:20px;text-align:center">📋</div>
+    <div style="font-family:'PT Serif',serif;font-size:22px;font-weight:700;color:var(--forest);margin-bottom:12px;text-align:center">${sc.consent_title}</div>
+    <div style="font-size:14px;color:var(--soft);line-height:1.6;text-align:center;margin-bottom:28px">
+      ${sc.consent_desc}<br><br>${sc.consent_medical}
+    </div>
+    <div style="background:var(--shade);border-radius:14px;padding:16px;width:100%;margin-bottom:24px">
+      <label style="display:flex;align-items:flex-start;gap:12px;cursor:pointer;margin-bottom:12px">
+        <input type="checkbox" id="consent-1" style="width:18px;height:18px;margin-top:2px;accent-color:var(--g)" onchange="checkConsent()">
+        <span style="font-size:13px;color:var(--ink)">${sc.consent_c1}</span>
+      </label>
+      <label style="display:flex;align-items:flex-start;gap:12px;cursor:pointer;margin-bottom:12px">
+        <input type="checkbox" id="consent-2" style="width:18px;height:18px;margin-top:2px;accent-color:var(--g)" onchange="checkConsent()">
+        <span style="font-size:13px;color:var(--ink)">${sc.consent_c2} <span style="color:var(--g);text-decoration:underline">${sc.consent_tos}</span> ${sc.consent_and} <span style="color:var(--g);text-decoration:underline">${sc.consent_pp}</span></span>
+      </label>
+      <label style="display:flex;align-items:flex-start;gap:12px;cursor:pointer">
+        <input type="checkbox" id="consent-3" style="width:18px;height:18px;margin-top:2px;accent-color:var(--g)" onchange="checkConsent()">
+        <span style="font-size:13px;color:var(--ink)">${sc.consent_c3}</span>
+      </label>
+    </div>
+    <button class="btn btng" style="width:100%;opacity:.4" id="consent-btn" onclick="confirmConsent()" disabled>${sc.consent_btn}</button>
+    <div style="font-size:12px;color:var(--muted);margin-top:12px;text-align:center">${sc.consent_gdpr}</div>
+  `;
+}
+
+function renderOnboarding(){
+  const sc = SCREENS_CONTENT[currentLang] || SCREENS_CONTENT.ru;
+  const wrap = $e('ob-slides-wrap'); if(!wrap) return;
+  wrap.innerHTML = sc.slides.map((s,i)=>`
+    <div class="ob-slide${i===0?' active':''}" id="ob-${i+1}">
+      <div class="ob-emoji">${s.emoji}</div>
+      <div class="ob-title">${s.title}</div>
+      <div class="ob-desc">${s.desc}</div>
+    </div>
+  `).join('');
+  const nb=$e('ob-next-btn');if(nb)nb.textContent=sc.ob_next;
+  const sb=$e('ob-skip-btn');if(sb)sb.textContent=sc.ob_skip;
+}
+
+
+function initConsent(){
+  renderConsentScreen();
+  renderOnboarding();
+  const seen=localStorage.getItem('kb_consent');
+  if(!seen){
+    $e('consent-screen').classList.remove('hidden');
+  }
+}
+function checkConsent(){
+  const all=['consent-1','consent-2','consent-3'].every(id=>$e(id)?.checked);
+  const btn=$e('consent-btn');
+  if(btn){btn.disabled=!all;btn.style.opacity=all?'1':'.4';}
+}
+function confirmConsent(){
+  localStorage.setItem('kb_consent','1');
+  $e('consent-screen').classList.add('hidden');
+  $e('ob-screen').classList.remove('hidden');
+}
+
+// ═══ ONBOARDING ═══
+let obStep=1; const obTotal=4;
+function obNext(){
+  const sc=SCREENS_CONTENT[currentLang]||SCREENS_CONTENT.ru;
+  if(obStep>=obTotal){finishOnboarding();return;}
+  const prev=$e('ob-'+obStep);if(prev)prev.classList.remove('active');
+  const pd=$e('dot-'+obStep);if(pd)pd.classList.remove('on');
+  obStep++;
+  const next=$e('ob-'+obStep);if(next)next.classList.add('active');
+  const nd=$e('dot-'+obStep);if(nd)nd.classList.add('on');
+  const nb=$e('ob-next-btn');
+  if(nb)nb.textContent=obStep===obTotal?sc.ob_start:sc.ob_next;
+}
+function finishOnboarding(){
+  $e('ob-screen').classList.add('hidden');
+}
+
+// ═══ ACTIVITY CHART ═══
+// Data generator - simulates realistic growth trend
+function genData(points, baseSteps, growthRate, trainFreq){
+  const out=[];
+  for(let i=0;i<points;i++){
+    const trend=1+growthRate*(i/points);
+    const noise=0.75+Math.random()*.5;
+    const steps=Math.round(baseSteps*trend*noise);
+    const train=Math.random()<trainFreq?1:0;
+    out.push({steps,train});
+  }
+  return out;
+}
+
+const PERIODS={
+  7:  {points:7,  base:4000, growth:.08, freq:.65, labels:['Пн','Вт','Ср','Чт','Пт','Сб','Вс'], skip:1},
+  30: {points:30, base:3800, growth:.12, freq:.6,  labels:null, skip:4},
+  90: {points:12, base:3500, growth:.18, freq:.6,  labels:['Нед 1','Нед 2','Нед 3','Нед 4','Нед 5','Нед 6','Нед 7','Нед 8','Нед 9','Нед 10','Нед 11','Нед 12'], skip:2},
+  180:{points:6,  base:3200, growth:.22, freq:.55, labels:['Янв','Фев','Мар','Апр','Май','Июн'], skip:1},
+  365:{points:12, base:2900, growth:.28, freq:.5,  labels:['Янв','Фев','Мар','Апр','Май','Июн','Июл','Авг','Сен','Окт','Ноя','Дек'], skip:2},
+  0:  {points:18, base:2500, growth:.35, freq:.45, labels:null, skip:3},
+};
+
+let chartPeriod=7;
+let chartData={};
+
+function initChartData(){
+  Object.keys(PERIODS).forEach(p=>{
+    const cfg=PERIODS[p];
+    chartData[p]=genData(cfg.points,cfg.base,cfg.growth,cfg.freq);
+  });
+}
+
+function setChartPeriod(p){
+  chartPeriod=p;
+  document.querySelectorAll('.chart-period-btn').forEach(b=>{
+    b.classList.toggle('active',parseInt(b.dataset.period)===p||(p===0&&b.dataset.period==='0'));
+  });
+  renderChart();
+  renderInsights();
+}
+
+function renderChart(){
+  const svg=$e('activity-chart');if(!svg)return;
+  const cfg=PERIODS[chartPeriod];
+  const data=chartData[chartPeriod]||[];
+  const W=320,H=110,pad=22;
+  const steps=data.map(d=>d.steps);
+  const trains=data.map(d=>d.train);
+  const maxS=Math.max(...steps,1);
+  const cols=steps.length;
+  const colW=(W-pad*2)/cols;
+  let html='';
+
+  // grid lines
+  [0,.5,1].forEach(f=>{
+    const y=pad+(H-pad*2)*(1-f);
+    html+=`<line x1="${pad}" y1="${y}" x2="${W-pad}" y2="${y}" stroke="#F0F0F0" stroke-width="1"/>`;
+    if(f>0){const v=Math.round(maxS*f/1000);html+=`<text x="${pad-3}" y="${y+3}" text-anchor="end" font-size="8" fill="#CCC">${v}k</text>`;}
+  });
+
+  // step bars
+  steps.forEach((s,i)=>{
+    const x=pad+i*colW+colW*.08;
+    const bw=colW*.42;
+    const bh=Math.max(2,(H-pad*2)*s/maxS);
+    const y=H-pad-bh;
+    html+=`<rect x="${x}" y="${y}" width="${bw}" height="${bh}" rx="2" fill="#1DB95435"/>`;
+  });
+
+  // train bars
+  trains.forEach((t,i)=>{
+    if(!t)return;
+    const x=pad+i*colW+colW*.52;
+    const bw=colW*.38;
+    const bh=(H-pad*2)*0.55;
+    const y=H-pad-bh;
+    html+=`<rect x="${x}" y="${y}" width="${bw}" height="${bh}" rx="2" fill="#C9962B50"/>`;
+  });
+
+  // trend line over steps
+  const pts=steps.map((s,i)=>{
+    const x=pad+i*colW+colW*.275;
+    const y=H-pad-Math.max(2,(H-pad*2)*s/maxS);
+    return `${x},${y}`;
+  }).join(' ');
+  html+=`<polyline points="${pts}" fill="none" stroke="#1DB954" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>`;
+  steps.forEach((s,i)=>{
+    if(i%cfg.skip!==0&&i!==steps.length-1)return;
+    const x=pad+i*colW+colW*.275;
+    const y=H-pad-Math.max(2,(H-pad*2)*s/maxS);
+    html+=`<circle cx="${x}" cy="${y}" r="3" fill="#1DB954"/>`;
+  });
+
+  // labels
+  const lkey=cfg.labelsKey;const lbls=(lkey&&PERIOD_LABELS[lkey])?(PERIOD_LABELS[lkey][currentLang]||PERIOD_LABELS[lkey].ru):getMonthNames().slice(0,steps.length)||steps.map((_,i)=>`${i+1}`);
+  lbls.forEach((d,i)=>{
+    if(i%cfg.skip!==0&&i!==lbls.length-1)return;
+    const x=pad+i*colW+colW/2;
+    html+=`<text x="${x}" y="${H-3}" text-anchor="middle" font-size="8" fill="#AAA" font-family="IBM Plex Mono,monospace">${d}</text>`;
+  });
+
+  svg.innerHTML=html;
+}
+
+function renderInsights(){
+  const el=$e('insights-card');if(!el)return;
+  const data=chartData[chartPeriod]||[];
+  if(data.length<2){el.innerHTML='';return;}
+
+  const half=Math.floor(data.length/2);
+  const first=data.slice(0,half);
+  const second=data.slice(half);
+
+  const avgFirst=first.reduce((a,d)=>a+d.steps,0)/first.length;
+  const avgSecond=second.reduce((a,d)=>a+d.steps,0)/second.length;
+  const stepsDelta=Math.round((avgSecond-avgFirst)/avgFirst*100);
+
+  const trainFirst=first.filter(d=>d.train).length/first.length;
+  const trainSecond=second.filter(d=>d.train).length/second.length;
+  const trainDelta=Math.round((trainSecond-trainFirst)*100);
+
+  const periodLabels={ru:{7:'неделю',30:'месяц',90:'3 месяца',180:'6 месяцев',365:'год',0:'всё время'},pl:{7:'tydzień',30:'miesiąc',90:'3 miesiące',180:'6 miesięcy',365:'rok',0:'cały czas'},en:{7:'week',30:'month',90:'3 months',180:'6 months',365:'year',0:'all time'},uk:{7:'тиждень',30:'місяць',90:'3 місяці',180:'6 місяців',365:'рік',0:'весь час'}};
+  const periodLabel=(periodLabels[currentLang]||periodLabels.ru)[chartPeriod]||'period';
+  const growing=stepsDelta>=0;
+
+  const L=currentLang;
+  const insights=[
+    {up:growing,icon:growing?'🚶':'⚠️',
+     title:{ru:growing?`Вы стали активнее за последний ${periodLabel}`:`Активность снизилась за последний ${periodLabel}`,pl:growing?`Stałeś się bardziej aktywny w ostatnim ${periodLabel}`:`Aktywność spadła w ostatnim ${periodLabel}`,en:growing?`You became more active over the last ${periodLabel}`:`Activity decreased over the last ${periodLabel}`,uk:growing?`Ви стали активнішими за останній ${periodLabel}`:`Активність знизилась за останній ${periodLabel}`},
+     desc:{ru:growing?'Ваша нагрузка выросла — это отличный результат. Продолжайте в том же ритме.':'Количество шагов сократилось. Попробуйте добавить короткие прогулки между упражнениями.',pl:growing?'Twoje obciążenie wzrosło — to świetny wynik. Kontynuuj w tym samym rytmie.':'Liczba kroków spadła. Spróbuj dodać krótkie spacery między ćwiczeniami.',en:growing?'Your activity load increased — great result. Keep up the same rhythm.':'Step count decreased. Try adding short walks between exercises.',uk:growing?'Ваше навантаження зросло — це чудовий результат.':'Кількість кроків скоротилася. Спробуйте додати короткі прогулянки.'},
+     pct:Math.abs(stepsDelta),sign:growing?'+':'-'},
+    {up:stepsDelta>=0,icon:stepsDelta>=0?'👟':'📉',
+     title:{ru:stepsDelta>=0?'Больше шагов каждый день':'Меньше шагов, чем раньше',pl:stepsDelta>=0?'Więcej kroków każdego dnia':'Mniej kroków niż wcześniej',en:stepsDelta>=0?'More steps every day':'Fewer steps than before',uk:stepsDelta>=0?'Більше кроків щодня':'Менше кроків ніж раніше'},
+     desc:{ru:stepsDelta>=0?`Среднее количество шагов выросло на ${Math.abs(stepsDelta)}%. Ходьба снижает риск сердечно-сосудистых заболеваний.`:`Среднее количество шагов снизилось на ${Math.abs(stepsDelta)}%. Попробуйте выходить на короткие прогулки после еды.`,pl:stepsDelta>=0?`Średnia liczba kroków wzrosła o ${Math.abs(stepsDelta)}%. Chodzenie zmniejsza ryzyko chorób sercowo-naczyniowych.`:`Średnia liczba kroków spadła o ${Math.abs(stepsDelta)}%. Spróbuj wychodzić na krótkie spacery po jedzeniu.`,en:stepsDelta>=0?`Average daily steps increased by ${Math.abs(stepsDelta)}%. Walking reduces cardiovascular disease risk.`:`Average daily steps decreased by ${Math.abs(stepsDelta)}%. Try short walks after meals.`,uk:stepsDelta>=0?`Середня кількість кроків зросла на ${Math.abs(stepsDelta)}%.`:`Середня кількість кроків знизилась на ${Math.abs(stepsDelta)}%.`},
+     pct:Math.abs(stepsDelta),sign:stepsDelta>=0?'+':'-'},
+    {up:trainDelta>=0,icon:trainDelta>=0?'💪':'🔔',
+     title:{ru:trainDelta>=0?'Больше тренировок в расписании':'Пропущено больше тренировок',pl:trainDelta>=0?'Więcej treningów w harmonogramie':'Więcej pominiętych treningów',en:trainDelta>=0?'More workouts in schedule':'More workouts missed',uk:trainDelta>=0?'Більше тренувань за розкладом':'Пропущено більше тренувань'},
+     desc:{ru:trainDelta>=0?`Частота тренировок выросла на ${Math.abs(trainDelta)}%. Мышцы укрепляются при регулярных нагрузках.`:`Пропускается больше тренировок чем раньше. Попробуйте снизить интенсивность, но не пропускать совсем.`,pl:trainDelta>=0?`Częstotliwość treningów wzrosła o ${Math.abs(trainDelta)}%. Mięśnie wzmacniają się przy regularnych ćwiczeniach.`:`Pomijasz więcej treningów niż wcześniej. Spróbuj zmniejszyć intensywność, ale nie pomijaj całkowicie.`,en:trainDelta>=0?`Workout frequency increased by ${Math.abs(trainDelta)}%. Muscles strengthen with regular exercise.`:`More workouts skipped than before. Try reducing intensity but don't skip entirely.`,uk:trainDelta>=0?`Частота тренувань зросла на ${Math.abs(trainDelta)}%.`:`Пропускається більше тренувань ніж раніше.`},
+     pct:Math.abs(trainDelta),sign:trainDelta>=0?'+':'-'},
+    {up:growing,icon:growing?'🤸':'🧘',
+     title:{ru:growing?'Гибкость и координация растут':'Рекомендуем добавить растяжку',pl:growing?'Elastyczność i koordynacja rosną':'Zalecamy dodanie rozciągania',en:growing?'Flexibility and coordination improving':'We recommend adding stretching',uk:growing?'Гнучкість і координація зростають':'Рекомендуємо додати розтяжку'},
+     desc:{ru:growing?'Регулярные тренировки улучшают гибкость суставов и координацию — снижается риск падений.':'При снижении активности суставы становятся менее подвижными. Добавьте 5 минут растяжки ежедневно.',pl:growing?'Regularne ćwiczenia poprawiają elastyczność stawów i koordynację — zmniejsza się ryzyko upadków.':'Przy zmniejszonej aktywności stawy stają się mniej ruchome. Dodaj 5 minut rozciągania dziennie.',en:growing?'Regular exercise improves joint flexibility and coordination — reducing fall risk.':'Reduced activity makes joints less mobile. Add 5 minutes of stretching daily.',uk:growing?'Регулярні тренування покращують гнучкість суглобів і координацію.':'При зниженні активності суглоби стають менш рухомими. Додайте 5 хвилин розтяжки щодня.'},
+     pct:null,sign:null},
+    {up:growing,icon:growing?'😴':'😔',
+     title:{ru:growing?'Сон и настроение улучшаются':'Активность влияет на настроение',pl:growing?'Sen i nastrój się poprawiają':'Aktywność wpływa na nastrój',en:growing?'Sleep and mood improving':'Activity affects mood',uk:growing?'Сон і настрій покращуються':'Активність впливає на настрій'},
+     desc:{ru:growing?'Исследования показывают: регулярные упражнения у людей 60+ улучшают качество сна на 15–20% за месяц.':'Снижение активности часто связано с ухудшением настроения и сна. Даже 10 минут движения помогают.',pl:growing?'Badania pokazują: regularne ćwiczenia u osób 60+ poprawiają jakość snu o 15–20% miesięcznie.':'Zmniejszona aktywność często wiąże się z pogorszeniem nastroju i snu. Nawet 10 minut ruchu pomaga.',en:growing?'Research shows: regular exercise in people 60+ improves sleep quality by 15–20% per month.':'Reduced activity often correlates with mood and sleep decline. Even 10 minutes of movement helps.',uk:growing?'Дослідження показують: регулярні вправи у людей 60+ покращують якість сну на 15–20% за місяць.':'Зниження активності часто повʼязане з погіршенням настрою і сну.'},
+     pct:null,sign:null},
+  ];
+
+  const insLabel={ru:'Анализ активности',pl:'Analiza aktywności',en:'Activity analysis',uk:'Аналіз активності'};
+  let html=`<div style="font-size:13px;font-weight:700;color:var(--forest);margin-bottom:10px">${insLabel[currentLang]||insLabel.ru}</div>`;
+  insights.forEach(ins=>{
+    const iconBg=ins.up?'insight-up':'insight-down';
+    const titleColor=ins.up?'var(--forest)':'var(--red)';
+    const pctHtml=ins.pct!=null?`<span class="insight-pct ${ins.up?'pct-up':'pct-down'}">${ins.sign}${ins.pct}%</span>`:'';
+    html+=`<div class="insight">
+      <div class="insight-icon ${iconBg}">${ins.icon}</div>
+      <div style="flex:1">
+        <div class="insight-title" style="color:${titleColor}">${exF(ins.title)}</div>
+        <div class="insight-desc">${exF(ins.desc)}</div>
+      </div>
+      ${pctHtml}
+    </div>`;
+  });
+  el.innerHTML=html;
+}
+
+// ═══ REMINDER ═══
+function sendReminder(){
+  const banner=$e('remind-banner');
+  if(banner)banner.innerHTML=`<div style="font-size:24px">✅</div><div style="flex:1"><div style="font-size:13px;font-weight:600;color:#2E7D32">${{ru:'Напоминание отправлено!',pl:'Przypomnienie wyslane!',en:'Reminder sent!',uk:'Нагадування вiдправлено!'}[currentLang]||'Sent!'}</div><div style="font-size:12px;color:#388E3C">${{ru:'Мама получит уведомление',pl:'Mama otrzyma powiadomienie',en:'Mom will receive a notification',uk:'Мама отримає сповiщення'}[currentLang]||''}</div></div>`;
+  showToast(TG('remindsent'));
+}
+
+
+const ACCOUNTS=[
+  {id:'p',type:'parent',label:'Родитель',emoji:'👵',fund:97,rate:5,age:68},
+  {id:'c',type:'child', label:'Ребенок', emoji:'👨',fund:97,rate:5,age:35},
+];
+let activeAcc='p';
+let renameTargetId=null;
+let aptType='parent';
+
+function renderRoleTabs(){
+  const el=$e('role-tabs');if(!el)return;
+  el.innerHTML='';
+  ACCOUNTS.forEach(acc=>{
+    const wrap=document.createElement('div');
+    wrap.style.cssText='display:flex;align-items:center;gap:3px;flex:0 0 auto';
+
+    const btn=document.createElement('button');
+    btn.style.cssText=`border:none;border-radius:999px;padding:8px 10px;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;color:${acc.id===activeAcc?'#fff':'rgba(255,255,255,.55)'};background:${acc.id===activeAcc?'var(--g)':'transparent'};transition:.18s`;
+    btn.textContent=acc.emoji+' '+acc.label;
+    btn.onclick=()=>switchAcc(acc.id);
+
+    const pencil=document.createElement('button');
+    pencil.textContent='✏️';
+    pencil.title='Переименовать';
+    pencil.style.cssText='border:none;background:transparent;cursor:pointer;font-size:13px;padding:2px 4px;opacity:.7;flex-shrink:0';
+    pencil.onclick=(e)=>{e.stopPropagation();openRename(acc.id);};
+
+    wrap.appendChild(btn);
+    wrap.appendChild(pencil);
+    el.appendChild(wrap);
+  });
+}
+
+function switchAcc(id){
+  activeAcc=id;
+  const acc=ACCOUNTS.find(a=>a.id===id);
+  if(!acc)return;
+  renderRoleTabs();
+  setRole(acc.type==='parent'?'p':'c');
+}
+
+function openRename(id){
+  renameTargetId=id;
+  const acc=ACCOUNTS.find(a=>a.id===id);
+  const inp=$e('rename-input');if(inp)inp.value=acc?acc.label:'';
+  $e('rename-modal').classList.add('open');
+}
+
+function confirmRename(){
+  const name=($e('rename-input')?.value||'').trim();
+  if(!name){showToast(TG('entername'));return;}
+  const acc=ACCOUNTS.find(a=>a.id===renameTargetId);
+  if(acc)acc.label=name;
+  $e('rename-modal').classList.remove('open');
+  renderRoleTabs();
+  showToast(TG('renamed')+': '+name+' ✓');
+}
+
+// ═══ PARENT ACCOUNTS (child side) ═══
+// ─── PARENTS persistent storage ───
+const PARENTS_DEFAULT=[
+  {id:'p1',name:'Мария',emoji:'👵',rel:'Мама',fund:97,earned:53,days:12,pct:80,active:true},
+];
+function loadParents(){
+  try{
+    const saved=localStorage.getItem('kb_parents');
+    if(saved){const arr=JSON.parse(saved);if(arr&&arr.length)return arr;}
+  }catch(e){}
+  return JSON.parse(JSON.stringify(PARENTS_DEFAULT));
+}
+function saveParents(){
+  try{localStorage.setItem('kb_parents',JSON.stringify(PARENTS));}catch(e){}
+}
+const PARENTS=loadParents();
+let activeParentId=(()=>{
+  try{const s=localStorage.getItem('kb_active_parent');if(s&&PARENTS.find(p=>p.id===s))return s;}catch(e){}
+  return PARENTS[0]?.id||'p1';
+})();
+
+function renderParentTabs(){
+  const el=$e('parent-tabs');if(!el)return;
+  el.innerHTML='';
+  PARENTS.forEach(p=>{
+    const wrap=document.createElement('div');
+    wrap.style.cssText='display:flex;align-items:center;gap:3px;flex:0 0 auto';
+
+    const btn=document.createElement('button');
+    const isActive=p.id===activeParentId;
+    btn.style.cssText=`border:none;border-radius:999px;padding:7px 12px;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;background:${isActive?'var(--forest)':'var(--shade)'};color:${isActive?'#A8FFCA':'var(--soft)'};border:1px solid ${isActive?'var(--line)':'var(--border)'};transition:.18s`;
+    btn.textContent=p.emoji+' '+p.name;
+    btn.onclick=()=>switchParent(p.id);
+
+    const pen=document.createElement('button');
+    pen.textContent='✏️';
+    pen.style.cssText='border:none;background:transparent;cursor:pointer;font-size:12px;padding:2px 3px;opacity:.6';
+    pen.onclick=(e)=>{e.stopPropagation();openRenameParent(p.id);};
+
+    wrap.appendChild(btn);wrap.appendChild(pen);
+    el.appendChild(wrap);
+  });
+  // update label
+  const ap=PARENTS.find(p=>p.id===activeParentId);
+  if(ap){
+    $s('c-dash-label',{ru:'Фонд',pl:'Fundusz',en:'Fund',uk:'Фонд'}[currentLang]||'Фонд');
+    $s('c-p-name',ap.name);
+    $s('c-p-emoji',ap.emoji);
+    // use S state for live values so they stay in sync
+    $s('c-fund',fmt(S.cFund));
+    $s('c-earned',fmt(S.totalEarned));
+    $s('c-avail',fmt(S.pBal));
+    $s('c-withdrawn',fmt(S.pWithdrawn));
+    const done=S.exs.filter(e=>e.done).length;
+    $s('c-days',12+done);
+    $s('c-pct',Math.round((12+done)/15*100)+'%');
+  }
+}
+
+function switchParent(id){
+  activeParentId=id;
+  try{localStorage.setItem('kb_active_parent',id);}catch(e){}
+
+  // direct element text (static HTML that TreeWalker may split)
+  const DM={
+    'p-today-slb-ex':{ru:'Упражнения',pl:'Cwiczenia',en:'Exercises',uk:'Вправи'},
+    'p-today-slb-sys':{ru:'Влияние на организм',pl:'Wplyw na organizm',en:'Body impact',uk:'Вплив на органiзм'},
+    'p-today-slb-steps':{ru:'Шагомер',pl:'Krokomierz',en:'Pedometer',uk:'Крокомiр'},
+    'ps-achieve-slb':{ru:'Мои достижения',pl:'Moje osiagniecia',en:'My achievements',uk:'Мої досягнення'},
+    'plan-train-days-slb':{ru:'Дни тренировок',pl:'Dni treningow',en:'Training days',uk:'Днi тренувань'},
+    'plan-rate-slb':{ru:'Ставка вознаграждения',pl:'Stawka nagrody',en:'Reward rate',uk:'Ставка винагороди'},
+    'plan-types-slb':{ru:'Виды нагрузки',pl:'Rodzaje treningu',en:'Workout types',uk:'Види навантаження'},
+    'plan-dur-slb':{ru:'Время тренировки',pl:'Czas treningu',en:'Workout duration',uk:'Час тренування'},
+    'plan-auto-slb':{ru:'Автоусложнение',pl:'Auto-progresja',en:'Auto-progression',uk:'Авто-ускладнення'},
+    'dur-no-walk':{ru:'без учета ходьбы',pl:'bez chodzenia',en:'excluding walking',uk:'без урахування ходьби'},
+    'dur-avg-lbl':{ru:'Среднее время',pl:'Sredni czas',en:'Average duration',uk:'Середнiй час'},
+    'rec-lbl':{ru:'💡 Рекомендация',pl:'💡 Zalecenie',en:'💡 Recommendation',uk:'💡 Рекомендацiя'},
+    'cp-acct-slb':{ru:'Мой аккаунт',pl:'Moje konto',en:'My account',uk:'Мiй акаунт'},
+    'cp-sponsor':{ru:'Спонсор',pl:'Sponsor',en:'Sponsor',uk:'Спонсор'},
+    'cp-rate-lbl':{ru:'Ставка',pl:'Stawka',en:'Rate',uk:'Ставка'},
+    'cp-fund-lbl':{ru:'Остаток фонда',pl:'Saldo funduszu',en:'Fund balance',uk:'Залишок фонду'},
+    'cp-sub-lbl':{ru:'Подписка',pl:'Subskrypcja',en:'Subscription',uk:'Пiдписка'},
+    'ps-hist-slb':{ru:'История',pl:'Historia',en:'History',uk:'Iсторiя'},
+    'c-hist-slb':{ru:'История',pl:'Historia',en:'History',uk:'Iсторiя'},
+    'c-prog-slb':{ru:'Прогресс сегодня',pl:'Postep dzisiaj',en:'Progress today',uk:'Прогрес сьогоднi'},
+    'c-done-lbl':{ru:'Выполнено сегодня',pl:'Wykonano dzisiaj',en:'Completed today',uk:'Виконано сьогоднi'},
+    'act-slb':{ru:'Активность',pl:'Aktywnosc',en:'Activity','uk':'Активнiсть'},
+    'prog-cal-slb':{ru:'Программа тренировок',pl:'Program treningow',en:'Training program',uk:'Програма тренувань'},
+  };
+  Object.entries(DM).forEach(([id,m])=>{const e=$e(id);if(e)e.textContent=m[currentLang]||m.ru;});
+
+  renderParentTabs();
+}
+
+let renameParentId=null;
+function openRenameParent(id){
+  renameParentId=id;
+  const p=PARENTS.find(x=>x.id===id);
+  const inp=$e('rename-input');if(inp)inp.value=p?p.name:'';
+  renameTargetId=null; // not account rename
+  $e('rename-modal').classList.add('open');
+}
+
+function confirmRename(){
+  const name=($e('rename-input')?.value||'').trim();
+  if(!name){showToast(TG('entername'));return;}
+  if(renameParentId){
+    const p=PARENTS.find(x=>x.id===renameParentId);
+    if(p){p.name=name;}
+    renameParentId=null;
+    saveParents();
+    renderParentTabs();
+  } else if(renameTargetId){
+    const acc=ACCOUNTS.find(a=>a.id===renameTargetId);
+    if(acc)acc.label=name;
+    renameTargetId=null;
+    renderRoleTabs();
+  }
+  $e('rename-modal').classList.remove('open');
+  showToast(TG('renamed')+': '+name+' ✓');
+}
+
+// ─── gear ───
+function openGear(){
+  const p=PARENTS.find(x=>x.id===activeParentId);
+  if(!p)return;
+  openRenameParent(p.id);
+}
+function saveGear(){
+  const name=($e('gear-name-input')?.value||'').trim();
+  if(name)showToast('Имя сохранено: '+name+' ✓');
+  else showToast('Настройки сохранены ✓');
+  $e('gear-modal').classList.remove('open');
+}
+
+// add parent from child side
+function openAddParent(){$e('add-parent-modal').classList.add('open');}
+function closeAddParent(){$e('add-parent-modal').classList.remove('open');}
+
+function selAptType(t){
+  aptType=t;
+  $e('apt-parent').classList.toggle('sel',t==='parent');
+  $e('apt-child').classList.toggle('sel',t==='child');
+  const rl=$e('apt-rel-label');
+  if(rl)rl.textContent=t==='parent'?'Кем приходится':'Тип аккаунта';
+}
+
+function confirmAddParent(){
+  const name=($e('apt-name')?.value||'').trim();
+  if(!name){showToast(TG('entername'));return;}
+  const rel=$e('apt-rel')?.value||'Мама';
+  const fund=parseInt($e('apt-fund')?.value)||150;
+  const rate=parseFloat($e('apt-rate-disp')?.textContent)||5;
+  const emoji='👤';
+  const newId='p_'+Date.now();
+  const fem=['Мама','Бабушка','Дочь'].includes(rel);
+  // add to PARENTS list (child dashboard)
+  PARENTS.push({id:newId,name,emoji,rel,fund,earned:0,days:0,pct:0,active:false});
+  saveParents();
+  // also add to ACCOUNTS for role switcher if it's a parent type
+  if(aptType==='parent'){
+    ACCOUNTS.push({id:'acc_'+newId,type:'parent',label:name,emoji,fund,rate,age:65});
+    renderRoleTabs();
+  }
+  closeAddParent();
+  // clear form
+  const ni=$e('apt-name');if(ni)ni.value='';
+  // switch to new parent in child dashboard
+  switchParent(newId);
+  showToast(name+' '+TG('added')+' ✓ '+TG('fund')+' '+csym()+fund);
+}
+
+
+// ─── autopay ───
+let autopayPeriod='weekly';
+function toggleAutopay(on){
+  const opts=$e('autopay-opts');if(opts)opts.style.display=on?'block':'none';
+  if(on)showToast(TG('autopayon'));
+}
+function selAutopay(period){
+  autopayPeriod=period;
+  $e('ap-weekly').classList.toggle('sel',period==='weekly');
+  $e('ap-monthly').classList.toggle('sel',period==='monthly');
+  const AP={ru:['Следующий платеж: через 7 дней','Следующий платеж: через 30 дней'],pl:['Nastepna platnosc: za 7 dni','Nastepna platnosc: za 30 dni'],en:['Next payment: in 7 days','Next payment: in 30 days'],uk:['Наступний платiж: через 7 днiв','Наступний платiж: через 30 днiв']};
+  const ap=AP[currentLang]||AP.ru;
+  $s('autopay-desc',period==='weekly'?ap[0]:ap[1]);
+}
+
+
+
+// ─── tx date label resolver ───
+const TXL={
+  today:{ru:'Сегодня',pl:'Dzisiaj',en:'Today',uk:'Сьогоднi'},
+  yesterday:{ru:'Вчера',pl:'Wczoraj',en:'Yesterday',uk:'Вчора'},
+  mon:{ru:'Понедельник',pl:'Poniedzialek',en:'Monday',uk:'Понедiлок'},
+  tue:{ru:'Вторник',pl:'Wtorek',en:'Tuesday',uk:'Вiвторок'},
+  wed:{ru:'Среда',pl:'Sroda',en:'Wednesday',uk:'Середа'},
+  thu:{ru:'Четверг',pl:'Czwartek',en:'Thursday',uk:'Четвер'},
+  fri:{ru:'Пятница',pl:'Piatek',en:'Friday',uk:'Пятниця'},
+  sat:{ru:'Суббота',pl:'Sobota',en:'Saturday',uk:'Субота'},
+  sun:{ru:'Воскресенье',pl:'Niedziela',en:'Sunday',uk:'Недiля'},
+  now:{ru:'Сейчас',pl:'Teraz',en:'Now',uk:'Зараз'},
+};
+function txLabel(tx){
+  if(tx.l)return tx.l;
+  const base=(TXL[tx.lk]&&TXL[tx.lk][currentLang])||(TXL[tx.lk]&&TXL[tx.lk].ru)||tx.lk||'';
+  return tx.lt?base+', '+tx.lt:base;
+}
+const TXS={
+  'Полный комплекс выполнен':{pl:'Pelny zestaw wykonany',en:'Full set completed',uk:'Повний комплекс виконано'},
+  'Полный комплекс':{pl:'Pelny zestaw',en:'Full set',uk:'Повний комплекс'},
+  'День отдыха':{pl:'Dzien odpoczynku',en:'Rest day',uk:'День вiдпочинку'},
+  'Пополнение фонда':{pl:'Doladowanie funduszu',en:'Fund top-up',uk:'Поповнення фонду'},
+  'Частичное выполнение':{pl:'Czesciowe wykonanie',en:'Partial completion',uk:'Часткове виконання'},
+  'Вывод на карту *4821':{pl:'Wyplata na karte *4821',en:'Withdrawal to card *4821',uk:'Виведення на картку *4821'},
+};
+function txSubLabel(s){return (TXS[s]&&TXS[s][currentLang])||s;}
+
+// ─── transactions ───
+function renderTx(){
+  const sym=csym();
+  ['txp','txc'].forEach((id,roleIdx)=>{
+    const el=$e(id);if(!el)return;el.innerHTML='';
+    S.txs.slice(0,8).forEach(tx=>{
+      const isTopup=tx.type==='topup';
+      // translate tx subtitle
+      const txSub=txSubLabel(tx.s);
+      const txL=txLabel(tx);
+      let disp=tx.a;
+      let color=tx.ac||'#999';
+      if(tx.type==='earn'){
+        if(roleIdx===1){
+          const numStr=tx.a.replace(/[^0-9.]/g,'');
+          disp=`-${sym}${numStr}`;
+          color='#B5473A'; // red for child spending
+        } else {
+          color='#0D7A3D';
+        }
+      }
+      if(isTopup){color='#C9962B';}
+
+      const r=document.createElement('div');
+      r.className='txi';
+
+      if(isTopup){
+        // full gold background like image
+        r.style.cssText='background:linear-gradient(135deg,#D4A017 0%,#F0C040 40%,#C9962B 70%,#9C7420 100%);border-radius:12px;margin:0 0 0 0;border-bottom:none';
+        r.innerHTML=`<div style="flex:1"><div style="font-size:13.5px;color:#fff;font-weight:600">${txL}</div><div style="font-size:12px;color:rgba(255,255,255,.75)">${txSub}</div></div><div style="font-size:14px;font-weight:700;color:#fff">${disp}</div>`;
+        r.style.padding='12px 16px';
+      } else {
+        r.innerHTML=`<div class="txd" style="background:${color}"></div><div style="flex:1"><div style="font-size:13.5px;color:var(--ink)">${txL}</div><div style="font-size:12px;color:var(--muted)">${txSub}</div></div><div style="font-size:14px;font-weight:700;color:${color}">${disp}</div>`;
+      }
+
+      if(tx.type==='earn'&&tx.exids&&tx.exids.length>0){
+        r.onclick=()=>openTxDetail(tx);
+      }
+      el.appendChild(r);
+    });
+  });
+}
+
+function openTxDetail(tx){
+  const el=$e('txmod-content');if(!el)return;
+  const sym=csym();
+  const exDetails=tx.exids.map(id=>S.exs[id]).filter(Boolean);
+  const numStr=tx.a.replace(/[^0-9.]/g,'');
+  const isChild=S.role==='c';
+  const amtDisp=isChild?`-${sym}${numStr}`:tx.a;
+  const amtColor=isChild?'#C9962B':'#0D7A3D';
+
+  let html=`
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+      <div>
+        <div style="font-size:16px;font-weight:700">${txLabel(tx)}</div>
+        <div style="font-size:13px;color:var(--muted)">${txSubLabel(tx.s)}</div>
+      </div>
+      <div style="font-size:22px;font-weight:700;color:${amtColor}">${amtDisp}</div>
+    </div>
+    <div class="dvdr"></div>
+    <div style="font-size:12px;font-weight:700;color:var(--muted);margin-bottom:12px;font-family:'IBM Plex Mono',monospace;letter-spacing:.06em">${{ru:'УПРАЖНЕНИЯ',pl:'CWICZENIA',en:'EXERCISES',uk:'ВПРАВИ'}[currentLang]||'EXERCISES'}</div>
+  `;
+
+  exDetails.forEach(ex=>{
+    const pct=tx.pct||ex.pct||90;
+    const sysList=SY.filter(s=>(ex.systems[s.k]||0)>30);
+    html+=`<div class="exr">
+      <span class="exrib">${ex.ic}</span>
+      <div style="flex:1">
+        <div class="exrnm">${exF(ex.n)}</div>
+        <div class="exrmeta">${ex.reps} ${exF(ex.u)} · ${ex.dur} мин · ${{ru:'Качество выполнения',pl:'Jakość wykonania',en:'Quality',uk:'Якість виконання'}[currentLang]||'Quality'}: <strong style="color:${pct>=80?'#1DB954':'#C9962B'}">${pct}%</strong></div>
+        <div style="margin-top:6px;display:flex;flex-wrap:wrap;gap:4px">
+          ${sysList.map(s=>`<span style="background:${s.c}22;color:${s.c};border-radius:999px;padding:2px 8px;font-size:11px;font-weight:600">${s.n}</span>`).join('')}
+        </div>
+        ${ex.muscles?`<div class="exrmeta" style="margin-top:4px">${{ru:'Мышцы',pl:'Miesnie',en:'Muscles',uk:'Мязи'}[currentLang]||'Muscles'}: ${(Array.isArray(ex.muscles)?ex.muscles:exF(ex.muscles)).join(', ')}</div>`:''}
+        <a class="exrsrc" href="${ex.srcUrl}" target="_blank">🔗 ${ex.src}</a>
+      </div>
+    </div>`;
+  });
+
+  const now=new Date();
+  const wdTr={ru:'Время вывода средств',pl:'Czas wypłaty',en:'Withdrawal time',uk:'Час виведення'};html+=`<div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--border);font-size:12px;color:var(--muted)">${wdTr[currentLang]||wdTr.ru}: ${now.toLocaleTimeString('ru',{hour:'2-digit',minute:'2-digit'})}</div>`;
+  el.innerHTML=html;
+  $e('txmod').classList.add('open');
+}
+
+function closeTxMod(){$e('txmod').classList.remove('open');}
+
+// ─── sync UI ───
+function syncUI(){
+  const sym=csym();
+  $s('p-bal',fmt(S.pBal));
+  $s('pp-bal',fmt(S.pBal));
+  $s('pp-earned-total',fmt(S.totalEarned));
+  $s('ps-earned',fmt(S.pBal));
+  $s('ps-earned-total',fmt(S.totalEarned));
+  $s('ps-fund',sym+fmt(S.cFund));
+  $s('c-fund',fmt(S.cFund));
+  $s('c-earned',fmt(S.totalEarned));
+  $s('c-avail',fmt(S.pBal));
+  $s('cp-fund',fmt(S.cFund));
+  $s('cp-rate',fmt(S.rate));
+  $s('ps-withdrawn',fmt(S.pWithdrawn));
+  $s('c-withdrawn',fmt(S.pWithdrawn));
+  $s('pp-withdrawn',fmt(S.pWithdrawn));
+  const done=S.exs.filter(e=>e.done).length;
+  $s('ps-done',12+done);$s('ps-streak',(4+done)+'\u{1F525}');
+  $s('c-days',12+done);$s('c-pct',Math.round((12+done)/15*100)+'%');
+  const OF={ru:'из 4 упражнений',pl:'z 4 cwiczen',en:'of 4 exercises',uk:'з 4 вправ'};
+  $s('c-progtxt',`${done+1} ${OF[currentLang]||OF.ru}`);
+  // keep child dashboard in sync
+  if(typeof renderParentTabs==='function')renderParentTabs();
+}
+
+// ─── steps ───
+function addSteps(){
+  const add=Math.floor(Math.random()*700)+200;
+  S.steps=Math.min(S.steps+add,7500);
+  const pct=Math.round(S.steps/7500*100);
+  $s('stepn',S.steps.toLocaleString('ru'));
+  const sb=$e('stepbar');if(sb)sb.style.width=pct+'%';
+  showToast(`+${add} `+TG('steps')+' 🚶');
+}
+
+// ─── withdraw ───
+function withdrawBlik(){
+  if(S.pBal<=0){showToast(TG('nofunds'));return;}
+  const phone=prompt(TG('blikphone'),'');
+  if(!phone){return;}
+  const old=fmt(S.pBal);
+  S.txs.unshift({lk:'now',s:'Вывод BLIK 🇵🇱 '+phone,a:`-€${old}`,ac:'#B5473A',type:'withdraw',exids:[]});
+  S.pWithdrawn=parseFloat((S.pWithdrawn+parseFloat(old)).toFixed(2));S.pBal=0;syncUI();renderTx();
+  showToast(`€${old} отправлено через BLIK 🇵🇱 на ${phone} ✓`);
+}
+
+function withdraw(){
+  if(S.pBal<=0){showToast(TG('nofunds'));return;}
+  const old=fmt(S.pBal),sym=csym();
+  S.txs.unshift({lk:'now',s:'Вывод на карту *4821',a:`-${sym}${old}`,ac:'#B5473A',type:'withdraw',exids:[]});
+  S.pWithdrawn=parseFloat((S.pWithdrawn+parseFloat(old)).toFixed(2));S.pBal=0;syncUI();renderTx();
+  showToast(`${sym}${old} переведено на карту *4821 ✓`);
+}
+
+// ─── currency ───
+function renderCurr(){
+  const el=$e('currrow');if(!el)return;el.innerHTML='';
+  Object.keys(S.curSym).forEach(c=>{
+    const b=document.createElement('button');
+    b.className='curr'+(c===S.currency?' sel':'');
+    b.textContent=`${S.curSym[c]} ${c}`;
+    b.onclick=()=>{S.currency=c;renderCurr();onRate(S.rate);syncUI();updatePayBtn();renderTx();$s('cursym',S.curSym[c]);$s('cursym2',S.curSym[c]);};
+    el.appendChild(b);
+  });
+}
+
+// ─── payment modal ───
+function openPay(){$e('paymod').classList.add('open');}
+function closePay(){$e('paymod').classList.remove('open');}
+$e('paymod').addEventListener('click',function(e){if(e.target===this)closePay();});
+$e('txmod').addEventListener('click',function(e){if(e.target===this)closeTxMod();});
+['add-parent-modal','rename-modal','gear-modal'].forEach(id=>{
+  const el=$e(id);if(el)el.addEventListener('click',function(e){if(e.target===this)this.classList.remove('open');});
+});
+
+function setAmt(v){
+  $s('payamt',v,'value');
+  document.querySelectorAll('.qa').forEach(b=>b.classList.toggle('sel',b.textContent==String(v)));
+  updatePayBtn();
+}
+function onAmt(v){
+  document.querySelectorAll('.qa').forEach(b=>b.classList.remove('sel'));
+  updatePayBtn();
+}
+function updatePayBtn(){
+  const v=$e('payamt')?.value||150,sym=csym();
+  const PB={ru:'Оплатить',pl:'Zaplac',en:'Pay',uk:'Оплатити'};
+  $s('paybtn',`${PB[currentLang]||PB.ru} ${sym}${v}`);
+}
+
+function selPay(m){
+  S.selPay=m;
+  ['card','paypal','apple','google','blik'].forEach(x=>{
+    const el=$e('pm-'+x);if(!el)return;
+    el.classList.toggle('sel',x===m);
+    const ck=el.querySelector('.pmck');if(ck)ck.textContent=x===m?'✓':'';
+  });
+}
+
+function confirmPay(){
+  const amt=parseInt($e('payamt')?.value)||150,sym=csym();
+  const MTH={ru:{card:'картой Visa',paypal:'через PayPal',apple:'через Apple Pay',google:'через Google Pay',blik:'через BLIK 🇵🇱'},
+    pl:{card:'karta Visa',paypal:'przez PayPal',apple:'przez Apple Pay',google:'przez Google Pay',blik:'przez BLIK 🇵🇱'},
+    en:{card:'by Visa card',paypal:'via PayPal',apple:'via Apple Pay',google:'via Google Pay',blik:'via BLIK 🇵🇱'},
+    uk:{card:'карткою Visa',paypal:'через PayPal',apple:'через Apple Pay',google:'через Google Pay',blik:'через BLIK 🇵🇱'}};
+  const methods=MTH[currentLang]||MTH.ru;
+  if(S.selPay==='blik'){
+    const phone=prompt(TG('blikcode'),'');
+    if(!phone){return;}
+    if(phone.length!==6||isNaN(phone)){showToast(TG('blikbad'));return;}
+  }
+  S.cFund+=amt;
+  S.txs.unshift({lk:'now',s:'Пополнение фонда',a:`+${sym}${amt}`,ac:'#C9962B',type:'topup',exids:[]});
+  syncUI();closePay();renderTx();
+  showToast(`${sym}${amt} пополнено ${methods[S.selPay]||''} ✓`);
+}
+
+// ─── avatar ───
+function loadAva(inp,prefix){
+  const file=inp.files[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=e=>{
+    const img=$e(prefix+'-ava-img')||$e(prefix+'ava-img');
+    const emoji=$e(prefix+'-ava-emoji')||$e(prefix+'ava-emoji');
+    if(img){img.src=e.target.result;img.style.display='block';}
+    if(emoji)emoji.style.display='none';
+    // sync parent avatar to child dashboard
+    if(prefix==='pp'||prefix==='p'){
+      const cp=$e('c-p-img'),ce=$e('c-p-emoji');
+      if(cp){cp.src=e.target.result;cp.style.display='block';}
+      if(ce)ce.style.display='none';
+    }
+  };
+  reader.readAsDataURL(file);
+}
+
+function onManualAmt(v){
+  if(!v)return;
+  $s('payamt',v,'value');
+  document.querySelectorAll('.qa').forEach(b=>b.classList.remove('sel'));
+  updatePayBtn();
+}
+
+// ─── big year calendar ───
+let calViewYear=new Date().getFullYear();
+let calViewMonth=new Date().getMonth();
+const MONTH_NAMES={
+  ru:['Январь','Февраль','Март','Апрель','Май','Июнь','Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь'],
+  pl:['Styczeń','Luty','Marzec','Kwiecień','Maj','Czerwiec','Lipiec','Sierpień','Wrzesień','Październik','Listopad','Grudzień'],
+  en:['January','February','March','April','May','June','July','August','September','October','November','December'],
+  uk:['Січень','Лютий','Березень','Квітень','Травень','Червень','Липень','Серпень','Вересень','Жовтень','Листопад','Грудень'],
+};
+function getMonthNames(){return MONTH_NAMES[currentLang]||MONTH_NAMES.ru;}
+const DOW_TRAIN=[1,2,4,5]; // Mon,Tue,Thu,Fri (0=Sun)
+const EX_TYPES_SHORT=[
+  {n:{ru:'Силовые',pl:'Silowe',en:'Strength',uk:'Силовi'},ic:'💪',dur:15,sys:{ru:'Мышцы, Кости',pl:'Miesnie, Kosci',en:'Muscles, Bones',uk:'Мязи, Кiстки'},src:'Hasegawa 2021',url:'https://www.nature.com/articles/s41598-021-86030-7'},
+  {n:{ru:'Кардио',pl:'Kardio',en:'Cardio',uk:'Кардiо'},ic:'🏃',dur:10,sys:{ru:'Сердце, Энергия',pl:'Serce, Energia',en:'Heart, Energy',uk:'Серце, Енергiя'},src:'Manson 1999, NEJM',url:'https://pubmed.ncbi.nlm.nih.gov/10460816/'},
+  {n:{ru:'Дыхательные',pl:'Oddechowe',en:'Breathing',uk:'Дихальнi'},ic:'🌬️',dur:5,sys:{ru:'Мозг, Нервная система',pl:'Mozg, Uklad nerwowy',en:'Brain, Nervous system',uk:'Мозок, Нервова система'},src:'Fincham 2023',url:'https://www.nature.com/articles/s41598-022-27247-y'},
+];
+
+function renderBigCal(){
+  const el=$e('big-cal-grid');if(!el)return;
+  $s('cal-month-title',getMonthNames()[calViewMonth]+' '+calViewYear);
+  el.innerHTML='';
+  const first=new Date(calViewYear,calViewMonth,1);
+  // Monday-first: 0=Mon..6=Sun
+  let startDow=(first.getDay()+6)%7;
+  const daysInMonth=new Date(calViewYear,calViewMonth+1,0).getDate();
+  const today=new Date();
+
+  // blank cells
+  for(let i=0;i<startDow;i++){
+    const b=document.createElement('div');
+    b.style.cssText='height:38px;';
+    el.appendChild(b);
+  }
+
+  for(let d=1;d<=daysInMonth;d++){
+    const date=new Date(calViewYear,calViewMonth,d);
+    const dow=date.getDay(); // 0=Sun
+    const isTrain=DOW_TRAIN.includes(dow);
+    const isToday=date.toDateString()===today.toDateString();
+    const isPast=date<today;
+
+    const cell=document.createElement('div');
+    cell.style.cssText=`
+      height:38px;border-radius:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;
+      cursor:${isTrain?'pointer':'default'};
+      background:${isToday?'var(--g)':isTrain?(isPast?'#E4F7EB':'var(--gl)'):'transparent'};
+      border:${isToday?'none':isTrain?'1px solid var(--gb)':'none'};
+      transition:opacity .15s;
+    `;
+    cell.innerHTML=`<div style="font-size:12px;font-weight:${isToday?'700':'500'};color:${isToday?'#fff':isTrain?'var(--forest)':'var(--muted)'}">${d}</div>${isTrain?`<div style="font-size:8px;color:${isToday?'rgba(255,255,255,.8)':'var(--g)'}">${isPast?'✓':'●'}</div>`:''}`;
+
+    if(isTrain){
+      cell.onclick=()=>showDayDetail(date,d);
+    }
+    el.appendChild(cell);
+  }
+}
+
+function showDayDetail(date,day){
+  const el=$e('day-detail'),ct=$e('day-detail-content'),tl=$e('day-detail-title');
+  if(!el||!ct||!tl)return;
+  const dwf=DOW_FULL[currentLang]||DOW_FULL.ru;
+  const mgn=MON_GEN[currentLang]||MON_GEN.ru;
+  tl.textContent=currentLang==='en'?`${dwf[date.getDay()]}, ${mgn[date.getMonth()]} ${day}`:`${dwf[date.getDay()]}, ${day} ${mgn[date.getMonth()]}`;
+  let html='';
+  EX_TYPES_SHORT.forEach(ex=>{
+    html+=`<div style="display:flex;align-items:flex-start;gap:10px;margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid var(--border)">
+      <span style="font-size:20px">${ex.ic}</span>
+      <div style="flex:1">
+        <div style="font-size:13px;font-weight:600">${exF(ex.n)}</div>
+        <div style="font-size:12px;color:var(--muted);margin-top:2px">${ex.dur} ${{ru:'мин',pl:'min',en:'min',uk:'хв'}[currentLang]||'min'} · ${{ru:'Влияет',pl:'Wplywa',en:'Affects',uk:'Впливає'}[currentLang]||'Affects'}: ${exF(ex.sys)}</div>
+        <a href="${ex.url}" target="_blank" style="font-size:11px;color:var(--g);font-family:'IBM Plex Mono',monospace;display:inline-block;margin-top:4px">🔗 ${ex.src}</a>
+      </div>
+    </div>`;
+  });
+  ct.innerHTML=html;
+  el.style.display='block';
+  el.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+function prevMonth(){
+  calViewMonth--;if(calViewMonth<0){calViewMonth=11;calViewYear--;}
+  renderBigCal();if($e('day-detail'))$e('day-detail').style.display='none';
+}
+function nextMonth(){
+  calViewMonth++;if(calViewMonth>11){calViewMonth=0;calViewYear++;}
+  renderBigCal();if($e('day-detail'))$e('day-detail').style.display='none';
+}
+
+// ─── language selector ───
+const LANGS=['Русский','Polski','English','Deutsch','Français','Español','Italiano','Português','Nederlands','Čeština','Slovenčina','Magyar','Română','Български','Hrvatski','Slovenščina','Srpski','Українська','Беларуская','Қазақша','Lietuvių','Latviešu','Eesti','Suomi','Svenska','Norsk','Dansk','Íslenska','Türkçe','Ελληνικά','العربية','עברית','فارسی','हिन्दी','বাংলা','日本語','中文 (简体)','中文 (繁體)','한국어','Bahasa Indonesia','Bahasa Melayu','Tiếng Việt','ภาษาไทย','Filipino','Kiswahili','Afrikaans','isiZulu','Hausa','Yorùbá','አማርኛ'];
+// ═══ LOCALIZATION ═══
+const TR={"Книжка заботы": {"pl": "Książka troski", "en": "Care Booklet", "uk": "Книжка турботи"}, "Добавить аккаунт": {"pl": "Dodaj konto", "en": "Add account", "uk": "Додати акаунт"}, "Тип аккаунта": {"pl": "Typ konta", "en": "Account type", "uk": "Тип акаунту"}, "Имя": {"pl": "Imię", "en": "Name", "uk": "Імʼя"}, "Возраст": {"pl": "Wiek", "en": "Age", "uk": "Вік"}, "Стартовый фонд": {"pl": "Fundusz startowy", "en": "Starting fund", "uk": "Стартовий фонд"}, "Ставка за день": {"pl": "Stawka dzienna", "en": "Daily rate", "uk": "Ставка за день"}, "в день": {"pl": "dziennie", "en": "per day", "uk": "на день"}, "Создать аккаунт и запустить": {"pl": "Utwórz konto i uruchom", "en": "Create account & launch", "uk": "Створити акаунт і запустити"}, "Переименовать": {"pl": "Zmień nazwę", "en": "Rename", "uk": "Перейменувати"}, "Как называть этот аккаунт?": {"pl": "Jak nazwać to konto?", "en": "What to call this account?", "uk": "Як назвати цей акаунт?"}, "Сохранить": {"pl": "Zapisz", "en": "Save", "uk": "Зберегти"}, "Отмена": {"pl": "Anuluj", "en": "Cancel", "uk": "Скасувати"}, "Настройки аккаунта": {"pl": "Ustawienia konta", "en": "Account settings", "uk": "Налаштування акаунту"}, "Уведомления": {"pl": "Powiadomienia", "en": "Notifications", "uk": "Сповіщення"}, "Мама выполнила задание": {"pl": "Mama wykonała zadanie", "en": "Mom completed the task", "uk": "Мама виконала завдання"}, "Фонд заканчивается": {"pl": "Fundusz się kończy", "en": "Fund is running low", "uk": "Фонд закінчується"}, "Добрый день, Мария": {"pl": "Dzień dobry, Maria", "en": "Good day, Maria", "uk": "Добрий день, Марія"}, "Активна сегодня": {"pl": "Aktywna dzisiaj", "en": "Active today", "uk": "Активна сьогодні"}, "Выполните задания и получите": {"pl": "Wykonaj ćwiczenia i otrzymaj", "en": "Complete tasks and earn", "uk": "Виконайте завдання та отримайте"}, "сегодня": {"pl": "dzisiaj", "en": "today", "uk": "сьогодні"}, "повт.": {"pl": "pow.", "en": "reps", "uk": "пов."}, "сек.": {"pl": "sek.", "en": "sec.", "uk": "сек."}, "мин.": {"pl": "min.", "en": "min.", "uk": "хв."}, "💪 Мышцы": {"pl": "💪 Mięśnie", "en": "💪 Muscles", "uk": "💪 Мʼязи"}, "❤️ Сердце": {"pl": "❤️ Serce", "en": "❤️ Heart", "uk": "❤️ Серце"}, "🧠 Мозг": {"pl": "🧠 Mózg", "en": "🧠 Brain", "uk": "🧠 Мозок"}, "🦴 Кости": {"pl": "🦴 Kości", "en": "🦴 Bones", "uk": "🦴 Кістки"}, "⚡ Энергия": {"pl": "⚡ Energia", "en": "⚡ Energy", "uk": "⚡ Енергія"}, "Сильно": {"pl": "Mocno", "en": "Strong", "uk": "Сильно"}, "Заметно": {"pl": "Zauważalnie", "en": "Notable", "uk": "Помітно"}, "Умеренно": {"pl": "Umiarkowanie", "en": "Moderate", "uk": "Помірно"}, "из 7 500 шагов": {"pl": "z 7 500 kroków", "en": "of 7,500 steps", "uk": "з 7 500 кроків"}, "Включить шагомер": {"pl": "Włącz krokomierz", "en": "Enable pedometer", "uk": "Увімкнути крокомір"}, "Остановить шагомер": {"pl": "Zatrzymaj krokomierz", "en": "Stop pedometer", "uk": "Зупинити крокомір"}, "Симулировать прогулку": {"pl": "Symuluj spacer", "en": "Simulate walk", "uk": "Симулювати прогулянку"}, "Смотрите на технику": {"pl": "Obserwuj technikę", "en": "Watch the technique", "uk": "Дивіться на техніку"}, "Запомните движение": {"pl": "Zapamiętaj ruch", "en": "Remember the movement", "uk": "Запам\'ятайте рух"}, "Польза сейчас": {"pl": "Korzyść teraz", "en": "Benefit now", "uk": "Користь зараз"}, "Пропустить → Начать упражнение": {"pl": "Pomiń → Zacznij", "en": "Skip → Start", "uk": "Пропустити → Почати"}, "Встаньте так чтобы всё тело было в кадре": {"pl": "Stań tak, żeby całe ciało było w kadrze", "en": "Stand so your full body is in frame", "uk": "Встаньте щоб все тіло було в кадрі"}, "Завершить запись": {"pl": "Zakończ nagrywanie", "en": "Finish recording", "uk": "Завершити запис"}, "ИИ анализирует видео": {"pl": "AI analizuje wideo", "en": "AI analyzing video", "uk": "ІІ аналізує відео"}, "Проверяем технику...": {"pl": "Sprawdzamy technikę...", "en": "Checking technique...", "uk": "Перевіряємо техніку..."}, "Засчитано!": {"pl": "Zaliczone!", "en": "Approved!", "uk": "Зараховано!"}, "Техника правильная": {"pl": "Technika prawidłowa", "en": "Technique is correct", "uk": "Техніка правильна"}, "Результат анализа": {"pl": "Wynik analizy", "en": "Analysis result", "uk": "Результат аналізу"}, "Попробовать ещё раз": {"pl": "Spróbuj ponownie", "en": "Try again", "uk": "Спробувати ще раз"}, "Засчитать вручную": {"pl": "Zalicz ręcznie", "en": "Approve manually", "uk": "Зарахувати вручну"}, "Не засчитано": {"pl": "Niezaliczone", "en": "Not approved", "uk": "Не зараховано"}, "Что исправить:": {"pl": "Co poprawić:", "en": "What to fix:", "uk": "Що виправити:"}, "начислено на баланс": {"pl": "naliczono na saldo", "en": "added to balance", "uk": "нараховано на баланс"}, "Что произошло с телом:": {"pl": "Co się stało z ciałem:", "en": "What happened to your body:", "uk": "Що сталось з тілом:"}, "Продолжить": {"pl": "Kontynuuj", "en": "Continue", "uk": "Продовжити"}, "Мои достижения": {"pl": "Moje osiągnięcia", "en": "My achievements", "uk": "Мої досягнення"}, "Остаток фонда": {"pl": "Saldo funduszu", "en": "Fund balance", "uk": "Залишок фонду"}, "Дней выполнено": {"pl": "Dni wykonano", "en": "Days completed", "uk": "Днів виконано"}, "Заработано всего": {"pl": "Zarobiono łącznie", "en": "Total earned", "uk": "Зароблено всього"}, "Доступно к выводу": {"pl": "Dostępne do wypłaty", "en": "Available to withdraw", "uk": "Доступно до виводу"}, "Дней подряд": {"pl": "Dni z rzędu", "en": "Days in a row", "uk": "Днів поспіль"}, "Выведено": {"pl": "Wypłacono", "en": "Withdrawn", "uk": "Виведено"}, "Шаги и тренировки": {"pl": "Kroki i treningi", "en": "Steps and workouts", "uk": "Кроки і тренування"}, "Шаги": {"pl": "Kroki", "en": "Steps", "uk": "Кроки"}, "Тренировки": {"pl": "Treningi", "en": "Workouts", "uk": "Тренування"}, "Анализ активности": {"pl": "Analiza aktywności", "en": "Activity analysis", "uk": "Аналіз активності"}, "История": {"pl": "Historia", "en": "History", "uk": "Історія"}, "Напоминание": {"pl": "Przypomnienie", "en": "Reminder", "uk": "Нагадування"}, "Будильник": {"pl": "Budzik", "en": "Alarm", "uk": "Будильник"}, "Каждый день": {"pl": "Każdego dnia", "en": "Every day", "uk": "Щодня"}, "Проверить звонок": {"pl": "Sprawdź dzwonek", "en": "Test alarm", "uk": "Перевірити дзвінок"}, "Мой профиль": {"pl": "Mój profil", "en": "My profile", "uk": "Мій профіль"}, "68 лет · Базовый уровень": {"pl": "68 lat · Poziom podstawowy", "en": "68 years · Basic level", "uk": "68 років · Базовий рівень"}, "Уровень": {"pl": "Poziom", "en": "Level", "uk": "Рівень"}, "Вывод средств": {"pl": "Wypłata środków", "en": "Withdraw funds", "uk": "Виведення коштів"}, "доступно для вывода": {"pl": "dostępne do wypłaty", "en": "available to withdraw", "uk": "доступно до виводу"}, "Вывести на карту *4821": {"pl": "Wypłać na kartę *4821", "en": "Withdraw to card *4821", "uk": "Вивести на картку *4821"}, "Язык интерфейса": {"pl": "Język interfejsu", "en": "Interface language", "uk": "Мова інтерфейсу"}, "Реферальная программа": {"pl": "Program poleceń", "en": "Referral program", "uk": "Реферальна програма"}, "Ваши бонусы": {"pl": "Twoje bonusy", "en": "Your bonuses", "uk": "Ваші бонуси"}, "Ваша реферальная ссылка": {"pl": "Twój link polecający", "en": "Your referral link", "uk": "Ваше реферальне посилання"}, "Копировать": {"pl": "Kopiuj", "en": "Copy", "uk": "Копіювати"}, "Поделиться ссылкой": {"pl": "Udostępnij link", "en": "Share link", "uk": "Поділитися посиланням"}, "Онлайн": {"pl": "Online", "en": "Online", "uk": "Онлайн"}, "Мама ещё не занималась сегодня": {"pl": "Mama jeszcze nie ćwiczyła dzisiaj", "en": "Mom hasn't exercised today", "uk": "Мама ще не займалася сьогодні"}, "Последняя тренировка: вчера": {"pl": "Ostatni trening: wczoraj", "en": "Last workout: yesterday", "uk": "Остання тренування: вчора"}, "Напомнить": {"pl": "Przypomnij", "en": "Remind", "uk": "Нагадати"}, "Напоминание отправлено!": {"pl": "Przypomnienie wysłano!", "en": "Reminder sent!", "uk": "Нагадування відправлено!"}, "Мама получит уведомление": {"pl": "Mama otrzyma powiadomienie", "en": "Mom will receive a notification", "uk": "Мама отримає сповіщення"}, "Выполнено сегодня": {"pl": "Wykonano dzisiaj", "en": "Completed today", "uk": "Виконано сьогодні"}, "+ Пополнить фонд": {"pl": "+ Doładuj fundusz", "en": "+ Top up fund", "uk": "+ Поповнити фонд"}, "Настроить план": {"pl": "Ustaw plan", "en": "Set up plan", "uk": "Налаштувати план"}, "Прогресс сегодня": {"pl": "Postęp dzisiaj", "en": "Today's progress", "uk": "Прогрес сьогодні"}, "Дни тренировок": {"pl": "Dni treningów", "en": "Training days", "uk": "Дні тренувань"}, "Выберите дни занятий": {"pl": "Wybierz dni ćwiczeń", "en": "Select training days", "uk": "Виберіть дні занять"}, "Ставка вознаграждения": {"pl": "Stawka nagrody", "en": "Reward rate", "uk": "Ставка винагороди"}, "Сумма за выполненный день": {"pl": "Kwota za wykonany dzień", "en": "Amount per completed day", "uk": "Сума за виконаний день"}, "Виды нагрузки": {"pl": "Rodzaje treningu", "en": "Workout types", "uk": "Види навантаження"}, "Выберите типы тренировок": {"pl": "Wybierz typy treningów", "en": "Select workout types", "uk": "Виберіть типи тренувань"}, "Время тренировки": {"pl": "Czas treningu", "en": "Workout duration", "uk": "Час тренування"}, "Среднее время": {"pl": "Średni czas", "en": "Average duration", "uk": "Середній час"}, "без учёта ходьбы": {"pl": "bez chodzenia", "en": "excl. walking", "uk": "без урахування ходьби"}, "Авто-рост нагрузки": {"pl": "Auto-progresja", "en": "Auto-progression", "uk": "Авто-ускладнення"}, "Требует подтверждения": {"pl": "Wymaga potwierdzenia", "en": "Requires confirmation", "uk": "Потребує підтвердження"}, "в неделю": {"pl": "tygodniowo", "en": "per week", "uk": "на тиждень"}, "Сохранить план": {"pl": "Zapisz plan", "en": "Save plan", "uk": "Зберегти план"}, "Валюта": {"pl": "Waluta", "en": "Currency", "uk": "Валюта"}, "Или введите сумму вручную": {"pl": "Lub wpisz kwotę ręcznie", "en": "Or enter amount manually", "uk": "Або введіть суму вручну"}, "Любая сумма": {"pl": "Dowolna kwota", "en": "Any amount", "uk": "Будь-яка сума"}, "Способ оплаты": {"pl": "Metoda płatności", "en": "Payment method", "uk": "Спосіб оплати"}, "Карта Visa / Mastercard": {"pl": "Karta Visa / Mastercard", "en": "Visa / Mastercard", "uk": "Картка Visa / Mastercard"}, "Польская мгновенная оплата": {"pl": "Polska szybka płatność", "en": "Polish instant payment", "uk": "Польська миттєва оплата"}, "Быстрая оплата Face ID": {"pl": "Szybka płatność Face ID", "en": "Quick pay Face ID", "uk": "Швидка оплата Face ID"}, "Быстрая оплата": {"pl": "Szybka płatność", "en": "Quick payment", "uk": "Швидка оплата"}, "Настроить автоплатеж": {"pl": "Ustaw autopłatność", "en": "Set up auto-payment", "uk": "Налаштувати автоплатіж"}, "Автоматически пополнять фонд": {"pl": "Automatycznie doładuj fundusz", "en": "Automatically top up fund", "uk": "Автоматично поповнювати фонд"}, "Периодичность": {"pl": "Częstotliwość", "en": "Frequency", "uk": "Періодичність"}, "Еженедельно": {"pl": "Co tydzień", "en": "Weekly", "uk": "Щотижнево"}, "Ежемесячно": {"pl": "Co miesiąc", "en": "Monthly", "uk": "Щомісячно"}, "Мой аккаунт": {"pl": "Moje konto", "en": "My account", "uk": "Мій акаунт"}, "Спонсор": {"pl": "Sponsor", "en": "Sponsor", "uk": "Спонсор"}, "Подписка": {"pl": "Subskrypcja", "en": "Subscription", "uk": "Підписка"}, "Активна": {"pl": "Aktywna", "en": "Active", "uk": "Активна"}, "Пополнение фонда": {"pl": "Doładowanie funduszu", "en": "Fund top-up", "uk": "Поповнення фонду"}, "Сумма пополнения": {"pl": "Kwota doładowania", "en": "Top-up amount", "uk": "Сума поповнення"}, "Пополнить через Stripe": {"pl": "Doładuj przez Stripe", "en": "Top up via Stripe", "uk": "Поповнити через Stripe"}, "Пригласить родителя": {"pl": "Zaproś rodzica", "en": "Invite parent", "uk": "Запросити батьків"}, "Отправить ссылку в WhatsApp": {"pl": "Wyślij link przez WhatsApp", "en": "Send link via WhatsApp", "uk": "Надіслати посилання у WhatsApp"}, "Силовые": {"pl": "Siłowe", "en": "Strength", "uk": "Силові"}, "Кардио": {"pl": "Kardio", "en": "Cardio", "uk": "Кардіо"}, "Зарядка": {"pl": "Ćwiczenia poranne", "en": "Morning exercise", "uk": "Зарядка"}, "Растяжка": {"pl": "Rozciąganie", "en": "Stretching", "uk": "Розтяжка"}, "Разминка": {"pl": "Rozgrzewka", "en": "Warm-up", "uk": "Розминка"}, "Дыхательные": {"pl": "Oddechowe", "en": "Breathing", "uk": "Дихальні"}, "Ходьба": {"pl": "Chodzenie", "en": "Walking", "uk": "Ходьба"}, "Медитация": {"pl": "Medytacja", "en": "Meditation", "uk": "Медytacja"}, "Координация": {"pl": "Koordynacja", "en": "Coordination", "uk": "Координація"}, "Прежде чем начать": {"pl": "Zanim zaczniesz", "en": "Before you start", "uk": "Перш ніж почати"}, "Принять и продолжить": {"pl": "Akceptuj i kontynuuj", "en": "Accept and continue", "uk": "Прийняти та продовжити"}, "Ваши данные защищены по стандарту GDPR": {"pl": "Twoje dane są chronione zgodnie z RODO", "en": "Your data is GDPR protected", "uk": "Ваші дані захищені за стандартом GDPR"}, "Далее": {"pl": "Dalej", "en": "Next", "uk": "Далі"}, "Начать": {"pl": "Zacznij", "en": "Start", "uk": "Почати"}, "Пропустить": {"pl": "Pomiń", "en": "Skip", "uk": "Пропустити"}, "7 дней": {"pl": "7 dni", "en": "7 days", "uk": "7 днів"}, "Месяц": {"pl": "Miesiąc", "en": "Month", "uk": "Місяць"}, "3 месяца": {"pl": "3 miesiące", "en": "3 months", "uk": "3 місяці"}, "6 месяцев": {"pl": "6 miesięcy", "en": "6 months", "uk": "6 місяців"}, "Год": {"pl": "Rok", "en": "Year", "uk": "Рік"}, "Всё время": {"pl": "Cały czas", "en": "All time", "uk": "Весь час"}, "Программа тренировок": {"pl": "Program treningów", "en": "Training program", "uk": "Програма тренувань"}, "Фонд": {"pl": "Fundusz", "en": "Fund", "uk": "Фонд"}, "Активность": {"pl": "Aktywność", "en": "Activity", "uk": "Активність"}, "Прогресс": {"pl": "Postęp", "en": "Progress", "uk": "Прогрес"}, "План": {"pl": "Plan", "en": "Plan", "uk": "План"}, "Профиль": {"pl": "Profil", "en": "Profile", "uk": "Профіль"}, "Дашборд": {"pl": "Panel", "en": "Dashboard", "uk": "Панель"}, "Родитель": {"pl": "Rodzic", "en": "Parent", "uk": "Батько/Мати"}, "Ребенок": {"pl": "Dziecko", "en": "Child", "uk": "Дитина"}, "Заработано мамой": {"pl": "Zarobione przez mamę", "en": "Earned by mom", "uk": "Зароблено мамою"}, "Выполнение": {"pl": "Wykonanie", "en": "Completion", "uk": "Виконання"}, "День отдыха": {"pl": "Dzień odpoczynku", "en": "Rest day", "uk": "День відпочинку"}, "Полный комплекс выполнен": {"pl": "Pełny zestaw wykonany", "en": "Full set completed", "uk": "Повний комплекс виконано"}, "Вывод на карту *4821": {"pl": "Wypłata na kartę *4821", "en": "Withdrawal to card *4821", "uk": "Виведення на картку *4821"}};
+
+// ─── additional TR entries ───
+Object.assign(TR, {
+  'Закрыть':{'pl':'Zamknij','en':'Close','uk':'Закрити'},
+  'задания':{'pl':'zadania','en':'tasks','uk':'завдання'},
+  'Упражнения':{'pl':'Ćwiczenia','en':'Exercises','uk':'Вправи'},
+  'Влияние на организм':{'pl':'Wpływ na organizm','en':'Body impact','uk':'Вплив на організм'},
+  'Шагомер':{'pl':'Krokomierz','en':'Pedometer','uk':'Крокомір'},
+  'Программа тренировок':{'pl':'Program treningów','en':'Training program','uk':'Програма тренuvань'},
+  'Упражнение':{'pl':'Ćwiczenie','en':'Exercise','uk':'Вправа'},
+  'СМОТРИ И ПОВТОРЯЙ':{'pl':'OBSERWUJ I POWTARZAJ','en':'WATCH AND REPEAT','uk':'ДИВИСЬ І ПОВТОРЮЙ'},
+  'АНАЛИЗ:':{'pl':'ANALIZA:','en':'ANALYSIS:','uk':'АНАЛІЗ:'},
+  '📊 Результат анализа':{'pl':'📊 Wynik analizy','en':'📊 Analysis result','uk':'📊 Результат аналізу'},
+  'Прогресс':{'pl':'Postęp','en':'Progress','uk':'Прогрес'},
+  'Мои достижения':{'pl':'Moje osiągnięcia','en':'My achievements','uk':'Мої досягнення'},
+  'Мария Иванова':{'pl':'Maria Iwanowa','en':'Maria Ivanova','uk':'Марія Іванова'},
+  'Вывод средств':{'pl':'Wypłata środków','en':'Withdraw funds','uk':'Виведення коштів'},
+  'Мама еще не занималась сегодня':{'pl':'Mama jeszcze nie ćwiczyła dzisiaj','en':"Mom hasn't exercised today",'uk':'Мама ще не займалася сьогодні'},
+  'Последняя тренировка: вчера':{'pl':'Ostatni trening: wczoraj','en':'Last workout: yesterday','uk':'Остання тренування: вчора'},
+  'Фонд для мамы':{'pl':'Fundusz dla mamy','en':'Fund for mom','uk':'Фонд для мами'},
+  'Выполнение':{'pl':'Wykonanie','en':'Completion','uk':'Виконання'},
+  '2 из 4 упражнений':{'pl':'2 z 4 ćwiczeń','en':'2 of 4 exercises','uk':'2 з 4 вправ'},
+  '€1 мин.':{'pl':'€1 min.','en':'€1 min.','uk':'€1 мін.'},
+  '€5 стандарт':{'pl':'€5 standard','en':'€5 standard','uk':'€5 стандарт'},
+  '€20 макс.':{'pl':'€20 maks.','en':'€20 max.','uk':'€20 макс.'},
+  '5 мин':{'pl':'5 min','en':'5 min','uk':'5 хв'},
+  '30 мин':{'pl':'30 min','en':'30 min','uk':'30 хв'},
+  '60 мин':{'pl':'60 min','en':'60 min','uk':'60 хв'},
+  '💡 Рекомендация':{'pl':'💡 Zalecenie','en':'💡 Recommendation','uk':'💡 Рекомендація'},
+  'Среднее время мини-тренировки на начальном уровне — 10–25 мин без учета ходьбы. Начните с 15 минут.':{'pl':'Średni czas mini-treningu na poziomie podstawowym — 10–25 min bez chodzenia. Zacznij od 15 minut.','en':'Average mini-workout at beginner level — 10–25 min excluding walking. Start with 15 minutes.','uk':'Середній час міні-тренування на початковому рівні — 10–25 хв без ходьби. Почніть з 15 хвилин.'},
+  'Автоусложнение':{'pl':'Auto-progresja','en':'Auto-progression','uk':'Авто-ускладнення'},
+  'Темп роста:':{'pl':'Tempo wzrostu:','en':'Growth rate:','uk':'Темп зростання:'},
+  '/день':{'pl':'/dzień','en':'/day','uk':'/день'},
+  'Следующий платеж: через 7 дней':{'pl':'Następna płatność: za 7 dni','en':'Next payment: in 7 days','uk':'Наступний платіж: через 7 днів'},
+  'Следующий платеж: через 30 дней':{'pl':'Następna płatność: za 30 dni','en':'Next payment: in 30 days','uk':'Наступний платіж: через 30 днів'},
+  '🔄 Настроить автоплатеж':{'pl':'🔄 Ustaw autopłatność','en':'🔄 Set auto-payment','uk':'🔄 Налаштувати автоплатіж'},
+  'Книжка заботы — приложение для семейной мотивации физической активности.':{'pl':'Aplikacja do rodzinnej motywacji aktywności fizycznej.','en':'An app for family motivation of physical activity.','uk':'Застосунок для сімейної мотивації фізичної активності.'},
+  'Не является медицинским устройством':{'pl':'Nie jest urządzeniem medycznym','en':'Not a medical device','uk':'Не є медичним пристроєм'},
+  'и не заменяет консультацию врача. Перед началом занятий проконсультируйтесь со специалистом.':{'pl':'i nie zastępuje konsultacji lekarskiej. Skonsultuj się ze specjalistą przed ćwiczeniami.','en':'and does not replace medical consultation. Consult a specialist before starting.','uk':'і не замінює консультацію лікаря. Проконсультуйтесь зі спеціалістом перед початком.'},
+  'Я понимаю что приложение не является медицинской рекомендацией':{'pl':'Rozumiem, że aplikacja nie jest zaleceniem medycznym','en':'I understand the app is not a medical recommendation','uk':'Я розумію що застосунок не є медичною рекомендацією'},
+  'Я согласен с':{'pl':'Zgadzam się z','en':'I agree with','uk':'Я погоджуюсь з'},
+  'Условиями использования':{'pl':'Warunkami użytkowania','en':'Terms of Service','uk':'Умовами використання'},
+  'Политикой конфиденциальности':{'pl':'Polityką prywatności','en':'Privacy Policy','uk':'Політикою конфіденційності'},
+  'Перед началом упражнений родитель проконсультировался с врачом':{'pl':'Rodzic skonsultował się z lekarzem przed ćwiczeniami','en':'The parent consulted a doctor before starting exercises','uk':'Батьківська особа проконсультувалась з лікарем перед початком вправ'},
+  'Ваши данные защищены по стандарту GDPR':{'pl':'Twoje dane są chronione zgodnie z RODO','en':'Your data is GDPR protected','uk':'Ваші дані захищені за стандартом GDPR'},
+  'Приложение где взрослые дети платят родителям за ежедневные упражнения. Забота становится измеримой и мотивирующей.':{'pl':'Aplikacja, w której dorosłe dzieci płacą rodzicom za codzienne ćwiczenia.','en':'An app where adult children pay their parents for daily exercises. Care becomes measurable and motivating.','uk':'Застосунок де дорослі діти платять батькам за щоденні вправи.'},
+  'Родитель выполняет задания':{'pl':'Rodzic wykonuje zadania','en':'Parent completes tasks','uk':'Батьки виконують завдання'},
+  'Каждый день — короткий комплекс упражнений 10–25 минут. Камера записывает, ИИ проверяет технику и начисляет вознаграждение.':{'pl':'Każdego dnia — zestaw ćwiczeń 10–25 minut. Kamera nagrywa, AI sprawdza technikę i nalicza nagrodę.','en':'Every day — a 10–25 min exercise set. Camera records, AI checks technique and awards payment.','uk':'Щодня — комплекс вправ 10–25 хвилин. Камера записує, ІІ перевіряє техніку і нараховує винагороду.'},
+  'Ребенок пополняет фонд':{'pl':'Dziecko zasila fundusz','en':'Child tops up the fund','uk':'Дитина поповнює фонд'},
+  'Вы вносите депозит раз в месяц. Мама и папа зарабатывают из него каждый день — это не подарок, это заслуженное вознаграждение.':{'pl':'Wpłacasz depozyt raz w miesiącu. Mama i tata zarabiają każdego dnia — to nie prezent, to zasłużona nagroda.','en':'You deposit once a month. Mom and dad earn from it daily — not a gift, a deserved reward.','uk':'Ви вносите депозит раз на місяць. Мама і тато заробляють щодня — це заслужена винагорода.'},
+  'Здоровье и деньги растут':{'pl':'Zdrowie i pieniądze rosną','en':'Health and money grow','uk':'Здоровʼя і гроші зростають'},
+  'Регулярная активность снижает риск падений, улучшает сон и настроение. Научно доказано для людей 60+.':{'pl':'Regularna aktywność zmniejsza ryzyko upadków, poprawia sen i nastrój. Udowodnione dla osób 60+.','en':'Regular activity reduces fall risk, improves sleep and mood. Proven for people 60+.','uk':'Регулярна активність знижує ризик падінь, покращує сон і настрій. Доведено для людей 60+.'},
+  'Мама':{'pl':'Mama','en':'Mom','uk':'Мама'},
+  'Папа':{'pl':'Tata','en':'Dad','uk':'Тато'},
+  'Бабушка':{'pl':'Babcia','en':'Grandma','uk':'Бабуся'},
+  'Дедушка':{'pl':'Dziadek','en':'Grandpa','uk':'Дідусь'},
+  'Сын':{'pl':'Syn','en':'Son','uk':'Син'},
+  'Дочь':{'pl':'Córka','en':'Daughter','uk':'Донька'},
+  'Ваше имя (как вы себя называете)':{'pl':'Twoje imię','en':'Your name','uk':'Ваше імʼя'},
+  'Сегодня':{'pl':'Dzisiaj','en':'Today','uk':'Сьогодні'},
+  'Добрый день, Мария':{'pl':'Dzień dobry, Maria','en':'Good day, Maria','uk':'Добрий день, Марія'},
+  '68 лет · Базовый уровень':{'pl':'68 lat · Poziom podstawowy','en':'68 years · Beginner level','uk':'68 років · Початковий рівень'},
+  'Мария':{'pl':'Maria','en':'Maria','uk':'Марія'},
+  'Встаньте так чтобы все тело было в кадре':{'pl':'Stań tak, żeby całe ciało było w kadrze','en':'Stand so your whole body is in frame','uk':'Встаньте так щоб все тіло було в кадрі'},
+  'Быстрая оплата':{'pl':'Szybka płatność','en':'Quick payment','uk':'Швидка оплата'},
+  'Ставка':{'pl':'Stawka','en':'Rate','uk':'Ставка'},
+  'Отправьте ссылку маме или папе — они установят приложение и вы будете связаны автоматически.':{'pl':'Wyślij link mamie lub tacie — zainstalują aplikację i zostaniecie automatycznie połączeni.','en':'Send a link to mom or dad — they will install the app and you will be connected automatically.','uk':'Надішліть посилання мамі або татові — вони встановлять застосунок і ви будете повʼязані автоматично.'},
+  'Активность':{'pl':'Aktywność','en':'Activity','uk':'Активність'},
+  'из 7 500 шагов':{'pl':'z 7 500 kroków','en':'of 7,500 steps','uk':'з 7 500 кроків'},
+  'Итого:':{'pl':'Łącznie:','en':'Total:','uk':'Разом:'},
+  'мин':{'pl':'min','en':'min','uk':'хв'},
+  'Прежде чем начать':{'pl':'Zanim zaczniesz','en':'Before you start','uk':'Перш ніж почати'},
+  'Далее':{'pl':'Dalej','en':'Next','uk':'Далі'},
+  '🎁 Вы получите':{'pl':'🎁 Otrzymasz','en':'🎁 You will get','uk':'🎁 Ви отримаєте'},
+  'с каждого пополненного депозита реферала':{'pl':'od każdego depozytu poleconych','en':'from each deposit of referred users','uk':'з кожного депозиту реферала'},
+  '🎉 Ваш друг получит скидку':{'pl':'🎉 Twój znajomy otrzyma zniżkę','en':'🎉 Your friend gets a discount of','uk':'🎉 Ваш друг отримає знижку'},
+  'на первый месяц':{'pl':'na pierwszy miesiąc','en':'for the first month','uk':'на перший місяць'},
+});
+
+
+Object.assign(TR,{
+  'Сегодня':{'pl':'Dzisiaj','en':'Today','uk':'Сьогоднi'},
+  'Упражнения':{'pl':'Cwiczenia','en':'Exercises','uk':'Вправи'},
+  'Влияние на организм':{'pl':'Wplyw na organizm','en':'Body impact','uk':'Вплив на органiзм'},
+  'Шагомер':{'pl':'Krokomierz','en':'Pedometer','uk':'Крокомiр'},
+  'Программа тренировок':{'pl':'Program treningow','en':'Training program','uk':'Програма тренувань'},
+  'Мои достижения':{'pl':'Moje osiagniecia','en':'My achievements','uk':'Мої досягнення'},
+  'История':{'pl':'Historia','en':'History','uk':'Iсторiя'},
+  'Активность':{'pl':'Aktywnosc','en':'Activity','uk':'Активнiсть'},
+  'Шаги и тренировки':{'pl':'Kroki i treningi','en':'Steps and workouts','uk':'Кроки i тренування'},
+  'Шаги':{'pl':'Kroki','en':'Steps','uk':'Кроки'},
+  'Тренировки':{'pl':'Treningi','en':'Workouts','uk':'Тренування'},
+  'Мой профиль':{'pl':'Moj profil','en':'My profile','uk':'Мiй профiль'},
+  'Мой аккаунт':{'pl':'Moje konto','en':'My account','uk':'Мiй акаунт'},
+  'Вывод средств':{'pl':'Wyplata srodkow','en':'Withdraw funds','uk':'Виведення коштiв'},
+  'доступно для вывода':{'pl':'dostepne do wyplaty','en':'available to withdraw','uk':'доступно до виведення'},
+  'Язык интерфейса':{'pl':'Jezyk interfejsu','en':'Interface language','uk':'Мова iнтерфейсу'},
+  'Реферальная программа':{'pl':'Program polecen','en':'Referral program','uk':'Реферальна програма'},
+  'Ваши бонусы':{'pl':'Twoje bonusy','en':'Your bonuses','uk':'Вашi бонуси'},
+  'Ваша реферальная ссылка':{'pl':'Twoj link polecajacy','en':'Your referral link','uk':'Ваше реферальне посилання'},
+  'Копировать':{'pl':'Kopiuj','en':'Copy','uk':'Копiювати'},
+  'Поделиться ссылкой':{'pl':'Udostepnij link','en':'Share link','uk':'Подiлитися посиланням'},
+  'Пригласить родителя':{'pl':'Zapros rodzica','en':'Invite parent','uk':'Запросити батькiв'},
+  'Отправить ссылку в WhatsApp':{'pl':'Wyslij link przez WhatsApp','en':'Send link via WhatsApp','uk':'Надiслати посилання у WhatsApp'},
+  'Прогресс сегодня':{'pl':'Postep dzisiaj','en':'Progress today','uk':'Прогрес сьогоднi'},
+  'Выполнено сегодня':{'pl':'Wykonano dzisiaj','en':'Completed today','uk':'Виконано сьогоднi'},
+  'Дни тренировок':{'pl':'Dni treningow','en':'Training days','uk':'Днi тренувань'},
+  'Выберите дни занятий':{'pl':'Wybierz dni cwiczen','en':'Select training days','uk':'Виберiть днi занять'},
+  'Ставка вознаграждения':{'pl':'Stawka nagrody','en':'Reward rate','uk':'Ставка винагороди'},
+  'Сумма за выполненный день':{'pl':'Kwota za wykonany dzien','en':'Amount per completed day','uk':'Сума за виконаний день'},
+  'Виды нагрузки':{'pl':'Rodzaje treningu','en':'Workout types','uk':'Види навантаження'},
+  'Выберите типы тренировок':{'pl':'Wybierz typy treningow','en':'Select workout types','uk':'Виберiть типи тренувань'},
+  'Время тренировки':{'pl':'Czas treningu','en':'Workout duration','uk':'Час тренування'},
+  'Среднее время':{'pl':'Sredni czas','en':'Average duration','uk':'Середнiй час'},
+  'без учета ходьбы':{'pl':'bez chodzenia','en':'excluding walking','uk':'без урахування ходьби'},
+  'Автоусложнение':{'pl':'Auto-progresja','en':'Auto-progression','uk':'Авто-ускладнення'},
+  'Авто-рост нагрузки':{'pl':'Auto-wzrost obciazenia','en':'Auto load increase','uk':'Авто-зростання навантаження'},
+  'Требует подтверждения':{'pl':'Wymaga potwierdzenia','en':'Requires confirmation','uk':'Потребує пiдтвердження'},
+  'Темп роста:':{'pl':'Tempo wzrostu:','en':'Growth rate:','uk':'Темп зростання:'},
+  'в неделю':{'pl':'tygodniowo','en':'per week','uk':'на тиждень'},
+  'Сохранить план':{'pl':'Zapisz plan','en':'Save plan','uk':'Зберегти план'},
+  'Пополнить фонд':{'pl':'Doladuj fundusz','en':'Top up fund','uk':'Поповнити фонд'},
+  'Валюта':{'pl':'Waluta','en':'Currency','uk':'Валюта'},
+  'Способ оплаты':{'pl':'Metoda platnosci','en':'Payment method','uk':'Спосiб оплати'},
+  'Карта Visa / Mastercard':{'pl':'Karta Visa / Mastercard','en':'Visa / Mastercard','uk':'Картка Visa / Mastercard'},
+  'Быстрая оплата':{'pl':'Szybka platnosc','en':'Quick payment','uk':'Швидка оплата'},
+  'Быстрая оплата Face ID':{'pl':'Szybka platnosc Face ID','en':'Quick pay Face ID','uk':'Швидка оплата Face ID'},
+  'Польская мгновенная оплата':{'pl':'Polska szybka platnosc','en':'Polish instant payment','uk':'Польська миттєва оплата'},
+  'Периодичность':{'pl':'Czestotliwosc','en':'Frequency','uk':'Перiодичнiсть'},
+  'Еженедельно':{'pl':'Co tydzien','en':'Weekly','uk':'Щотижня'},
+  'Ежемесячно':{'pl':'Co miesiac','en':'Monthly','uk':'Щомiсяця'},
+  'Отмена':{'pl':'Anuluj','en':'Cancel','uk':'Скасувати'},
+  'Закрыть':{'pl':'Zamknij','en':'Close','uk':'Закрити'},
+  'Спонсор':{'pl':'Sponsor','en':'Sponsor','uk':'Спонсор'},
+  'Подписка':{'pl':'Subskrypcja','en':'Subscription','uk':'Пiдписка'},
+  'Активна':{'pl':'Aktywna','en':'Active','uk':'Активна'},
+  'Ставка':{'pl':'Stawka','en':'Rate','uk':'Ставка'},
+  'Уровень':{'pl':'Poziom','en':'Level','uk':'Рiвень'},
+  'Онлайн':{'pl':'Online','en':'Online','uk':'Онлайн'},
+  'Выполнение':{'pl':'Wykonanie','en':'Completion','uk':'Виконання'},
+  'Настроить план':{'pl':'Ustaw plan','en':'Set up plan','uk':'Налаштувати план'},
+  'Последняя тренировка: вчера':{'pl':'Ostatni trening: wczoraj','en':'Last workout: yesterday','uk':'Останнє тренування: вчора'},
+  'Напомнить':{'pl':'Przypomnij','en':'Remind','uk':'Нагадати'},
+  'Упражнение':{'pl':'Cwiczenie','en':'Exercise','uk':'Вправа'},
+  'СМОТРИ И ПОВТОРЯЙ':{'pl':'OBSERWUJ I POWTARZAJ','en':'WATCH AND REPEAT','uk':'ДИВИСЬ I ПОВТОРЮЙ'},
+  'АНАЛИЗ:':{'pl':'ANALIZA:','en':'ANALYSIS:','uk':'АНАЛIЗ:'},
+  'Завершить запись':{'pl':'Zakoncz nagrywanie','en':'Finish recording','uk':'Завершити запис'},
+  'ИИ анализирует видео':{'pl':'AI analizuje wideo','en':'AI is analyzing video','uk':'ІІ аналiзує вiдео'},
+  'Проверяем технику...':{'pl':'Sprawdzamy technike...','en':'Checking technique...','uk':'Перевiряємо технiку...'},
+  'Засчитано!':{'pl':'Zaliczone!','en':'Approved!','uk':'Зараховано!'},
+  'Техника правильная':{'pl':'Technika prawidlowa','en':'Technique is correct','uk':'Технiка правильна'},
+  '📊 Результат анализа':{'pl':'📊 Wynik analizy','en':'📊 Analysis result','uk':'📊 Результат аналiзу'},
+  'Забрать +€':{'pl':'Odbierz +€','en':'Claim +€','uk':'Отримати +€'},
+  'Не засчитано':{'pl':'Niezaliczone','en':'Not approved','uk':'Не зараховано'},
+  'Что исправить:':{'pl':'Co poprawic:','en':'What to fix:','uk':'Що виправити:'},
+  'Попробовать еще раз':{'pl':'Sprobuj ponownie','en':'Try again','uk':'Спробувати ще раз'},
+  'Засчитать вручную':{'pl':'Zalicz recznie','en':'Approve manually','uk':'Зарахувати вручну'},
+  'начислено на баланс':{'pl':'naliczono na saldo','en':'added to balance','uk':'нараховано на баланс'},
+  'Итого: €':{'pl':'Lacznie: €','en':'Total: €','uk':'Разом: €'},
+  'Что произошло с телом:':{'pl':'Co stalo sie z cialem:','en':'What happened to your body:','uk':'Що сталось з тiлом:'},
+  'Продолжить':{'pl':'Kontynuuj','en':'Continue','uk':'Продовжити'},
+  '⚡ Польза сейчас':{'pl':'⚡ Korzysc teraz','en':'⚡ Benefit now','uk':'⚡ Користь зараз'},
+  'Пропустить → Начать':{'pl':'Pomin → Zacznij','en':'Skip → Start','uk':'Пропустити → Почати'},
+  'Остаток фонда':{'pl':'Saldo funduszu','en':'Fund balance','uk':'Залишок фонду'},
+  'Дней выполнено':{'pl':'Dni wykonano','en':'Days completed','uk':'Днiв виконано'},
+  'Заработано всего':{'pl':'Zarobiono lacznie','en':'Total earned','uk':'Зароблено всього'},
+  'Доступно к выводу':{'pl':'Dostepne do wyplaty','en':'Available to withdraw','uk':'Доступно до виведення'},
+  'Дней подряд':{'pl':'Dni z rzedu','en':'Days in a row','uk':'Днiв поспiль'},
+  'Выведено':{'pl':'Wyplacono','en':'Withdrawn','uk':'Виведено'},
+  '5 мин':{'pl':'5 min','en':'5 min','uk':'5 хв'},
+  '30 мин':{'pl':'30 min','en':'30 min','uk':'30 хв'},
+  '60 мин':{'pl':'60 min','en':'60 min','uk':'60 хв'},
+  '💡 Рекомендация':{'pl':'💡 Zalecenie','en':'💡 Recommendation','uk':'💡 Рекомендацiя'},
+  '€1 мин.':{'pl':'€1 min.','en':'€1 min.','uk':'€1 мiн.'},
+  '€5 стандарт':{'pl':'€5 standard','en':'€5 standard','uk':'€5 стандарт'},
+  '€20 макс.':{'pl':'€20 maks.','en':'€20 max.','uk':'€20 макс.'},
+  '/день':{'pl':'/dzien','en':'/day','uk':'/день'},
+  'мин':{'pl':'min','en':'min','uk':'хв'},
+  'Имя':{'pl':'Imie','en':'Name','uk':'Iмя'},
+  'Возраст':{'pl':'Wiek','en':'Age','uk':'Вiк'},
+  'Стартовый фонд':{'pl':'Fundusz startowy','en':'Starting fund','uk':'Стартовий фонд'},
+  'Ставка за день':{'pl':'Stawka dzienna','en':'Daily rate','uk':'Ставка за день'},
+  'в день':{'pl':'dziennie','en':'per day','uk':'на день'},
+  'Создать аккаунт и запустить':{'pl':'Utworz konto i uruchom','en':'Create account and launch','uk':'Створити акаунт i запустити'},
+  'Добавить аккаунт':{'pl':'Dodaj konto','en':'Add account','uk':'Додати акаунт'},
+  'Тип аккаунта':{'pl':'Typ konta','en':'Account type','uk':'Тип акаунту'},
+  'Переименовать':{'pl':'Zmien nazwe','en':'Rename','uk':'Перейменувати'},
+  'Как называть этот аккаунт?':{'pl':'Jak nazwac to konto?','en':'What to call this account?','uk':'Як назвати цей акаунт?'},
+  'Сохранить':{'pl':'Zapisz','en':'Save','uk':'Зберегти'},
+  'Мама':{'pl':'Mama','en':'Mom','uk':'Мама'},
+  'Папа':{'pl':'Tata','en':'Dad','uk':'Тато'},
+  'Бабушка':{'pl':'Babcia','en':'Grandma','uk':'Бабуся'},
+  'Дедушка':{'pl':'Dziadek','en':'Grandpa','uk':'Дiдусь'},
+  'Сын':{'pl':'Syn','en':'Son','uk':'Син'},
+  'Дочь':{'pl':'Corka','en':'Daughter','uk':'Донька'},
+  'Уведомления':{'pl':'Powiadomienia','en':'Notifications','uk':'Сповiщення'},
+  'Мама выполнила задание':{'pl':'Mama wykonala zadanie','en':'Mom completed the task','uk':'Мама виконала завдання'},
+  'Фонд заканчивается':{'pl':'Fundusz sie konczy','en':'Fund is running low','uk':'Фонд закiнчується'},
+  '68 лет · Базовый уровень':{'pl':'68 lat · Poziom podstawowy','en':'68 years · Beginner level','uk':'68 рокiв · Початковий рiвень'},
+  'Отправьте ссылку маме или папе — они установят приложение и вы будете связаны автоматически.':{'pl':'Wyslij link mamie lub tacie — zainstaluja aplikacje i zostaniecie polaczeni automatycznie.','en':'Send a link to mom or dad — they will install the app and you will be connected automatically.','uk':'Надiшлiть посилання мамi або татовi — вони встановлять застосунок i ви будете повязанi автоматично.'},
+  'Вывести на карту *4821':{'pl':'Wyplac na karte *4821','en':'Withdraw to card *4821','uk':'Вивести на картку *4821'},
+  'Вывести через BLIK 🇵🇱':{'pl':'Wyplac przez BLIK 🇵🇱','en':'Withdraw via BLIK 🇵🇱','uk':'Вивести через BLIK 🇵🇱'},
+  'с каждого пополненного депозита реферала':{'pl':'od kazdego doladowanego depozytu poleconego','en':'from each topped-up referral deposit','uk':'з кожного поповненого депозиту реферала'},
+  'на первый месяц':{'pl':'na pierwszy miesiac','en':'for the first month','uk':'на перший мiсяць'},
+  'Или введите сумму вручную':{'pl':'Lub wpisz kwote recznie','en':'Or enter amount manually','uk':'Або введiть суму вручну'},
+  'Любая сумма':{'pl':'Dowolna kwota','en':'Any amount','uk':'Будь-яка сума'},
+  '🔄 Настроить автоплатеж':{'pl':'🔄 Ustaw autoplatnosc','en':'🔄 Set up auto-payment','uk':'🔄 Налаштувати автоплатiж'},
+  'Автоматически пополнять фонд':{'pl':'Automatycznie doladuj fundusz','en':'Automatically top up fund','uk':'Автоматично поповнювати фонд'},
+});
+
+function translatePage(){
+  if(currentLang==='ru')return;
+  const L=currentLang;
+
+  // Walk all text nodes
+  const walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT,null,false);
+  const nodes=[];
+  let node;
+  while(node=walker.nextNode()){
+    if(node.parentElement&&['SCRIPT','STYLE'].includes(node.parentElement.tagName))continue;
+    if(node.nodeValue&&node.nodeValue.trim().length>1)nodes.push(node);
+  }
+
+  nodes.forEach(n=>{
+    let txt=n.nodeValue;
+    const trimmed=txt.trim();
+    // exact match
+    if(TR[trimmed]&&TR[trimmed][L]){
+      n.nodeValue=txt.replace(trimmed,TR[trimmed][L]);
+      return;
+    }
+    // partial matches — sorted by length desc to match longer strings first
+    const keys=Object.keys(TR).sort((a,b)=>b.length-a.length);
+    keys.forEach(key=>{
+      if(key.length>2&&txt.includes(key)&&TR[key][L]){
+        txt=txt.split(key).join(TR[key][L]);
+      }
+    });
+    if(txt!==n.nodeValue)n.nodeValue=txt;
+  });
+
+  // Translate placeholder attributes
+  document.querySelectorAll('[placeholder]').forEach(el=>{
+    const p=el.getAttribute('placeholder');
+    if(TR[p]&&TR[p][L])el.setAttribute('placeholder',TR[p][L]);
+  });
+
+  // Translate title attributes
+  document.querySelectorAll('[title]').forEach(el=>{
+    const p=el.getAttribute('title');
+    if(TR[p]&&TR[p][L])el.setAttribute('title',TR[p][L]);
+  });
+}
+
+function resetToRussian(){
+  // Re-render all dynamic content in Russian
+  if(currentLang==='ru'){
+    renderExList();renderSys();renderWtypes();renderCal();renderTx();renderParentTabs();renderRoleTabs();
+    const pLb=['Активность','Прогресс',null,'Профиль'];
+    const cLb=['Дашборд','Прогресс','План','Профиль'];
+    const lb=S.role==='p'?pLb:cLb;
+    document.querySelectorAll('.ni span').forEach((s,i)=>{if(lb[i])s.textContent=lb[i];});
+  }
+}
+
+const I18N={
+  ru:{
+    // navbar
+    nav_activity:'Активность', nav_progress:'Прогресс', nav_plan:'План', nav_profile:'Профиль',
+    nav_dashboard:'Дашборд',
+    // role bar
+    role_parent:'Родитель', role_child:'Ребенок',
+    // parent today
+    greeting:'Добрый день', today_label:'Сегодня',
+    exercises_label:'Упражнения на сегодня', sys_label:'Влияние на организм',
+    steps_label:'Шагомер', steps_of:'из', steps_unit:'шагов',
+    steps_btn:'🚶 Включить шагомер', steps_stop:'⏸ Остановить шагомер',
+    // exercise
+    watch_phase:'Смотрите на технику', watch_desc:'Запомните движение',
+    skip_btn:'Пропустить → Начать', benefit_now:'⚡ Польза сейчас',
+    rec_hint:'Встаньте так чтобы всё тело было в кадре',
+    ai_title:'ИИ анализирует видео', ai_sub:'Проверяем технику...',
+    ai_pass:'Засчитано!', ai_pass_sub:'Техника правильная',
+    ai_fail:'Не засчитано', ai_retry:'Попробовать ещё раз', ai_manual:'Засчитать вручную',
+    claim_btn:'Забрать', reward_title:'начислено на баланс', reward_body:'Что произошло с телом:',
+    continue_btn:'Продолжить',
+    // stats
+    my_achieve:'Мои достижения', fund_remain:'Остаток фонда',
+    days_done:'Дней выполнено', earned_total:'Заработано всего',
+    avail_withdraw:'Доступно к выводу', streak:'Дней подряд',
+    withdrawn:'Выведено', history:'История', activity_7:'Активность',
+    // profile
+    my_profile:'Мой профиль', withdraw_card:'Вывести на карту *4821',
+    withdraw_blik:'Вывести через BLIK 🇵🇱', lang_label:'Язык интерфейса',
+    referral_label:'Реферальная программа', copy_btn:'Копировать', share_btn:'Поделиться ссылкой',
+    // child dash
+    fund_for:'Фонд', active_today:'Активна сегодня', online:'Онлайн',
+    top_up:'+ Пополнить фонд', setup_plan:'Настроить план',
+    progress_today:'Прогресс сегодня', done_today:'Выполнено сегодня',
+    remind_title:'Мама ещё не занималась сегодня', remind_btn:'Напомнить',
+    // plan
+    train_days:'Дни тренировок', select_days:'Выберите дни занятий',
+    rate_label:'Ставка вознаграждения', rate_day:'Сумма за выполненный день',
+    workout_types:'Виды нагрузки', select_types:'Выберите типы тренировок',
+    duration_label:'Время тренировки', duration_no_walk:'без учёта ходьбы',
+    auto_label:'Автоусложнение', save_plan:'Сохранить план',
+    // payment
+    top_up_title:'Пополнить фонд', currency_label:'Валюта',
+    manual_amount:'Или введите сумму вручную', pay_method:'Способ оплаты',
+    autopay_label:'Настроить автоплатеж', autopay_desc:'Автоматически пополнять фонд',
+    pay_btn:'Оплатить', cancel:'Отмена',
+    cal_days_ru:{Mon:'Пн',Tue:'Вт',Wed:'Ср',Thu:'Чт',Fri:'Пт',Sat:'Сб',Sun:'Вс'},
+  },
+  pl:{
+    nav_activity:'Aktywność', nav_progress:'Postęp', nav_plan:'Plan', nav_profile:'Profil',
+    nav_dashboard:'Panel',
+    role_parent:'Rodzic', role_child:'Dziecko',
+    greeting:'Dzień dobry', today_label:'Dzisiaj',
+    exercises_label:'Ćwiczenia na dziś', sys_label:'Wpływ na organizm',
+    steps_label:'Krokomierz', steps_of:'z', steps_unit:'kroków',
+    steps_btn:'🚶 Włącz krokomierz', steps_stop:'⏸ Zatrzymaj krokomierz',
+    watch_phase:'Obserwuj technikę', watch_desc:'Zapamiętaj ruch',
+    skip_btn:'Pomiń → Zacznij', benefit_now:'⚡ Korzyść teraz',
+    rec_hint:'Stań tak, żeby całe ciało było w kadrze',
+    ai_title:'AI analizuje wideo', ai_sub:'Sprawdzamy technikę...',
+    ai_pass:'Zaliczone!', ai_pass_sub:'Technika prawidłowa',
+    ai_fail:'Niezaliczone', ai_retry:'Spróbuj ponownie', ai_manual:'Zalicz ręcznie',
+    claim_btn:'Odbierz', reward_title:'naliczono na saldo', reward_body:'Co się stało z ciałem:',
+    continue_btn:'Kontynuuj',
+    my_achieve:'Moje osiągnięcia', fund_remain:'Saldo funduszu',
+    days_done:'Dni wykonano', earned_total:'Zarobiono łącznie',
+    avail_withdraw:'Dostępne do wypłaty', streak:'Dni z rzędu',
+    withdrawn:'Wypłacono', history:'Historia', activity_7:'Aktywność',
+    my_profile:'Mój profil', withdraw_card:'Wypłać na kartę *4821',
+    withdraw_blik:'Wypłać przez BLIK 🇵🇱', lang_label:'Język interfejsu',
+    referral_label:'Program poleceń', copy_btn:'Kopiuj', share_btn:'Udostępnij link',
+    fund_for:'Fundusz', active_today:'Aktywna dzisiaj', online:'Online',
+    top_up:'+ Doładuj fundusz', setup_plan:'Ustaw plan',
+    progress_today:'Postęp dzisiaj', done_today:'Wykonano dzisiaj',
+    remind_title:'Mama jeszcze nie ćwiczyła dzisiaj', remind_btn:'Przypomnij',
+    train_days:'Dni treningów', select_days:'Wybierz dni ćwiczeń',
+    rate_label:'Stawka nagrody', rate_day:'Kwota za wykonany dzień',
+    workout_types:'Rodzaje treningu', select_types:'Wybierz typy treningów',
+    duration_label:'Czas treningu', duration_no_walk:'bez chodzenia',
+    auto_label:'Auto-progresja', save_plan:'Zapisz plan',
+    top_up_title:'Doładuj fundusz', currency_label:'Waluta',
+    manual_amount:'Lub wpisz kwotę ręcznie', pay_method:'Metoda płatności',
+    autopay_label:'Ustaw autopłatność', autopay_desc:'Automatyczne doładowanie',
+    pay_btn:'Zapłać', cancel:'Anuluj',
+    cal_days_ru:{Mon:'Pn',Tue:'Wt',Wed:'Śr',Thu:'Cz',Fri:'Pt',Sat:'Sob',Sun:'Nd'},
+  },
+  en:{
+    nav_activity:'Activity', nav_progress:'Progress', nav_plan:'Plan', nav_profile:'Profile',
+    nav_dashboard:'Dashboard',
+    role_parent:'Parent', role_child:'Child',
+    greeting:'Good day', today_label:'Today',
+    exercises_label:'Exercises for today', sys_label:'Body systems impact',
+    steps_label:'Step counter', steps_of:'of', steps_unit:'steps',
+    steps_btn:'🚶 Enable pedometer', steps_stop:'⏸ Stop pedometer',
+    watch_phase:'Watch the technique', watch_desc:'Remember the movement',
+    skip_btn:'Skip → Start', benefit_now:'⚡ Benefit now',
+    rec_hint:'Stand so your full body is in frame',
+    ai_title:'AI is analyzing video', ai_sub:'Checking technique...',
+    ai_pass:'Approved!', ai_pass_sub:'Technique is correct',
+    ai_fail:'Not approved', ai_retry:'Try again', ai_manual:'Approve manually',
+    claim_btn:'Claim', reward_title:'added to balance', reward_body:'What happened to the body:',
+    continue_btn:'Continue',
+    my_achieve:'My achievements', fund_remain:'Fund balance',
+    days_done:'Days completed', earned_total:'Total earned',
+    avail_withdraw:'Available to withdraw', streak:'Days in a row',
+    withdrawn:'Withdrawn', history:'History', activity_7:'Activity',
+    my_profile:'My profile', withdraw_card:'Withdraw to card *4821',
+    withdraw_blik:'Withdraw via BLIK 🇵🇱', lang_label:'Interface language',
+    referral_label:'Referral program', copy_btn:'Copy', share_btn:'Share link',
+    fund_for:'Fund', active_today:'Active today', online:'Online',
+    top_up:'+ Top up fund', setup_plan:'Set up plan',
+    progress_today:'Today\'s progress', done_today:'Completed today',
+    remind_title:'Mom hasn\'t exercised today', remind_btn:'Remind',
+    train_days:'Training days', select_days:'Select training days',
+    rate_label:'Reward rate', rate_day:'Amount per completed day',
+    workout_types:'Workout types', select_types:'Select workout types',
+    duration_label:'Workout duration', duration_no_walk:'excluding walking',
+    auto_label:'Auto-progression', save_plan:'Save plan',
+    top_up_title:'Top up fund', currency_label:'Currency',
+    manual_amount:'Or enter amount manually', pay_method:'Payment method',
+    autopay_label:'Set auto-payment', autopay_desc:'Automatically top up fund',
+    pay_btn:'Pay', cancel:'Cancel',
+    cal_days_ru:{Mon:'Mo',Tue:'Tu',Wed:'We',Thu:'Th',Fri:'Fr',Sat:'Sa',Sun:'Su'},
+  },
+  uk:{
+    nav_activity:'Активність', nav_progress:'Прогрес', nav_plan:'План', nav_profile:'Профіль',
+    nav_dashboard:'Панель',
+    role_parent:'Батько/Мати', role_child:'Дитина',
+    greeting:'Добрий день', today_label:'Сьогодні',
+    exercises_label:'Вправи на сьогодні', sys_label:'Вплив на організм',
+    steps_label:'Крокомір', steps_of:'з', steps_unit:'кроків',
+    steps_btn:'🚶 Увімкнути крокомір', steps_stop:'⏸ Зупинити крокомір',
+    watch_phase:'Дивіться на техніку', watch_desc:'Запам\'ятайте рух',
+    skip_btn:'Пропустити → Почати', benefit_now:'⚡ Користь зараз',
+    rec_hint:'Встаньте так щоб все тіло було в кадрі',
+    ai_title:'ІІ аналізує відео', ai_sub:'Перевіряємо техніку...',
+    ai_pass:'Зараховано!', ai_pass_sub:'Техніка правильна',
+    ai_fail:'Не зараховано', ai_retry:'Спробувати ще раз', ai_manual:'Зарахувати вручну',
+    claim_btn:'Отримати', reward_title:'нараховано на баланс', reward_body:'Що сталось з тілом:',
+    continue_btn:'Продовжити',
+    my_achieve:'Мої досягнення', fund_remain:'Залишок фонду',
+    days_done:'Днів виконано', earned_total:'Зароблено всього',
+    avail_withdraw:'Доступно до виводу', streak:'Днів поспіль',
+    withdrawn:'Виведено', history:'Історія', activity_7:'Активність',
+    my_profile:'Мій профіль', withdraw_card:'Вивести на картку *4821',
+    withdraw_blik:'Вивести через BLIK 🇵🇱', lang_label:'Мова інтерфейсу',
+    referral_label:'Реферальна програма', copy_btn:'Копіювати', share_btn:'Поділитися посиланням',
+    fund_for:'Фонд', active_today:'Активна сьогодні', online:'Онлайн',
+    top_up:'+ Поповнити фонд', setup_plan:'Налаштувати план',
+    progress_today:'Прогрес сьогодні', done_today:'Виконано сьогодні',
+    remind_title:'Мама ще не займалася сьогодні', remind_btn:'Нагадати',
+    train_days:'Дні тренувань', select_days:'Виберіть дні занять',
+    rate_label:'Ставка винагороди', rate_day:'Сума за виконаний день',
+    workout_types:'Види навантаження', select_types:'Виберіть типи тренувань',
+    duration_label:'Час тренування', duration_no_walk:'без урахування ходьби',
+    auto_label:'Авто-ускладнення', save_plan:'Зберегти план',
+    top_up_title:'Поповнити фонд', currency_label:'Валюта',
+    manual_amount:'Або введіть суму вручну', pay_method:'Спосіб оплати',
+    autopay_label:'Налаштувати автоплатіж', autopay_desc:'Автоматично поповнювати фонд',
+    pay_btn:'Оплатити', cancel:'Скасувати',
+    cal_days_ru:{Mon:'Пн',Tue:'Вт',Wed:'Ср',Thu:'Чт',Fri:'Пт',Sat:'Сб',Sun:'Нд'},
+  },
+};
+
+// lang code map
+const LANG_CODE_MAP={
+  'Русский':'ru','Polski':'pl','English':'en','Українська':'uk',
+};
+let currentLang='ru';
+
+function t(key){return (I18N[currentLang]||I18N.ru)[key]||I18N.ru[key]||key;}
+
+function applyLang(){
+  // save
+  try{localStorage.setItem('kb_lang',currentLang);}catch(e){}
+
+  // 1. navbar buttons - both roles
+  const lb=navLabels(S.role);
+  document.querySelectorAll('.ni span').forEach((s,i)=>{if(lb[i])s.textContent=lb[i];});
+
+  // 2. role bar tabs
+  renderRoleTabs();
+
+  // 3. section labels — direct mapping id->key
+  const smap={
+    'p-today-slb-ex':     'exercises_label',
+    'p-today-slb-sys':    'sys_label',
+    'p-today-slb-steps':  'steps_label',
+    'ps-achieve-slb':     'my_achieve',
+    'ps-history-slb':     'history',
+    'c-dash-label':       'fund_for',
+    'c-progress-slb':     'progress_today',
+    'c-history-slb':      'history',
+    'plan-train-days-slb':'train_days',
+    'plan-rate-slb':      'rate_label',
+    'plan-types-slb':     'workout_types',
+    'plan-dur-slb':       'duration_label',
+    'plan-auto-slb':      'auto_label',
+    'pay-modal-title':    'top_up_title',
+    'pay-currency-lbl':   'currency_label',
+    'pay-manual-lbl':     'manual_amount',
+    'pay-method-lbl':     'pay_method',
+    'pay-autopay-title':  'autopay_label',
+    'pay-autopay-sub':    'autopay_desc',
+    'paybtn-cancel':      'cancel',
+  };
+  Object.entries(smap).forEach(([id,key])=>{
+    const e=$e(id);if(e)e.textContent=t(key);
+  });
+
+  // 4. buttons text
+  const bmap={
+    'steps-btn':          stepsActive?t('steps_stop'):t('steps_btn'),
+    'watch-phase':        t('watch_phase'),
+    'watch-desc':         t('watch_desc'),
+    'skipbtn':            t('skip_btn'),
+    'top-up-btn':         t('top_up'),
+    'setup-plan-btn':     t('setup_plan'),
+    'remind-btn-el':      t('remind_btn'),
+    'save-plan-btn':      t('save_plan'),
+    'continue-rew-btn':   t('continue_btn'),
+  };
+  Object.entries(bmap).forEach(([id,val])=>{const e=$e(id);if(e)e.textContent=val;});
+
+  // 5. cal days
+  const days=I18N[currentLang]?.cal_days_ru||I18N.ru.cal_days_ru;
+  Object.assign(S.calLbls,days);
+  renderCal();
+
+  // 6. stat cards labels in HTML
+  const statmap={
+    'slbl-fund-remain':   'fund_remain',
+    'slbl-days-done':     'days_done',
+    'slbl-earned-total':  'earned_total',
+    'slbl-avail':         'avail_withdraw',
+    'slbl-streak':        'streak',
+    'slbl-withdrawn':     'withdrawn',
+    'slbl-fund-remain-c': 'fund_remain',
+    'slbl-earned-c':      'earned_total',
+    'slbl-avail-c':       'avail_withdraw',
+    'slbl-withdrawn-c':   'withdrawn',
+    'slbl-days-c':        'days_done',
+  };
+  Object.entries(statmap).forEach(([id,key])=>{const e=$e(id);if(e)e.textContent=t(key);});
+
+  // 7. parent profile
+  $s('pp-withdraw-btn',t('withdraw_card'));
+  $s('pp-blik-btn',t('withdraw_blik'));
+  $s('pp-lang-lbl',t('lang_label'));
+  $s('pp-ref-lbl',t('referral_label'));
+  $s('cp-lang-lbl',t('lang_label'));
+  $s('cp-ref-lbl',t('referral_label'));
+  $s('pp-profile-slb',t('my_profile'));
+  $s('cp-profile-slb',t('my_profile'));
+  $s('remind-title-el',t('remind_title'));
+
+  renderParentTabs();
+}
+
+function setLang(who,langName){
+  const code=LANG_CODE_MAP[langName]||'ru';
+  currentLang=code;
+  ['p-lang-select','c-lang-select'].forEach(id=>{
+    const el=$e(id);if(el)el.value=langName;
+  });
+  // Re-render ALL dynamic content in the new language (each guarded)
+  const R=[renderConsentScreen,renderOnboarding,renderGreeting,renderExList,renderSys,
+           renderWtypes,renderCal,renderTx,renderParentTabs,renderRoleTabs,
+           renderInsights,renderChart,renderBigCal,updateRing,updatePayBtn,updateCalSum];
+  R.forEach(fn=>{try{if(typeof fn==='function')fn();}catch(e){console.warn('i18n render skip',e);}});
+  try{onRate(S.rate);}catch(e){}
+  try{onDur(S.dur);}catch(e){}
+  try{const dd=$e('day-detail');if(dd)dd.style.display='none';}catch(e){}
+  // Then apply structural translations
+  applyLang();
+  // Then walk all text nodes for full translation
+  if(code!=='ru')translatePage();
+  showToast(langName+' ✓');
+}
+
+
+function initLangSelects(){
+  try{const saved=localStorage.getItem('kb_lang');if(saved&&I18N[saved])currentLang=saved;}catch(e){}
+  const savedName=Object.entries(LANG_CODE_MAP).find(([,v])=>v===currentLang)?.[0]||'Русский';
+  ['p-lang-select','c-lang-select'].forEach(id=>{
+    const el=$e(id);if(!el)return;el.innerHTML='';
+    LANGS.forEach(l=>{const o=document.createElement('option');o.value=l;o.textContent=l;if(l===savedName)o.selected=true;el.appendChild(o);});
+    el.onchange=function(){setLang('',this.value);};
+  });
+  if(currentLang!=='ru')applyLang();
+}
+
+// ─── referral ───
+function copyRef(code){
+  const url='kniga-zaboty.app/ref/'+code;
+  if(navigator.clipboard)navigator.clipboard.writeText(url).then(()=>showToast(TG('linkcopied')));
+  else showToast(TG('linkcopied'));
+}
+function shareRef(code){
+  const url='https://kniga-zaboty.app/ref/'+code;
+  const txt='Привет! Попробуй Книжку заботы — первый месяц со скидкой €5: ';
+  if(navigator.share)navigator.share({title:'Книжка заботы',text:txt,url});
+  else copyRef(code);
+}
+
+function shareLink(){
+  if(navigator.share)navigator.share({title:'Книжка заботы',text:'Мама, скачай — буду платить тебе за зарядку 💚',url:'https://kniga-zaboty.app'});
+  else showToast('Ссылка скопирована: kniga-zaboty.app');
+}
+
+
+// ─── toast translations ───
+const TT={
+  ru:{locked:'Сначала выполните предыдущее упражнение',done:'Это упражнение уже выполнено ✓',camoff:'Камера недоступна — симулируем',
+      nofunds:'Нет средств для вывода',entername:'Введите имя',renamed:'Переименовано',plansaved:'План сохранен',
+      stepson:'Шагомер включен 🚶',stepsoff:'Шагомер остановлен',autopayon:'Автоплатеж включен 🔄',
+      linkcopied:'Ссылка скопирована ✓',remindsent:'Напоминание отправлено маме 🔔',
+      blikbad:'Неверный код BLIK',blikphone:'Введите номер телефона для BLIK (🇵🇱):',blikcode:'Введите 6-значный код BLIK:',
+      rate:'Ставка',fund:'Фонд',added:'добавлен',steps:'шагов'},
+  pl:{locked:'Najpierw wykonaj poprzednie cwiczenie',done:'To cwiczenie zostalo juz wykonane ✓',camoff:'Kamera niedostepna — symulujemy',
+      nofunds:'Brak srodkow do wyplaty',entername:'Wpisz imie',renamed:'Zmieniono nazwe',plansaved:'Plan zapisany',
+      stepson:'Krokomierz wlaczony 🚶',stepsoff:'Krokomierz zatrzymany',autopayon:'Autoplatnosc wlaczona 🔄',
+      linkcopied:'Link skopiowany ✓',remindsent:'Przypomnienie wyslane 🔔',
+      blikbad:'Nieprawidlowy kod BLIK',blikphone:'Wpisz numer telefonu dla BLIK (🇵🇱):',blikcode:'Wpisz 6-cyfrowy kod BLIK:',
+      rate:'Stawka',fund:'Fundusz',added:'dodany',steps:'krokow'},
+  en:{locked:'Complete the previous exercise first',done:'This exercise is already completed ✓',camoff:'Camera unavailable — simulating',
+      nofunds:'No funds available to withdraw',entername:'Enter a name',renamed:'Renamed',plansaved:'Plan saved',
+      stepson:'Pedometer enabled 🚶',stepsoff:'Pedometer stopped',autopayon:'Auto-payment enabled 🔄',
+      linkcopied:'Link copied ✓',remindsent:'Reminder sent 🔔',
+      blikbad:'Invalid BLIK code',blikphone:'Enter phone number for BLIK (🇵🇱):',blikcode:'Enter 6-digit BLIK code:',
+      rate:'Rate',fund:'Fund',added:'added',steps:'steps'},
+  uk:{locked:'Спочатку виконайте попередню вправу',done:'Ця вправа вже виконана ✓',camoff:'Камера недоступна — симулюємо',
+      nofunds:'Немає коштiв для виведення',entername:'Введiть iмя',renamed:'Перейменовано',plansaved:'План збережено',
+      stepson:'Крокомiр увiмкнено 🚶',stepsoff:'Крокомiр зупинено',autopayon:'Автоплатiж увiмкнено 🔄',
+      linkcopied:'Посилання скопiйовано ✓',remindsent:'Нагадування вiдправлено 🔔',
+      blikbad:'Невiрний код BLIK',blikphone:'Введiть номер телефону для BLIK (🇵🇱):',blikcode:'Введiть 6-значний код BLIK:',
+      rate:'Ставка',fund:'Фонд',added:'додано',steps:'крокiв'},
+};
+function TG(k){return (TT[currentLang]||TT.ru)[k]||TT.ru[k]||k;}
+
+// ─── toast ───
+function showToast(msg){
+  const t=$e('toast');if(!t)return;
+  t.textContent=msg;t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2800);
+}
+
+// ─── first render ───
+renderExList();syncUI();
+</script>
+</body>
+</html>
